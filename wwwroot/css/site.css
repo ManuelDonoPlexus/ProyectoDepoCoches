@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    font-family: "Oswald", sans-serif;
+    margin: 0%;
+}
+
+#welcome-msg{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 12%;
+}
+
+#welcome-msg h1{
+    font-weight: bold;
+    font-size: 50px;
+}
+
+#welcome-msg h2{
+    font-weight: lighter;
+}
+
+#buttons{
+    font-family: "Oswald", sans-serif;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3%;
+}
+
+#buttons button{
+    font-family: "Oswald", sans-serif;
+    margin:4%;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    transition-duration: 0.4s;
+    
+}
+
+#buttons button:hover{
+    color: black;
+    background-color: white;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Car Repo Page</title>
+    <link rel="stylesheet" href="css/datatable.css">
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+</head>
+
+<body>
+    <h1>Marcas</h1>
+
+
+
+    <div id="makeview">
+        <table>
+            <h2>Tabla de modelos</h2>
+
+            <input type="text" id="searchbar" onkeyup="search()" placeholder="Buscar modelo por nombre...">
+
+            <p id="counter">0 modelos</p>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Poder de caballo</th>
+                <th colspan="2">Botones</th>
+            </tr>
+            <tbody id="makes"></tbody>
+        </table>
+
+        <button id="showaddform" onclick="_displayView('addform'), _hideView('makeview')">Añadir modelo</button>
+        <button id="goback" onclick="location.href='index.html'">Volver al inicio</button>
+    </div>
+
+    <div id="addform">
+
+        <h2>Añadir un nuevo modelo</h2>
+        <form action="javascript:void(0);" method="POST" onsubmit="addMake()">
+            <input type="text" id="add-name" placeholder="Nombre">
+            <input type="number" step=".01" id="add-price" placeholder="Precio">
+            <input type="text" id="add-horsePower" placeholder="Caballos">
+        </form>
+        <button class="submit" onclick="addMake()">Añadir</button>
+        <button class="cancel" onclick="cancelAction('addform')">Cancelar</button>
+    </div>
+
+    <div id="editform">
+
+        <h2>Editar un modelo</h2>
+        <form action="javascript:void(0);" method="PUT" onsubmit="editMake()">
+            <input type="text" id="edit-id" disabled hidden>
+            <input type="text" id="edit-name" placeholder="Nombre">
+            <input type="text" id="edit-price" placeholder="Precio">
+            <input type="text" id="edit-horsePower" placeholder="Caballos">
+        </form>
+        <button class="submit" onclick="editMake()">Editar</button>
+        <button class="cancel" onclick="cancelAction('editform')">Cancelar</button>
+    </div>
+
+
+    <script src="js/make.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        getMakes();
+    </script>
+</body>
+
+</html>
