@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CarDepo.API.Models;
 
-public class Color
-{    
+public class FuelType
+{
     [Key]
     public int Id { get; set; }
 

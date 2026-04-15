@@ -12,47 +12,47 @@ namespace CarDepo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColorController : ControllerBase
+    public class CarDriverController : ControllerBase
     {
         private readonly CarDepoContext _context;
 
-        public ColorController(CarDepoContext context)
+        public CarDriverController(CarDepoContext context)
         {
             _context = context;
         }
 
-        // GET: api/Color
+        // GET: api/CarDriver
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Color>>> GetColors()
+        public async Task<ActionResult<IEnumerable<CarDriver>>> GetCarConductors()
         {
-            return await _context.Colors.ToListAsync();
+            return await _context.CarConductors.ToListAsync();
         }
 
-        // GET: api/Color/5
+        // GET: api/CarDriver/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Color>> GetColor(int id)
+        public async Task<ActionResult<CarDriver>> GetCarDriver(int id)
         {
-            var color = await _context.Colors.FindAsync(id);
+            var carDriver = await _context.CarConductors.FindAsync(id);
 
-            if (color == null)
+            if (carDriver == null)
             {
                 return NotFound();
             }
 
-            return color;
+            return carDriver;
         }
 
-        // PUT: api/Color/5
+        // PUT: api/CarDriver/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColor(int id, Color color)
+        public async Task<IActionResult> PutCarDriver(int id, CarDriver carDriver)
         {
-            if (id != color.Id)
+            if (id != carDriver.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(color).State = EntityState.Modified;
+            _context.Entry(carDriver).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColorExists(id))
+                if (!CarDriverExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Color
+        // POST: api/CarDriver
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
+        public async Task<ActionResult<CarDriver>> PostCarDriver(CarDriver carDriver)
         {
-            _context.Colors.Add(color);
+            _context.CarConductors.Add(carDriver);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetColor", new { id = color.Id }, color);
+            return CreatedAtAction("GetCarDriver", new { id = carDriver.Id }, carDriver);
         }
 
-        // DELETE: api/Color/5
+        // DELETE: api/CarDriver/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColor(int id)
+        public async Task<IActionResult> DeleteCarDriver(int id)
         {
-            var color = await _context.Colors.FindAsync(id);
-            if (color == null)
+            var carDriver = await _context.CarConductors.FindAsync(id);
+            if (carDriver == null)
             {
                 return NotFound();
             }
 
-            _context.Colors.Remove(color);
+            _context.CarConductors.Remove(carDriver);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ColorExists(int id)
+        private bool CarDriverExists(int id)
         {
-            return _context.Colors.Any(e => e.Id == id);
+            return _context.CarConductors.Any(e => e.Id == id);
         }
     }
 }

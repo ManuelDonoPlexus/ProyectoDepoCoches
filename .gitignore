@@ -1,0 +1,4 @@
+# Ignora todo de la carpeta Debug
+obj/Debug/
+bin/Debug/net10.0/
+.vscode/

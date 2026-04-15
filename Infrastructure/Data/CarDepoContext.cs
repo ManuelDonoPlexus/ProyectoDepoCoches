@@ -9,9 +9,13 @@ namespace CarDepo.Infrastructure.Data
         {            
         }
 
-        public DbSet<CarDepo.API.Models.Car> Car { get; set; } = default!;
-        public DbSet<CarDepo.API.Models.Owner> Owner { get; set; } = default!;
-        public DbSet<CarDepo.API.Models.Make> Make { get; set; } = default!;
-        public DbSet<CarDepo.API.Models.Color> Color { get; set; } = default!;
+        public DbSet<API.Models.Car> Cars { get; set; } = default!;
+        public DbSet<API.Models.CarDriver> CarConductors { get; set; } = default!;
+        public DbSet<API.Models.Color> Colors { get; set; } = default!;
+        public DbSet<API.Models.Driver> Drivers { get; set; } = default!;
+        public DbSet<API.Models.Fine> Fines { get; set; } = default!;
+        public DbSet<API.Models.FuelType> FuelTypes { get; set; } = default!;
+        public DbSet<API.Models.Make> Makes { get; set; } = default!;
+        public DbSet<API.Models.Owner> Owners { get; set; } = default!;
     }
 }

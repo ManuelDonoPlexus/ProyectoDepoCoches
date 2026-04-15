@@ -12,47 +12,47 @@ namespace CarDepo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColorController : ControllerBase
+    public class FuelTypeController : ControllerBase
     {
         private readonly CarDepoContext _context;
 
-        public ColorController(CarDepoContext context)
+        public FuelTypeController(CarDepoContext context)
         {
             _context = context;
         }
 
-        // GET: api/Color
+        // GET: api/FuelType
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Color>>> GetColors()
+        public async Task<ActionResult<IEnumerable<FuelType>>> GetFuelTypes()
         {
-            return await _context.Colors.ToListAsync();
+            return await _context.FuelTypes.ToListAsync();
         }
 
-        // GET: api/Color/5
+        // GET: api/FuelType/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Color>> GetColor(int id)
+        public async Task<ActionResult<FuelType>> GetFuelType(int id)
         {
-            var color = await _context.Colors.FindAsync(id);
+            var fuelType = await _context.FuelTypes.FindAsync(id);
 
-            if (color == null)
+            if (fuelType == null)
             {
                 return NotFound();
             }
 
-            return color;
+            return fuelType;
         }
 
-        // PUT: api/Color/5
+        // PUT: api/FuelType/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColor(int id, Color color)
+        public async Task<IActionResult> PutFuelType(int id, FuelType fuelType)
         {
-            if (id != color.Id)
+            if (id != fuelType.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(color).State = EntityState.Modified;
+            _context.Entry(fuelType).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColorExists(id))
+                if (!FuelTypeExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Color
+        // POST: api/FuelType
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
+        public async Task<ActionResult<FuelType>> PostFuelType(FuelType fuelType)
         {
-            _context.Colors.Add(color);
+            _context.FuelTypes.Add(fuelType);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetColor", new { id = color.Id }, color);
+            return CreatedAtAction("GetFuelType", new { id = fuelType.Id }, fuelType);
         }
 
-        // DELETE: api/Color/5
+        // DELETE: api/FuelType/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColor(int id)
+        public async Task<IActionResult> DeleteFuelType(int id)
         {
-            var color = await _context.Colors.FindAsync(id);
-            if (color == null)
+            var fuelType = await _context.FuelTypes.FindAsync(id);
+            if (fuelType == null)
             {
                 return NotFound();
             }
 
-            _context.Colors.Remove(color);
+            _context.FuelTypes.Remove(fuelType);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ColorExists(int id)
+        private bool FuelTypeExists(int id)
         {
-            return _context.Colors.Any(e => e.Id == id);
+            return _context.FuelTypes.Any(e => e.Id == id);
         }
     }
 }

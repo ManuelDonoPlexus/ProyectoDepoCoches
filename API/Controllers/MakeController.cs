@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CarDepo.Infrastructure.Data;
 using CarDepo.API.Models;
+using CarDepo.Infrastructure.Data;
 
 namespace CarDepo.API.Controllers
 {
@@ -23,16 +23,16 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Make
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Make>>> GetMake()
+        public async Task<ActionResult<IEnumerable<Make>>> GetMakes()
         {
-            return await _context.Make.ToListAsync();
+            return await _context.Makes.ToListAsync();
         }
 
         // GET: api/Make/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Make>> GetMake(int id)
         {
-            var make = await _context.Make.FindAsync(id);
+            var make = await _context.Makes.FindAsync(id);
 
             if (make == null)
             {
@@ -78,7 +78,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Make>> PostMake(Make make)
         {
-            _context.Make.Add(make);
+            _context.Makes.Add(make);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMake", new { id = make.Id }, make);
@@ -88,13 +88,13 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMake(int id)
         {
-            var make = await _context.Make.FindAsync(id);
+            var make = await _context.Makes.FindAsync(id);
             if (make == null)
             {
                 return NotFound();
             }
 
-            _context.Make.Remove(make);
+            _context.Makes.Remove(make);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace CarDepo.API.Controllers
 
         private bool MakeExists(int id)
         {
-            return _context.Make.Any(e => e.Id == id);
+            return _context.Makes.Any(e => e.Id == id);
         }
     }
 }

@@ -1,25 +1,38 @@
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarDepo.API.Models;
 
 public class Car
 {
+    [Key]
     public int Id { get; set; }
 
-    public string? License { get; set; }
+    public required string License { get; set; }
 
-    public int Kms { get; set; }
-
-    [ForeignKey("Owner")]
-    public int OwnerId {get; set;}
-    public Owner? Owner {get; set;}
-
-    [ForeignKey("Make")]
-    public int MakeId {get; set;}
-    public Make? Make {get; set;}
+    [DefaultValue(0)]
+    public required int KMs { get; set; }
+    
+    // Color
 
     [ForeignKey("Color")]
-    public int ColorId {get; set;}
-    public int Color {get; set;}
+    public required int ColorId { get; set; }
+    public required Color Color { get; set; }
+    
+    // Owner
 
+    [ForeignKey("Owner")]
+    public required int OwnerId { get; set; }
+    public required Owner Owner { get; set; }
+    
+    // Make
+
+    [ForeignKey("Make")]
+    public required int MakeId { get; set; }
+    public required Make Make { get; set; }
+
+    // Car Drivers
+
+    public List<CarDriver>? CarConductors { get; set; }
 }

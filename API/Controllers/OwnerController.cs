@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CarDepo.Infrastructure.Data;
 using CarDepo.API.Models;
+using CarDepo.Infrastructure.Data;
 
 namespace CarDepo.API.Controllers
 {
@@ -23,16 +23,16 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Owner
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Owner>>> GetOwner()
+        public async Task<ActionResult<IEnumerable<Owner>>> GetOwners()
         {
-            return await _context.Owner.ToListAsync();
+            return await _context.Owners.ToListAsync();
         }
 
         // GET: api/Owner/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Owner>> GetOwner(int id)
         {
-            var owner = await _context.Owner.FindAsync(id);
+            var owner = await _context.Owners.FindAsync(id);
 
             if (owner == null)
             {
@@ -78,7 +78,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Owner>> PostOwner(Owner owner)
         {
-            _context.Owner.Add(owner);
+            _context.Owners.Add(owner);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetOwner", new { id = owner.Id }, owner);
@@ -88,13 +88,13 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOwner(int id)
         {
-            var owner = await _context.Owner.FindAsync(id);
+            var owner = await _context.Owners.FindAsync(id);
             if (owner == null)
             {
                 return NotFound();
             }
 
-            _context.Owner.Remove(owner);
+            _context.Owners.Remove(owner);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +102,7 @@ namespace CarDepo.API.Controllers
 
         private bool OwnerExists(int id)
         {
-            return _context.Owner.Any(e => e.Id == id);
+            return _context.Owners.Any(e => e.Id == id);
         }
     }
 }

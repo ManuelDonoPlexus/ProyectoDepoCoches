@@ -12,47 +12,47 @@ namespace CarDepo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColorController : ControllerBase
+    public class FineController : ControllerBase
     {
         private readonly CarDepoContext _context;
 
-        public ColorController(CarDepoContext context)
+        public FineController(CarDepoContext context)
         {
             _context = context;
         }
 
-        // GET: api/Color
+        // GET: api/Fine
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Color>>> GetColors()
+        public async Task<ActionResult<IEnumerable<Fine>>> GetFines()
         {
-            return await _context.Colors.ToListAsync();
+            return await _context.Fines.ToListAsync();
         }
 
-        // GET: api/Color/5
+        // GET: api/Fine/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Color>> GetColor(int id)
+        public async Task<ActionResult<Fine>> GetFine(int id)
         {
-            var color = await _context.Colors.FindAsync(id);
+            var fine = await _context.Fines.FindAsync(id);
 
-            if (color == null)
+            if (fine == null)
             {
                 return NotFound();
             }
 
-            return color;
+            return fine;
         }
 
-        // PUT: api/Color/5
+        // PUT: api/Fine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColor(int id, Color color)
+        public async Task<IActionResult> PutFine(int id, Fine fine)
         {
-            if (id != color.Id)
+            if (id != fine.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(color).State = EntityState.Modified;
+            _context.Entry(fine).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColorExists(id))
+                if (!FineExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Color
+        // POST: api/Fine
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
+        public async Task<ActionResult<Fine>> PostFine(Fine fine)
         {
-            _context.Colors.Add(color);
+            _context.Fines.Add(fine);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetColor", new { id = color.Id }, color);
+            return CreatedAtAction("GetFine", new { id = fine.Id }, fine);
         }
 
-        // DELETE: api/Color/5
+        // DELETE: api/Fine/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColor(int id)
+        public async Task<IActionResult> DeleteFine(int id)
         {
-            var color = await _context.Colors.FindAsync(id);
-            if (color == null)
+            var fine = await _context.Fines.FindAsync(id);
+            if (fine == null)
             {
                 return NotFound();
             }
 
-            _context.Colors.Remove(color);
+            _context.Fines.Remove(fine);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ColorExists(int id)
+        private bool FineExists(int id)
         {
-            return _context.Colors.Any(e => e.Id == id);
+            return _context.Fines.Any(e => e.Id == id);
         }
     }
 }
