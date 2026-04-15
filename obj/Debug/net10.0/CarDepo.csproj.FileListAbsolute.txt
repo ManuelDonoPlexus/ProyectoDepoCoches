@@ -328,4 +328,5 @@ C:\Users\manuel.donoaraujo\C-Sharp projects\InitialProject\CarRepoWebAPIv2\CarDe
 C:\Users\manuel.donoaraujo\C-Sharp projects\InitialProject\CarRepoWebAPIv2\CarDepo\obj\Debug\net10.0\compressed\588p9h5cab-{0}-bhf8kkoqw6-bhf8kkoqw6.gz
 C:\Users\manuel.donoaraujo\C-Sharp projects\InitialProject\CarRepoWebAPIv2\CarDepo\obj\Debug\net10.0\compressed\syueu2wuxw-{0}-6spoqc2s3w-6spoqc2s3w.gz
 C:\Users\manuel.donoaraujo\C-Sharp projects\InitialProject\CarRepoWebAPIv2\CarDepo\obj\Debug\net10.0\compressed\c6s5hw9sek-{0}-kiurdsk68e-kiurdsk68e.gz
-C:\Users\manuel.donoaraujo\C-Sharp projects\InitialProject\CarRepoWebAPIv2\CarDepo\obj\Debug\net10.0\compressed\lugw4xsmye-{0}-4t5lq8vuoc-4t5lq8vuoc.gz
+C:\Users\manuel.donoaraujo\C-Sharp projects\InitialProject\CarRepoWebAPIv2\CarDepo\obj\Debug\net10.0\CarDepo.sourcelink.json
+C:\Users\manuel.donoaraujo\C-Sharp projects\InitialProject\CarRepoWebAPIv2\CarDepo\obj\Debug\net10.0\compressed\lugw4xsmye-{0}-nrpmoo13uj-nrpmoo13uj.gz

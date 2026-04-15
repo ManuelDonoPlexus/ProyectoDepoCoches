@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CarDepo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2fc2ec7f58d8205e46302fa919f5c9553e619a5f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b8f3fc3cc7cccdf8af2d55c15bb4a49a10d7bf8")]
 [assembly: System.Reflection.AssemblyProductAttribute("CarDepo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CarDepo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
