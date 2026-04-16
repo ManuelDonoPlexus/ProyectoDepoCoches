@@ -7,23 +7,21 @@ public class Fine
 {
     [Key]
     public int Id { get; set; }
-
     public required decimal Price { get; set; }
-
     public required bool Payed { get; set; }
 
     [DataType(DataType.Date)]
     public DateOnly Date { get; set; }
 
     // Owner
-    [ForeignKey("Owner")]
+    [ForeignKey(nameof(Owner))]
     public required int OwnerId { get; set; }
-
-    public required Owner Owner { get; set; }
+    [Required]
+    public Owner Owner { get; set; }
 
     // Owner
-    [ForeignKey("Car")]
+    [ForeignKey(nameof(Car))]
     public required int CarId { get; set; }
-
-    public required Car Car { get; set; }
+    [Required]
+    public Car Car { get; set; }
 }

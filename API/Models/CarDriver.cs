@@ -8,16 +8,17 @@ public class CarDriver
 {
     [Key]
     public int Id { get; set; }
+    public DateOnly DateDrive { get; set; }
 
     // Car
-
-    [ForeignKey("Car")]
-    public required int CarId { get; set; }
-    public required Car Car { get; set; }
+    [ForeignKey(nameof(Car))]
+    public int CarCDId { get; set; }
+    [Required]
+    public Car Car { get; set; }
     
     // Conductor
-
-    [ForeignKey("Driver")]
-    public required int DriverId { get; set; }
-    public required Driver Driver { get; set; }
+    [ForeignKey(nameof(Driver))]
+    public int DriverCDId { get; set; }
+    [Required]
+    public Driver Driver { get; set; }
 }
