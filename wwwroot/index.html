@@ -95,21 +95,40 @@
 
             <div id="driverview">
                 <h2>Conductores</h2>
-                <p id="counterDriver">0 items</p>
 
-                <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchDriver()"
-                    placeholder="Buscar conductor por nombre...">
-                <table>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>DNI</th>
-                        <th>Telefono</th>
-                        <th>Dirección de correo</th>
-                        <th>Propietario asociado</th>
-                        <th colspan="2">Botones</th>
-                    </tr>
-                    <tbody id="driversTBody"></tbody>
-                </table>
+                <div id="drivers">
+                    <p><b>Lista de Conductores</b></p>
+                    <p id="counterDriver">0 items</p>
+                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchDriver()"
+                        placeholder="Buscar conductor por nombre...">
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>DNI</th>
+                            <th>Telefono</th>
+                            <th>Dirección de correo</th>
+                            <th>Propietario asociado</th>
+                            <th colspan="2">Botones</th>
+                        </tr>
+                        <tbody id="driversTBody"></tbody>
+                    </table>
+                </div>
+
+                <div id="cardrivers">
+                    <p><b>Conductores asociados a vehiculos</b></p>
+                    <p id="counterCarDriver">0 items</p>
+                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchCarDrivers()"
+                        placeholder="Buscar conductor por nombre...">
+                    <table>
+                        <tr>
+                            <th>Nombre del conductor</th>
+                            <th>Fecha de conducción</th>
+                            <th>Vehiculo asociado</th>
+                            <th colspan="2">Botones</th>
+                        </tr>
+                        <tbody id="cardriversTBody"></tbody>
+                    </table>
+                </div>
             </div>
 
             <div id="fineview">

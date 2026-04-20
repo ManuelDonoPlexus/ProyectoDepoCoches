@@ -54,7 +54,10 @@ async function getDrivers() {
 async function getCarDrivers() {
     try {
         const response = await fetch(baseurl + uriCarDriver);
-        drivers = await response.json();
+        cardrivers = await response.json();
+        console.log(cardrivers);
+        _displayCarDrivers();
+        _displayCount(cardrivers.length, "counterCarDriver")
     } catch (error) {
         console.error('Unable to get drivers: ', error);
     }
@@ -194,6 +197,47 @@ function _displayDrivers() {
 
         let td6 = tr.insertCell(6);
         td6.appendChild(deleteBton);
+    })
+}
+
+function _displayCarDrivers(){
+    const tBody = document.getElementById("cardriversTBody");
+    tBody.innerHTML;
+
+    const bton = document.createElement("button");
+
+    cardrivers.forEach(driver => {
+        let detailsBton = bton.cloneNode(false);
+        detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("class", "detailsBton");
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("class", "deleteBton");
+
+        let tr = tBody.insertRow();
+        tr.setAttribute("class", "cardriver")
+
+        let td0 = tr.insertCell(0);
+        td0.setAttribute("class", "cardriverName");
+        let txtNode0 = document.createTextNode(driver.driver.name);
+        td0.appendChild(txtNode0);
+
+        let td1 = tr.insertCell(1);
+        td1.setAttribute("class", "cardriverDate");
+        let txtNode1 = document.createTextNode(driver.dateDrive);
+        td1.appendChild(txtNode1);
+
+        let td2 = tr.insertCell(2);
+        td2.setAttribute("class", "cardriverAssociatedCar");
+        let txtNode2 = document.createTextNode(driver.car.license);
+        td2.appendChild(txtNode2);
+
+        let td3 = tr.insertCell(3);
+        td3.appendChild(detailsBton);
+
+        let td4 = tr.insertCell(4);
+        td4.appendChild(deleteBton);
     })
 }
 
