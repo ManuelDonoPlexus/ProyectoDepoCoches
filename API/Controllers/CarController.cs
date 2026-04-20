@@ -25,6 +25,11 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
+            var car = await _context.Cars
+                .Include(car => car.Color)
+                .Include(car => car.Make)
+                .Include(car => car.Owner)                
+                .ToListAsync();
             return await _context.Cars.ToListAsync();
         }
 
@@ -32,13 +37,15 @@ namespace CarDepo.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Car>> GetCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
-
+            var car = await _context.Cars
+                .Include(car => car.Color)
+                .Include(car => car.Make)
+                .Include(car => car.Owner)
+                .FirstOrDefaultAsync(c=> c.Id == id);
             if (car == null)
             {
                 return NotFound();
             }
-
             return car;
         }
 

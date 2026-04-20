@@ -10,7 +10,7 @@ public class Car
     public int Id { get; set; }
     public required string License { get; set; }
     [DefaultValue(0)]
-    public required int KMs { get; set; }
+    public required int Kms { get; set; }
     
     // Color
     [ForeignKey(nameof(Color))]

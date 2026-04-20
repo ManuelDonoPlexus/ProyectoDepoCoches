@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CarDepo.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Restructure : Migration
+    public partial class ChangeController : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,7 +46,7 @@ namespace CarDepo.Infrastructure.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    NIF = table.Column<string>(type: "TEXT", nullable: false),
+                    Nif = table.Column<string>(type: "TEXT", nullable: false),
                     PhoneNumber = table.Column<int>(type: "INTEGER", nullable: true),
                     DateEntry = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     EmailAddr = table.Column<string>(type: "TEXT", nullable: true)
@@ -79,13 +79,36 @@ namespace CarDepo.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Drivers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Dni = table.Column<string>(type: "TEXT", nullable: false),
+                    EmailAddr = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<int>(type: "INTEGER", nullable: true),
+                    OwnerId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Drivers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Drivers_Owners_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Owners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cars",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     License = table.Column<string>(type: "TEXT", nullable: false),
-                    KMs = table.Column<int>(type: "INTEGER", nullable: false),
+                    Kms = table.Column<int>(type: "INTEGER", nullable: false),
                     ColorId = table.Column<int>(type: "INTEGER", nullable: false),
                     OwnerId = table.Column<int>(type: "INTEGER", nullable: false),
                     MakeId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -114,31 +137,28 @@ namespace CarDepo.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Drivers",
+                name: "CarConductors",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Dni = table.Column<string>(type: "TEXT", nullable: false),
-                    EmailAddr = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<int>(type: "INTEGER", nullable: true),
-                    OwnerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    CarId = table.Column<int>(type: "INTEGER", nullable: false)
+                    DateDrive = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    CarCDId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DriverCDId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Drivers", x => x.Id);
+                    table.PrimaryKey("PK_CarConductors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Drivers_Cars_CarId",
-                        column: x => x.CarId,
+                        name: "FK_CarConductors_Cars_CarCDId",
+                        column: x => x.CarCDId,
                         principalTable: "Cars",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Drivers_Owners_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Owners",
+                        name: "FK_CarConductors_Drivers_DriverCDId",
+                        column: x => x.DriverCDId,
+                        principalTable: "Drivers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -151,6 +171,7 @@ namespace CarDepo.Infrastructure.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Price = table.Column<decimal>(type: "TEXT", nullable: false),
                     Payed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
                     Date = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     OwnerId = table.Column<int>(type: "INTEGER", nullable: false),
                     CarId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -170,39 +191,6 @@ namespace CarDepo.Infrastructure.Migrations
                         principalTable: "Owners",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CarConductors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    DateDrive = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    CarCDId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DriverCDId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DriverId = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CarConductors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CarConductors_Cars_CarCDId",
-                        column: x => x.CarCDId,
-                        principalTable: "Cars",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CarConductors_Drivers_DriverCDId",
-                        column: x => x.DriverCDId,
-                        principalTable: "Drivers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CarConductors_Drivers_DriverId",
-                        column: x => x.DriverId,
-                        principalTable: "Drivers",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -235,13 +223,26 @@ namespace CarDepo.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Owners",
-                columns: new[] { "Id", "DateEntry", "EmailAddr", "NIF", "Name", "PhoneNumber" },
+                columns: new[] { "Id", "DateEntry", "EmailAddr", "Name", "Nif", "PhoneNumber" },
                 values: new object[,]
                 {
-                    { 1, new DateOnly(2007, 3, 14), "jarvis@company.inc", "N79652124", "Jarvis INC", 965123415 },
-                    { 2, new DateOnly(2010, 4, 7), "donquer@companiamania.sl", "B12472965", "Donquer SL", 658120205 },
-                    { 3, new DateOnly(2008, 5, 21), "luzcar@correo.sa", "A65212479", "Luzcar SA", 912341415 },
-                    { 4, new DateOnly(2004, 7, 30), "cantar@ascancions.cb", "E12495276", "Cántar CB", 718916545 }
+                    { 1, new DateOnly(2007, 3, 14), "jarvis@company.inc", "Jarvis INC", "N79652124", 965123415 },
+                    { 2, new DateOnly(2010, 4, 7), "donquer@companiamania.sl", "Donquer SL", "B12472965", 658120205 },
+                    { 3, new DateOnly(2008, 5, 21), "luzcar@correo.sa", "Luzcar SA", "A65212479", 912341415 },
+                    { 4, new DateOnly(2004, 7, 30), "cantar@ascancions.cb", "Cántar CB", "E12495276", 718916545 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Drivers",
+                columns: new[] { "Id", "Dni", "EmailAddr", "Name", "OwnerId", "PhoneNumber" },
+                values: new object[,]
+                {
+                    { 1, "78546932G", "pepino@gmail.com", "Pepino", 2, null },
+                    { 2, "47456968F", "lucaselmoco@gmail.com", "Lucas", 1, 985463127 },
+                    { 3, "69321453C", null, "Mario", 3, 985463127 },
+                    { 4, "49875214L", "anadelasflores@email.com", "Ana", 2, null },
+                    { 5, "45161314N", null, "Regina", 3, 617693541 },
+                    { 6, "94563214S", "mariacarmenalojomora@panopticom.com", "Maria", 1, 874693125 }
                 });
 
             migrationBuilder.InsertData(
@@ -256,7 +257,7 @@ namespace CarDepo.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Cars",
-                columns: new[] { "Id", "ColorId", "KMs", "License", "MakeId", "OwnerId" },
+                columns: new[] { "Id", "ColorId", "Kms", "License", "MakeId", "OwnerId" },
                 values: new object[,]
                 {
                     { 1, 7, 123, "8742-GHX", 2, 1 },
@@ -271,28 +272,16 @@ namespace CarDepo.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Drivers",
-                columns: new[] { "Id", "CarId", "Dni", "EmailAddr", "Name", "OwnerId", "PhoneNumber" },
-                values: new object[,]
-                {
-                    { 1, 3, "78546932G", null, "Pepino", 2, null },
-                    { 2, 2, "47456968F", null, "Lucas", 1, null },
-                    { 3, 1, "69321453C", null, "Mario", 3, null },
-                    { 4, 1, "49875214L", null, "Ana", 2, null },
-                    { 5, 4, "45161314N", null, "Regina", 3, null },
-                    { 6, 5, "94563214S", null, "Maria", 1, null }
-                });
-
-            migrationBuilder.InsertData(
                 table: "CarConductors",
-                columns: new[] { "Id", "CarCDId", "DateDrive", "DriverCDId", "DriverId" },
+                columns: new[] { "Id", "CarCDId", "DateDrive", "DriverCDId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateOnly(2017, 6, 17), 3, null },
-                    { 2, 7, new DateOnly(2021, 8, 4), 5, null },
-                    { 3, 5, new DateOnly(2019, 11, 22), 4, null },
-                    { 4, 9, new DateOnly(2020, 9, 14), 2, null },
-                    { 5, 3, new DateOnly(2022, 3, 22), 1, null }
+                    { 1, 1, new DateOnly(2017, 6, 17), 3 },
+                    { 2, 7, new DateOnly(2021, 8, 4), 5 },
+                    { 3, 5, new DateOnly(2019, 11, 22), 4 },
+                    { 4, 9, new DateOnly(2020, 9, 14), 2 },
+                    { 5, 3, new DateOnly(2022, 3, 22), 1 },
+                    { 6, 3, new DateOnly(2021, 2, 17), 6 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -304,11 +293,6 @@ namespace CarDepo.Infrastructure.Migrations
                 name: "IX_CarConductors_DriverCDId",
                 table: "CarConductors",
                 column: "DriverCDId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CarConductors_DriverId",
-                table: "CarConductors",
-                column: "DriverId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_ColorId",
@@ -324,11 +308,6 @@ namespace CarDepo.Infrastructure.Migrations
                 name: "IX_Cars_OwnerId",
                 table: "Cars",
                 column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Drivers_CarId",
-                table: "Drivers",
-                column: "CarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Drivers_OwnerId",

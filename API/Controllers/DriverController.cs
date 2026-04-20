@@ -25,14 +25,21 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
         {
-            return await _context.Drivers.ToListAsync();
+            var driver = await _context.Drivers
+                .Include(d => d.Owner)
+                .AsNoTracking()
+                .ToListAsync();
+            return driver;
         }
 
         // GET: api/Driver/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Driver>> GetDriver(int id)
         {
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context.Drivers
+                .Include(d => d.Owner)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(d=> d.Id == id);
 
             if (driver == null)
             {
@@ -42,8 +49,17 @@ namespace CarDepo.API.Controllers
             return driver;
         }
 
+        // POST: api/Driver
+        [HttpPost]
+        public async Task<ActionResult<Driver>> PostDriver(Driver driver)
+        {
+            _context.Drivers.Add(driver);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetDriver", new { id = driver.Id }, driver);
+        }
+
         // PUT: api/Driver/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDriver(int id, Driver driver)
         {
@@ -71,17 +87,6 @@ namespace CarDepo.API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Driver
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Driver>> PostDriver(Driver driver)
-        {
-            _context.Drivers.Add(driver);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetDriver", new { id = driver.Id }, driver);
         }
 
         // DELETE: api/Driver/5

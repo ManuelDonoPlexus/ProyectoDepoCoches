@@ -4,21 +4,142 @@
 <head>
     <meta charset="UTF-8">
     <title>Car Depo</title>
-    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/mainview.css">
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 </head>
 
 <body>
-    <div id="welcome-msg">
-        <h1 id="title">Bienvenido al Depósito</h1>
-        <h2 id="subtitle">En este deposito podras ver los Coches, los modelos de los mismos y propietarios de
-            nuestro depósito</h2>
-        <div id="buttons">
-            <button onclick="location.href='cars.html'">Coches</button>
-            <button onclick="location.href='owners.html'">Propietarios</button>
-            <button onclick="location.href='make.html'">Modelos</button>
+    <div class="content">
+
+        <div class="sidebar">
+            <div class="showoperations">
+                <button onclick="showView('carview')">Mostrar coches</button>
+                <button onclick="showView('makeview')">Mostrar modelos</button>
+                <button onclick="showView('ownerview')">Mostrar propietarios</button>
+                <button onclick="showView('driverview')">Mostrar conductores</button>
+                <button onclick="showView('fineview')">Mostrar multas</button>
+            </div>
+            <div class="addoperations">
+                <button onclick="">Crear coche</button>
+                <button onclick="">Crear modelo</button>
+                <button onclick="">Crear proietario</button>
+                <button onclick="">Crear conductor</button>
+                <button onclick="">Crear multa</button>
+            </div>
         </div>
+
+        <div class="mainview">
+
+            <div id="welcomeview">
+                <h1 class="title">Bienvenido al deposito</h1>
+                <p class="subtitle">Esta página es destinada para los administradores de nuestro sistema. Desde esta,
+                    podras manejar los coches, modelos, propietarios, conductores y multas de nuestra base de datos.</p>
+            </div>
+
+            <div id="carview">
+                <h2>Coches</h2>
+                <p id="counterCar">0 items</p>
+
+                <input type="text" id="carSearchbar" class="searchBar" onkeyup="searchCar()"
+                    placeholder="Buscar coche por matricula...">
+
+                <table>
+                    <tr>
+                        <th>Matricula</th>
+                        <th>Kilometros</th>
+                        <th>Color</th>
+                        <th>Propietario</th>
+                        <th>Modelo</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="carsTBody"></tbody>
+                </table>
+            </div>
+
+            <div id="makeview">
+                <h2>Modelos</h2>
+                <p id="counterMake">0 items</p>
+
+                <input type="text" id="makeSearchBar" class="searchBar" onkeyup="searchMake()"
+                    placeholder="Buscar modelo por nombre...">
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Poder de caballo</th>
+                        <th>Precio</th>
+                        <th>Combustible</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="makesTBody"></tbody>
+                </table>
+            </div>
+
+            <div id="ownerview">
+                <h2>Propietarios</h2>
+                <p id="counterOwner">0 items</p>
+
+                <input type="text" id="ownerSearchbar" class="searchBar" onkeyup="searchOwner()"
+                    placeholder="Buscar propietario por nombre...">
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>NIF</th>
+                        <th>Fecha de entrada</th>
+                        <th>Telefono</th>
+                        <th>Dirección de correo</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="ownersTBody"></tbody>
+                </table>
+            </div>
+
+            <div id="driverview">
+                <h2>Conductores</h2>
+                <p id="counterDriver">0 items</p>
+
+                <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchDriver()"
+                    placeholder="Buscar conductor por nombre...">
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>DNI</th>
+                        <th>Telefono</th>
+                        <th>Dirección de correo</th>
+                        <th>Propietario asociado</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="driversTBody"></tbody>
+                </table>
+            </div>
+
+            <div id="fineview">
+                <h2>Multas</h2>
+                <p id="counterFine">0 items</p>
+
+                <input type="text" id="fineSearchbar" class="searchBar" onkeyup="searchDriver()"
+                    placeholder="Buscar multa por fecha...">
+                <table>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Importe</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Propietario asociado</th>
+                        <th>Coche asociado</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="finesTBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
     </div>
+
+    <script src="js/mainview.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        initialize()
+    </script>
 </body>
 
 </html>

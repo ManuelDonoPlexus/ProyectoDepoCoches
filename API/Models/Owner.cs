@@ -7,8 +7,8 @@ public class Owner
     [Key]
     public int Id { get; set; }
     public required string Name { get; set; }
-    public required string NIF { get; set; }
-    
+    public required string Nif { get; set; }
+
     [DataType(DataType.PhoneNumber)]
     public int? PhoneNumber { get; set; }
 

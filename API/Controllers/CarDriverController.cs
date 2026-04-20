@@ -25,14 +25,27 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarDriver>>> GetCarConductors()
         {
-            return await _context.CarConductors.ToListAsync();
+            var cardrivers = await _context.CarConductors
+                .Include(cd => cd.Driver)
+                .ThenInclude(d => d.Owner)
+                .Include(cd => cd.Car)
+                .ThenInclude(c => c.Color)
+                .AsNoTracking()
+                .ToListAsync();
+            return cardrivers;
         }
 
         // GET: api/CarDriver/5
         [HttpGet("{id}")]
         public async Task<ActionResult<CarDriver>> GetCarDriver(int id)
         {
-            var carDriver = await _context.CarConductors.FindAsync(id);
+            var carDriver = await _context.CarConductors
+                .Include(cd => cd.Driver)
+                .ThenInclude(d => d.Owner)
+                .Include(cd => cd.Car)
+                .ThenInclude(c => c.Color)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(cd => cd.Id == id);
 
             if (carDriver == null)
             {
@@ -42,8 +55,17 @@ namespace CarDepo.API.Controllers
             return carDriver;
         }
 
+        // POST: api/CarDriver
+        [HttpPost]
+        public async Task<ActionResult<CarDriver>> PostCarDriver(CarDriver carDriver)
+        {
+            _context.CarConductors.Add(carDriver);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetCarDriver", new { id = carDriver.Id }, carDriver);
+        }
+
         // PUT: api/CarDriver/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCarDriver(int id, CarDriver carDriver)
         {
@@ -71,17 +93,6 @@ namespace CarDepo.API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/CarDriver
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<CarDriver>> PostCarDriver(CarDriver carDriver)
-        {
-            _context.CarConductors.Add(carDriver);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCarDriver", new { id = carDriver.Id }, carDriver);
         }
 
         // DELETE: api/CarDriver/5

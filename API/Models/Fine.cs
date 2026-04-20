@@ -9,6 +9,7 @@ public class Fine
     public int Id { get; set; }
     public required decimal Price { get; set; }
     public required bool Payed { get; set; }
+    public string? Description { get; set; }
 
     [DataType(DataType.Date)]
     public DateOnly Date { get; set; }

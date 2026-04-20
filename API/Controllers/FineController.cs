@@ -25,14 +25,24 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Fine>>> GetFines()
         {
-            return await _context.Fines.ToListAsync();
+            var fine =  await _context.Fines
+                .Include(f => f.Owner)
+                .Include(f => f.Car)
+                .AsNoTracking()
+                .ToListAsync();
+            
+            return fine;
         }
 
         // GET: api/Fine/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Fine>> GetFine(int id)
         {
-            var fine = await _context.Fines.FindAsync(id);
+            var fine = await _context.Fines
+                .Include(f => f.Owner)
+                .Include(f => f.Car)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(f => f.Id == id);
 
             if (fine == null)
             {
@@ -40,6 +50,17 @@ namespace CarDepo.API.Controllers
             }
 
             return fine;
+        }
+
+        // POST: api/Fine
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Fine>> PostFine(Fine fine)
+        {
+            _context.Fines.Add(fine);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetFine", new { id = fine.Id }, fine);
         }
 
         // PUT: api/Fine/5
@@ -71,17 +92,6 @@ namespace CarDepo.API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Fine
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Fine>> PostFine(Fine fine)
-        {
-            _context.Fines.Add(fine);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFine", new { id = fine.Id }, fine);
         }
 
         // DELETE: api/Fine/5

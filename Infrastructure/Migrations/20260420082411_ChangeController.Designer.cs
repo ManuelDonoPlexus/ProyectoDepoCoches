@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarDepo.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDepoContext))]
-    [Migration("20260416105701_Restructure")]
-    partial class Restructure
+    [Migration("20260420082411_ChangeController")]
+    partial class ChangeController
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace CarDepo.Infrastructure.Migrations
                     b.Property<int>("ColorId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("KMs")
+                    b.Property<int>("Kms")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("License")
@@ -57,7 +57,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 1,
                             ColorId = 7,
-                            KMs = 123,
+                            Kms = 123,
                             License = "8742-GHX",
                             MakeId = 2,
                             OwnerId = 1
@@ -66,7 +66,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 2,
                             ColorId = 9,
-                            KMs = 103,
+                            Kms = 103,
                             License = "7854-ASD",
                             MakeId = 1,
                             OwnerId = 3
@@ -75,7 +75,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 3,
                             ColorId = 2,
-                            KMs = 167,
+                            Kms = 167,
                             License = "4152-RTE",
                             MakeId = 1,
                             OwnerId = 2
@@ -84,7 +84,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 4,
                             ColorId = 1,
-                            KMs = 263,
+                            Kms = 263,
                             License = "6769-QWT",
                             MakeId = 2,
                             OwnerId = 2
@@ -93,7 +93,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 5,
                             ColorId = 3,
-                            KMs = 317,
+                            Kms = 317,
                             License = "4157-NMD",
                             MakeId = 3,
                             OwnerId = 1
@@ -102,7 +102,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 6,
                             ColorId = 4,
-                            KMs = 401,
+                            Kms = 401,
                             License = "3437-PLO",
                             MakeId = 3,
                             OwnerId = 2
@@ -111,7 +111,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 7,
                             ColorId = 5,
-                            KMs = 320,
+                            Kms = 320,
                             License = "6167-AUD",
                             MakeId = 1,
                             OwnerId = 2
@@ -120,7 +120,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 8,
                             ColorId = 6,
-                            KMs = 115,
+                            Kms = 115,
                             License = "5124-OIY",
                             MakeId = 2,
                             OwnerId = 1
@@ -129,7 +129,7 @@ namespace CarDepo.Infrastructure.Migrations
                         {
                             Id = 9,
                             ColorId = 8,
-                            KMs = 154,
+                            Kms = 154,
                             License = "3112-THE",
                             MakeId = 1,
                             OwnerId = 3
@@ -151,16 +151,11 @@ namespace CarDepo.Infrastructure.Migrations
                     b.Property<int>("DriverCDId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DriverId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CarCDId");
 
                     b.HasIndex("DriverCDId");
-
-                    b.HasIndex("DriverId");
 
                     b.ToTable("CarConductors");
 
@@ -199,6 +194,13 @@ namespace CarDepo.Infrastructure.Migrations
                             CarCDId = 3,
                             DateDrive = new DateOnly(2022, 3, 22),
                             DriverCDId = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CarCDId = 3,
+                            DateDrive = new DateOnly(2021, 2, 17),
+                            DriverCDId = 6
                         });
                 });
 
@@ -274,9 +276,6 @@ namespace CarDepo.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CarId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Dni")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -296,8 +295,6 @@ namespace CarDepo.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CarId");
-
                     b.HasIndex("OwnerId");
 
                     b.ToTable("Drivers");
@@ -306,50 +303,52 @@ namespace CarDepo.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CarId = 3,
                             Dni = "78546932G",
+                            EmailAddr = "pepino@gmail.com",
                             Name = "Pepino",
                             OwnerId = 2
                         },
                         new
                         {
                             Id = 2,
-                            CarId = 2,
                             Dni = "47456968F",
+                            EmailAddr = "lucaselmoco@gmail.com",
                             Name = "Lucas",
-                            OwnerId = 1
+                            OwnerId = 1,
+                            PhoneNumber = 985463127
                         },
                         new
                         {
                             Id = 3,
-                            CarId = 1,
                             Dni = "69321453C",
                             Name = "Mario",
-                            OwnerId = 3
+                            OwnerId = 3,
+                            PhoneNumber = 985463127
                         },
                         new
                         {
                             Id = 4,
-                            CarId = 1,
                             Dni = "49875214L",
+                            EmailAddr = "anadelasflores@email.com",
                             Name = "Ana",
                             OwnerId = 2
                         },
                         new
                         {
                             Id = 5,
-                            CarId = 4,
                             Dni = "45161314N",
                             Name = "Regina",
-                            OwnerId = 3
+                            OwnerId = 3,
+                            PhoneNumber = 617693541
                         },
                         new
                         {
                             Id = 6,
-                            CarId = 5,
                             Dni = "94563214S",
+                            EmailAddr = "mariacarmenalojomora@panopticom.com",
                             Name = "Maria",
-                            OwnerId = 1
+                            OwnerId = 1,
+                            PhoneNumber = 874693125
                         });
                 });
 
@@ -363,6 +362,9 @@ namespace CarDepo.Infrastructure.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("OwnerId")
@@ -482,11 +484,11 @@ namespace CarDepo.Infrastructure.Migrations
                     b.Property<string>("EmailAddr")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("NIF")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nif")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -503,8 +505,8 @@ namespace CarDepo.Infrastructure.Migrations
                             Id = 1,
                             DateEntry = new DateOnly(2007, 3, 14),
                             EmailAddr = "jarvis@company.inc",
-                            NIF = "N79652124",
                             Name = "Jarvis INC",
+                            Nif = "N79652124",
                             PhoneNumber = 965123415
                         },
                         new
@@ -512,8 +514,8 @@ namespace CarDepo.Infrastructure.Migrations
                             Id = 2,
                             DateEntry = new DateOnly(2010, 4, 7),
                             EmailAddr = "donquer@companiamania.sl",
-                            NIF = "B12472965",
                             Name = "Donquer SL",
+                            Nif = "B12472965",
                             PhoneNumber = 658120205
                         },
                         new
@@ -521,8 +523,8 @@ namespace CarDepo.Infrastructure.Migrations
                             Id = 3,
                             DateEntry = new DateOnly(2008, 5, 21),
                             EmailAddr = "luzcar@correo.sa",
-                            NIF = "A65212479",
                             Name = "Luzcar SA",
+                            Nif = "A65212479",
                             PhoneNumber = 912341415
                         },
                         new
@@ -530,8 +532,8 @@ namespace CarDepo.Infrastructure.Migrations
                             Id = 4,
                             DateEntry = new DateOnly(2004, 7, 30),
                             EmailAddr = "cantar@ascancions.cb",
-                            NIF = "E12495276",
                             Name = "Cántar CB",
+                            Nif = "E12495276",
                             PhoneNumber = 718916545
                         });
                 });
@@ -577,10 +579,6 @@ namespace CarDepo.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CarDepo.API.Models.Driver", null)
-                        .WithMany("CarConductor")
-                        .HasForeignKey("DriverId");
-
                     b.Navigation("Car");
 
                     b.Navigation("Driver");
@@ -588,19 +586,11 @@ namespace CarDepo.Infrastructure.Migrations
 
             modelBuilder.Entity("CarDepo.API.Models.Driver", b =>
                 {
-                    b.HasOne("CarDepo.API.Models.Car", "Car")
-                        .WithMany()
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CarDepo.API.Models.Owner", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Car");
 
                     b.Navigation("Owner");
                 });
@@ -633,11 +623,6 @@ namespace CarDepo.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("FuelType");
-                });
-
-            modelBuilder.Entity("CarDepo.API.Models.Driver", b =>
-                {
-                    b.Navigation("CarConductor");
                 });
 #pragma warning restore 612, 618
         }

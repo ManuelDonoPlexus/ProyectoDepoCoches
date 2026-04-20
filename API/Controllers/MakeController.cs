@@ -25,14 +25,21 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Make>>> GetMakes()
         {
-            return await _context.Makes.ToListAsync();
+            var makes = await _context.Makes
+                .Include(m => m.FuelType)
+                .AsNoTracking()
+                .ToListAsync();
+            return makes;
         }
 
-        // GET: api/Make/5
+        // GET: api/Make/(id)
         [HttpGet("{id}")]
         public async Task<ActionResult<Make>> GetMake(int id)
         {
-            var make = await _context.Makes.FindAsync(id);
+            var make = await _context.Makes
+                .Include(m => m.FuelType)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (make == null)
             {
@@ -42,8 +49,17 @@ namespace CarDepo.API.Controllers
             return make;
         }
 
+        // POST: api/Make
+        [HttpPost]
+        public async Task<ActionResult<Make>> PostMake(Make make)
+        {
+            _context.Makes.Add(make);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetMake", new { id = make.Id }, make);
+        }
+
         // PUT: api/Make/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutMake(int id, Make make)
         {
@@ -71,17 +87,6 @@ namespace CarDepo.API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Make
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Make>> PostMake(Make make)
-        {
-            _context.Makes.Add(make);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetMake", new { id = make.Id }, make);
         }
 
         // DELETE: api/Make/5
