@@ -180,7 +180,7 @@
                 <h2>Añadir modelo a la base de datos</h2>
                 <input id="add-make-name" type="text" placeholder="Nombre">
                 <input id="add-make-horsepower" type="number" placeholder="Poder de caballo">
-                <input id="add-make-price" type="number" placeholder="Precio">
+                <input id="add-make-price" type="number" step="0.01" placeholder="Precio">
                 <input id="add-make-fuel" list="fuelList" placeholder="Combustible">
                 <button onclick="addMake()">Añadir modelo</button>
             </div>
@@ -207,12 +207,82 @@
 
             <div class="addView" id="fineCreate">
                 <h2>Añadir multa a la base de datos</h2>
-                <input id="add-fine-price" type="number" placeholder="Precio">
+                <input id="add-fine-price" type="number" step="0.01" placeholder="Precio">
                 <input id="add-fine-description" type="text" placeholder="Descripción">
                 <input id="add-fine-date" type="date" placeholder="Fecha">
                 <input id="add-fine-car" list="carList" placeholder="Vehiculo asociado">
                 <input id="add-fine-owner" list="ownerList" placeholder="Propietario asociado">
                 <button onclick="addFine()">Añadir multa</button>
+            </div>
+
+            <div class="detailView" id="carView">
+                <h2>Editar coche</h2>
+                <div>
+                    <input type="text" id="licenseCar" disabled>
+                    <input type="text" id="kmsCar" disabled>
+                    <input list="colorList" id="colorCar" disabled>
+                    <input list="ownerList" id="ownerCar" disabled>
+                    <input list="makeList" id="makeCar" disabled>
+                </div>
+                <button class="deleteBton" id="deleteCar">Borrar</button>
+                <button class="editBton" onclick="">Editar</button>
+                <button class="saveBton" onclick="" hidden>Guardar Cambios</button>
+            </div>
+
+            <div class="detailView" id="makeView">
+                <h2>Editar modelo</h2>
+                <div>
+                    <input type="text" id="nameMake" disabled>
+                    <input type="number" id="horsepowerMake" disabled>
+                    <input type="number" step="0.01" id="priceMake" disabled>
+                    <input list="fuelList" id="fueltypeMake" disabled>
+                </div>
+                <button class="deleteBton" id="deleteMake">Borrar</button>
+                <button class="editBton" onclick="">Editar</button>
+                <button class="saveBton" onclick="" hidden>Guardar Cambios</button>
+            </div>
+
+            <div class="detailView" id="ownerView">
+                <h2>Editar propietario</h2>
+                <div>
+                    <input type="text" id="nameOwner" disabled>
+                    <input type="text" id="nifOwner" disabled>
+                    <input type="tel" id="phonenumberOwner" disabled>
+                    <input type="date" id="datentryOwner" disabled>
+                    <input type="email" id="emailaddrOwner" disabled>
+                </div>
+                <button class="deleteBton" id="deleteOwner">Borrar</button>
+                <button class="editBton" onclick="">Editar</button>
+                <button class="saveBton" onclick="" hidden>Guardar Cambios</button>
+            </div>
+
+            <div class="detailView" id="driverView">
+                <h2>Editar conductor</h2>
+                <div>
+                    <input type="text" id="nameDriver" disabled>
+                    <input type="text" id="dniDriver" disabled>
+                    <input type="email" id="emailaddrDriver" disabled>
+                    <input type="tel" id="phonenumberDriver" disabled>
+                    <input list="driverList" id="ownerDriver" disabled>
+                </div>
+                <button class="deleteBton" id="deleteDriver">Borrar</button>
+                <button class="editBton" onclick="">Editar</button>
+                <button class="saveBton" onclick="" hidden>Guardar Cambios</button>
+            </div>
+
+            <div class="detailView" id="fineView">
+                <h2>Editar multa</h2>
+                <div>
+                    <input type="text" id="priceFine" disabled>
+                    <input type="checkbox" id="payedFine" disabled>
+                    <input type="text" id="descriptionFine" disabled>
+                    <input type="date" id="dateFine" disabled>
+                    <input list="ownerList" id="ownerFine" disabled>
+                    <input list="carList" id="carFine" disabled>
+                </div>
+                <button class="deleteBton" id="deleteFine">Borrar</button>
+                <button class="editBton" onclick="">Editar</button>
+                <button class="saveBton" onclick="" hidden>Guardar Cambios</button>
             </div>
 
         </div>

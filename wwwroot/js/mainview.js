@@ -43,6 +43,13 @@ function initialize() {
 
     document.getElementById("drivers").style.display = "none";
     document.getElementById("cardrivers").style.display = "none";
+
+    document.getElementById("carView").style.display = "none";
+    document.getElementById("makeView").style.display = "none";
+    document.getElementById("ownerView").style.display = "none";
+    document.getElementById("driverView").style.display = "none";
+    document.getElementById("fineView").style.display = "none";
+
 }
 
 // Para mostrar un recuento de una entidad
@@ -166,61 +173,85 @@ async function getOwners() {
 
 // Para buscar entidades especificas
 
-function getSpecificCar(search) {
+function getSpecificCar(search, filter) {
     let result;
     cars.forEach(car => {
-        if (car.license == search) {
-            result = car;
+        if (filter == "license") {
+            if (car.license == search) { result = car; }
+        } else if (filter == "id") {
+            if (car.id == search) { result = car; }
         }
     })
     return result;
 }
 
-function getSpecificDriver(search) {
+function getSpecificDriver(search, filter) {
     let result;
     drivers.forEach(driver => {
-        if (driver.license == search) {
-            result = driver;
+        if (filter == "id") {
+            if (driver.id == search) { result = driver; }
+        } else if (filter == "name") {
+            if (driver.name == search) { result = driver; }
         }
     })
     return result;
 }
 
-function getSpecificColor(search) {
+function getSpecificColor(search, filter) {
     let result;
     colors.forEach(color => {
-        if (color.name == search) {
-            result = color;
+        if (filter == "id") {
+            if (color.id == search) { result = color; }
+        } else if (filter == "name") {
+            if (color.name == search) { result = color; }
         }
     })
     return result;
 }
 
-function getSpecificOwner(search) {
+function getSpecificOwner(search, filter) {
     let result;
     owners.forEach(owner => {
-        if (owner.name == search) {
-            result = owner;
+        if (filter == "id") {
+            if (owner.id == search) { result = owner; }
+        } else if (filter == "name") {
+            if (owner.name == search) { result = owner; }
         }
     })
     return result;
 }
 
-function getSpecificMake(search) {
+function getSpecificMake(search, filter) {
     let result;
     makes.forEach(make => {
-        if (make.name == search) {
-            result = make;
+        if (filter == "id") {
+            if (make.id == search) { result = make; }
+        } else if (filter == "name") {
+            if (make.name == search) { result = make; }
         }
     })
     return result;
 }
 
-function getSpecificFuel(search) {
+function getSpecificFuel(search, filter) {
     let result;
     fuels.forEach(fuel => {
-        if (fuel.name == search) {
-            result = fuel;
+        if (filter == "id") {
+            if (fuel.id == search) { result = fuel; }
+        } else if (filter == "name") {
+            if (fuel.name == search) { result = fuel; }
+        }
+    })
+    return result;
+}
+
+function getSpecificFine(search, filter) {
+    let result;
+    fines.forEach(fine => {
+        if (filter == "id") {
+            if (fine.id == search) { result = fine; }
+        } else if (filter == "name") {
+            if (fine.name == search) { result = fine; }
         }
     })
     return result;
@@ -307,6 +338,7 @@ function _displayCars() {
     cars.forEach(car => {
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('carView',${car.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -359,10 +391,12 @@ function _displayDrivers() {
     drivers.forEach(driver => {
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('driverView',${driver.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteDriver(${driver.id})`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -384,7 +418,7 @@ function _displayDrivers() {
         else { td2.appendChild(document.createTextNode(driver.phoneNumber)) }
 
         let td3 = tr.insertCell(3);
-        td3.setAttribute("class", "driverEmail");        
+        td3.setAttribute("class", "driverEmail");
         if (driver.emailAddr == null) { td3.innerText = "-" }
         else { td3.appendChild(document.createTextNode(driver.emailAddr)) }
 
@@ -401,7 +435,7 @@ function _displayDrivers() {
     })
 }
 
-function _displayCarDrivers(){
+function _displayCarDrivers() {
     const tBody = document.getElementById("cardriversTBody");
     tBody.innerHTML;
 
@@ -410,10 +444,12 @@ function _displayCarDrivers(){
     cardrivers.forEach(driver => {
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('driverView',${driver.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteDriver(${driver.id})`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -451,6 +487,7 @@ function _displayMakes() {
     makes.forEach(make => {
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('makeView',${make.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -498,6 +535,7 @@ function _displayOwners() {
     owners.forEach(owner => {
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('ownerView',${owner.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -551,6 +589,7 @@ function _displayFines() {
     fines.forEach(fine => {
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('fineView',${fine.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -712,7 +751,7 @@ function addMake() {
     const addPrice = document.getElementById("add-make-price");
     const addFuelName = document.getElementById("add-make-fuel");
 
-    const addFuel = getSpecificFuel(addFuelName.value.trim())
+    const addFuel = getSpecificFuel(addFuelName.value.trim(), "name")
 
 
     const make = {
@@ -743,8 +782,8 @@ function addFine() {
     const addCarName = document.getElementById("add-fine-car");
     const addOwnerName = document.getElementById("add-fine-owner")
 
-    const addCar = getSpecificCar(addCarName.value.trim());
-    const addOwner = getSpecificOwner(addOwnerName.value.trim());
+    const addCar = getSpecificCar(addCarName.value.trim(), "license");
+    const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
 
     const fine = {
         price: addPrice.value.trim(),
@@ -767,7 +806,7 @@ function addFine() {
     })
         //.then(() => location.reload())
         .catch(error => console.error("Unable to add fine to database. ", error))
-    
+
 }
 
 function addCar() {
@@ -777,9 +816,9 @@ function addCar() {
     const addOwnerName = document.getElementById("add-car-owner");
     const addMakeName = document.getElementById("add-car-make");
 
-    const addColor = getSpecificColor(addColorName.value.trim());
-    const addOwner = getSpecificOwner(addOwnerName.value.trim());
-    const addMake = getSpecificMake(addMakeName.value.trim());
+    const addColor = getSpecificColor(addColorName.value.trim(), "name");
+    const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
+    const addMake = getSpecificMake(addMakeName.value.trim(), "name");
 
     const car = {
         license: addLicense.value.trim(),
@@ -809,7 +848,7 @@ function addDriver() {
     const addTel = document.getElementById("add-driver-tel");
     const addOwnerName = document.getElementById("add-driver-owner");
 
-    const addOwner = getSpecificOwner(addOwnerName.value.trim());
+    const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
 
     const driver = {
         name: addName.value.trim(),
@@ -832,75 +871,137 @@ function addDriver() {
         .catch(error => console.error("Unable to add fine to database. ", error))
 }
 
-function addCarDriver(addDate, addCar, addDriver) {
-    const carToAdd = getSpecificCar(addCar);
-    const driverToAdd = getSpecificDriver(addDriver);
-
-    const cardriver = {
-        date: addDate,
-        carId: carToAdd.id,
-        driverId: driverToAdd.id
-    }
-
-    fetch(baseurl + uriCarDriver, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(cardriver)
-    })
-        .then(respone => respone.json())
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
-}
+function addCarDriver() { }
 
 // Para borrar entidades de la base de datos
 
 function deleteCar(id) {
-  fetch(`${baseurl}${uriCar}/${id}`, {
-    method: `DELETE`
-  })
-    .then(() => location.reload())
-    .catch(error => console.error("Unable to delete car from database. ", error))
+    fetch(`${baseurl}${uriCar}/${id}`, {
+        method: `DELETE`
+    })
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to delete car from database. ", error))
 }
 
 function deleteCarDrivers(id) {
-  fetch(`${baseurl}${uriCarDriver}/${id}`, {
-    method: `DELETE`
-  })
-    .then(() => location.reload())
-    .catch(error => console.error("Unable to delete car from database. ", error))
+    fetch(`${baseurl}${uriCarDriver}/${id}`, {
+        method: `DELETE`
+    })
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to delete car from database. ", error))
 }
 
 function deleteDriver(id) {
-  fetch(`${baseurl}${uriDriver}/${id}`, {
-    method: `DELETE`
-  })
-    .then(() => location.reload())
-    .catch(error => console.error("Unable to delete car from database. ", error))
+    fetch(`${baseurl}${uriDriver}/${id}`, {
+        method: `DELETE`
+    })
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to delete car from database. ", error))
 }
 
 function deleteFine(id) {
-  fetch(`${baseurl}${uriFine}/${id}`, {
-    method: `DELETE`
-  })
-    .then(() => location.reload())
-    .catch(error => console.error("Unable to delete car from database. ", error))
+    fetch(`${baseurl}${uriFine}/${id}`, {
+        method: `DELETE`
+    })
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to delete car from database. ", error))
 }
 
 function deleteMake(id) {
-  fetch(`${baseurl}${uriMake}/${id}`, {
-    method: `DELETE`
-  })
-    .then(() => location.reload())
-    .catch(error => console.error("Unable to delete car from database. ", error))
+    fetch(`${baseurl}${uriMake}/${id}`, {
+        method: `DELETE`
+    })
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to delete car from database. ", error))
 }
 
 function deleteOwner(id) {
-  fetch(`${baseurl}${uriOwner}/${id}`, {
-    method: `DELETE`
-  })
-    .then(() => location.reload())
-    .catch(error => console.error("Unable to delete car from database. ", error))
+    fetch(`${baseurl}${uriOwner}/${id}`, {
+        method: `DELETE`
+    })
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to delete car from database. ", error))
+}
+
+// Editform
+
+function showEditForm(nameView, idEntity) {
+    showView(nameView);
+
+    if (nameView == "carView") { carShowEdit(idEntity) }
+    if (nameView == "driverView") { driverShowEdit(idEntity) }
+    if (nameView == "makeView") { makeShowEdit(idEntity) }
+    if (nameView == "ownerView") { ownerShowEdit(idEntity) }
+    if (nameView == "fineView") { fineShowEdit(idEntity) }
+}
+
+function carShowEdit(id) {
+    let car = getSpecificCar(id, "id");
+    document.getElementById("licenseCar").value = car.license;
+    document.getElementById("kmsCar").value = car.kms;
+    document.getElementById("colorCar").value = car.color;
+    document.getElementById("ownerCar").value = car.owner.name;
+    document.getElementById("makeCar").value = car.make.name;
+
+    let delBton = document.getElementById("deleteCar");
+    delBton.setAttribute("onclick", `deleteCar(${id})`);
+
+    console.log(car)
+}
+
+function driverShowEdit(id) {
+    let driver = getSpecificDriver(id, "id");
+    document.getElementById("nameDriver").value = driver.name;
+    document.getElementById("dniDriver").value = driver.dni;
+    document.getElementById("emailaddrDriver").value = driver.emailAddr;
+    document.getElementById("phonenumberDriver").value = driver.phoneNumber;
+    document.getElementById("ownerDriver").value = driver.owner.name;
+
+    let delBton = document.getElementById("deleteDriver");
+    delBton.setAttribute("onclick", `deleteDriver(${id})`);
+
+    console.log(driver)
+}
+
+function makeShowEdit(id) {
+    let make = getSpecificMake(id, "id");
+    document.getElementById("nameMake").value = make.name;
+    document.getElementById("horsepowerMake").value = make.horsePower;
+    document.getElementById("priceMake").value = make.price;
+    document.getElementById("fueltypeMake").value = make.fuelType.name;
+
+    let delBton = document.getElementById("deleteMake");
+    delBton.setAttribute("onclick", `deleteMake(${id})`);
+
+    console.log(make)
+}
+
+function ownerShowEdit(id) {
+    let owner = getSpecificOwner(id, "id");
+    document.getElementById("nameOwner").value = owner.name;
+    document.getElementById("nifOwner").value = owner.nif;
+    document.getElementById("phonenumberOwner").value = owner.phoneNumber;
+    document.getElementById("datentryOwner").value = owner.dateEntry;
+    document.getElementById("emailaddrOwner").value = owner.emailAddr;
+
+    let delBton = document.getElementById("deleteOwner");
+    delBton.setAttribute("onclick", `deleteOwner(${id})`);
+
+    console.log(owner)
+}
+
+function fineShowEdit(id) {
+    let fine = getSpecificFine(id, "id");
+    document.getElementById("priceFine").value = fine.price;
+    if (fine.payed == true) { document.getElementById("payedFine").checked = true }
+    else { document.getElementById("payedFine").checked = false }
+    document.getElementById("descriptionFine").value = fine.description;
+    document.getElementById("dateFine").value = fine.date;
+    document.getElementById("ownerFine").value = fine.owner.name;
+    document.getElementById("carFine").value = fine.car.name;
+
+    let delBton = document.getElementById("deleteFine");
+    delBton.setAttribute("onclick", `deleteFine(${id})`);
+
+    console.log(fine)
 }
