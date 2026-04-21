@@ -33,14 +33,14 @@ namespace CarDepo.API.Controllers
         }
 
         // GET: api/Fine/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Fine>> GetFine(int id)
+        [HttpGet("{FineId}")]
+        public async Task<ActionResult<Fine>> GetFine(int FineId)
         {
             var fine = await _context.Fines
                 .Include(f => f.Owner)
                 .Include(f => f.Car)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(f => f.Id == id);
+                .FirstOrDefaultAsync(f => f.Id == FineId);
 
             if (fine == null)
             {
@@ -63,10 +63,10 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Fine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFine(int id, Fine fine)
+        [HttpPut("{FineId}")]
+        public async Task<IActionResult> PutFine(int FineId, Fine fine)
         {
-            if (id != fine.Id)
+            if (FineId != fine.Id)
             {
                 return BadRequest();
             }
@@ -79,7 +79,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FineExists(id))
+                if (!FineExists(FineId))
                 {
                     return NotFound();
                 }
@@ -93,10 +93,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/Fine/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFine(int id)
+        [HttpDelete("{FineId}")]
+        public async Task<IActionResult> DeleteFine(int FineId)
         {
-            var fine = await _context.Fines.FindAsync(id);
+            var fine = await _context.Fines.FindAsync(FineId);
             if (fine == null)
             {
                 return NotFound();
@@ -108,9 +108,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool FineExists(int id)
+        private bool FineExists(int FineId)
         {
-            return _context.Fines.Any(e => e.Id == id);
+            return _context.Fines.Any(e => e.Id == FineId);
         }
     }
 }

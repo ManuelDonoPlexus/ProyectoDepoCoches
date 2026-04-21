@@ -32,13 +32,13 @@ namespace CarDepo.API.Controllers
         }
 
         // GET: api/Make/(id)
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Make>> GetMake(int id)
+        [HttpGet("{MakeId}")]
+        public async Task<ActionResult<Make>> GetMake(int MakeId)
         {
             var make = await _context.Makes
                 .Include(m => m.FuelType)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == MakeId);
 
             if (make == null)
             {
@@ -59,10 +59,10 @@ namespace CarDepo.API.Controllers
         }
 
         // PUT: api/Make/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMake(int id, Make make)
+        [HttpPut("{MakeId}")]
+        public async Task<IActionResult> PutMake(int MakeId, Make make)
         {
-            if (id != make.Id)
+            if (MakeId != make.Id)
             {
                 return BadRequest();
             }
@@ -75,7 +75,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MakeExists(id))
+                if (!MakeExists(MakeId))
                 {
                     return NotFound();
                 }
@@ -89,10 +89,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/Make/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMake(int id)
+        [HttpDelete("{MakeId}")]
+        public async Task<IActionResult> DeleteMake(int MakeId)
         {
-            var make = await _context.Makes.FindAsync(id);
+            var make = await _context.Makes.FindAsync(MakeId);
             if (make == null)
             {
                 return NotFound();
@@ -104,9 +104,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool MakeExists(int id)
+        private bool MakeExists(int MakeId)
         {
-            return _context.Makes.Any(e => e.Id == id);
+            return _context.Makes.Any(e => e.Id == MakeId);
         }
     }
 }

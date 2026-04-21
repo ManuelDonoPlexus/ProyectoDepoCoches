@@ -29,10 +29,10 @@ namespace CarDepo.API.Controllers
         }
 
         // GET: api/Owner/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Owner>> GetOwner(int id)
+        [HttpGet("{OwnerId}")]
+        public async Task<ActionResult<Owner>> GetOwner(int OwnerId)
         {
-            var owner = await _context.Owners.FindAsync(id);
+            var owner = await _context.Owners.FindAsync(OwnerId);
 
             if (owner == null)
             {
@@ -55,10 +55,10 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Owner/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOwner(int id, Owner owner)
+        [HttpPut("{OwnerId}")]
+        public async Task<IActionResult> PutOwner(int OwnerId, Owner owner)
         {
-            if (id != owner.Id)
+            if (OwnerId != owner.Id)
             {
                 return BadRequest();
             }
@@ -71,7 +71,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OwnerExists(id))
+                if (!OwnerExists(OwnerId))
                 {
                     return NotFound();
                 }
@@ -85,10 +85,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/Owner/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOwner(int id)
+        [HttpDelete("{OwnerId}")]
+        public async Task<IActionResult> DeleteOwner(int OwnerId)
         {
-            var owner = await _context.Owners.FindAsync(id);
+            var owner = await _context.Owners.FindAsync(OwnerId);
             if (owner == null)
             {
                 return NotFound();
@@ -100,9 +100,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool OwnerExists(int id)
+        private bool OwnerExists(int OwnerId)
         {
-            return _context.Owners.Any(e => e.Id == id);
+            return _context.Owners.Any(e => e.Id == OwnerId);
         }
     }
 }

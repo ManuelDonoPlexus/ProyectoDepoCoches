@@ -32,13 +32,13 @@ namespace CarDepo.API.Controllers
         }
 
         // GET: api/Driver/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Driver>> GetDriver(int id)
+        [HttpGet("{DriverId}")]
+        public async Task<ActionResult<Driver>> GetDriver(int DriverId)
         {
             var driver = await _context.Drivers
                 .Include(d => d.Owner)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(d=> d.Id == id);
+                .FirstOrDefaultAsync(d=> d.Id == DriverId);
 
             if (driver == null)
             {
@@ -59,10 +59,10 @@ namespace CarDepo.API.Controllers
         }
 
         // PUT: api/Driver/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDriver(int id, Driver driver)
+        [HttpPut("{DriverId}")]
+        public async Task<IActionResult> PutDriver(int DriverId, Driver driver)
         {
-            if (id != driver.Id)
+            if (DriverId != driver.Id)
             {
                 return BadRequest();
             }
@@ -75,7 +75,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DriverExists(id))
+                if (!DriverExists(DriverId))
                 {
                     return NotFound();
                 }
@@ -89,10 +89,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/Driver/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDriver(int id)
+        [HttpDelete("{DriverId}")]
+        public async Task<IActionResult> DeleteDriver(int DriverId)
         {
-            var driver = await _context.Drivers.FindAsync(id);
+            var driver = await _context.Drivers.FindAsync(DriverId);
             if (driver == null)
             {
                 return NotFound();
@@ -104,9 +104,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool DriverExists(int id)
+        private bool DriverExists(int DriverId)
         {
-            return _context.Drivers.Any(e => e.Id == id);
+            return _context.Drivers.Any(e => e.Id == DriverId);
         }
     }
 }

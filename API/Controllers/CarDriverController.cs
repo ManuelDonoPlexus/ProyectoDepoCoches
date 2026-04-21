@@ -34,13 +34,13 @@ namespace CarDepo.API.Controllers
 
         // GET: api/CarDriver/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CarDriver>> GetCarDriver(int id)
+        public async Task<ActionResult<CarDriver>> GetCarDriver(int CDId)
         {
             var carDriver = await _context.CarConductors
                 .Include(cd => cd.Driver)
                 .Include(cd => cd.Car)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(cd => cd.Id == id);
+                .FirstOrDefaultAsync(cd => cd.Id == CDId);
 
             if (carDriver == null)
             {
@@ -61,10 +61,10 @@ namespace CarDepo.API.Controllers
         }
 
         // PUT: api/CarDriver/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCarDriver(int id, CarDriver carDriver)
+        [HttpPut("{CDId}")]
+        public async Task<IActionResult> PutCarDriver(int CDId, CarDriver carDriver)
         {
-            if (id != carDriver.Id)
+            if (CDId != carDriver.Id)
             {
                 return BadRequest();
             }
@@ -77,7 +77,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarDriverExists(id))
+                if (!CarDriverExists(CDId))
                 {
                     return NotFound();
                 }
@@ -91,10 +91,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/CarDriver/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCarDriver(int id)
+        [HttpDelete("{CDId}")]
+        public async Task<IActionResult> DeleteCarDriver(int CDId)
         {
-            var carDriver = await _context.CarConductors.FindAsync(id);
+            var carDriver = await _context.CarConductors.FindAsync(CDId);
             if (carDriver == null)
             {
                 return NotFound();
@@ -106,9 +106,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool CarDriverExists(int id)
+        private bool CarDriverExists(int CDId)
         {
-            return _context.CarConductors.Any(e => e.Id == id);
+            return _context.CarConductors.Any(e => e.Id == CDId);
         }
     }
 }

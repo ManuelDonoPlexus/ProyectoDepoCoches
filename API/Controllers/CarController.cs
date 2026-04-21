@@ -33,14 +33,14 @@ namespace CarDepo.API.Controllers
         }
 
         // GET: api/Car/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Car>> GetCar(int id)
+        [HttpGet("{CarId}")]
+        public async Task<ActionResult<Car>> GetCar(int CarId)
         {
             var car = await _context.Cars
                 .Include(car => car.Color)
                 .Include(car => car.Make)
                 .Include(car => car.Owner)
-                .FirstOrDefaultAsync(c=> c.Id == id);
+                .FirstOrDefaultAsync(c=> c.Id == CarId);
             if (car == null)
             {
                 return NotFound();
@@ -61,10 +61,10 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Car/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, Car car)
+        [HttpPut("{CarId}")]
+        public async Task<IActionResult> PutCar(int CarId, Car car)
         {
-            if (id != car.Id)
+            if (CarId != car.Id)
             {
                 return BadRequest();
             }
@@ -77,7 +77,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarExists(id))
+                if (!CarExists(CarId))
                 {
                     return NotFound();
                 }
@@ -91,10 +91,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/Car/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCar(int id)
+        [HttpDelete("{CarId}")]
+        public async Task<IActionResult> DeleteCar(int CarId)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _context.Cars.FindAsync(CarId);
             if (car == null)
             {
                 return NotFound();
@@ -106,9 +106,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool CarExists(int id)
+        private bool CarExists(int CarId)
         {
-            return _context.Cars.Any(e => e.Id == id);
+            return _context.Cars.Any(e => e.Id == CarId);
         }
     }
 }

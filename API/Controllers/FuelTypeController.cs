@@ -29,10 +29,10 @@ namespace CarDepo.API.Controllers
         }
 
         // GET: api/FuelType/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<FuelType>> GetFuelType(int id)
+        [HttpGet("{FuelId}")]
+        public async Task<ActionResult<FuelType>> GetFuelType(int FuelId)
         {
-            var fuelType = await _context.FuelTypes.FindAsync(id);
+            var fuelType = await _context.FuelTypes.FindAsync(FuelId);
 
             if (fuelType == null)
             {
@@ -55,10 +55,10 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/FuelType/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFuelType(int id, FuelType fuelType)
+        [HttpPut("{FuelId}")]
+        public async Task<IActionResult> PutFuelType(int FuelId, FuelType fuelType)
         {
-            if (id != fuelType.Id)
+            if (FuelId != fuelType.Id)
             {
                 return BadRequest();
             }
@@ -71,7 +71,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FuelTypeExists(id))
+                if (!FuelTypeExists(FuelId))
                 {
                     return NotFound();
                 }
@@ -85,10 +85,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/FuelType/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFuelType(int id)
+        [HttpDelete("{FuelId}")]
+        public async Task<IActionResult> DeleteFuelType(int FuelId)
         {
-            var fuelType = await _context.FuelTypes.FindAsync(id);
+            var fuelType = await _context.FuelTypes.FindAsync(FuelId);
             if (fuelType == null)
             {
                 return NotFound();
@@ -100,9 +100,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool FuelTypeExists(int id)
+        private bool FuelTypeExists(int FuelId)
         {
-            return _context.FuelTypes.Any(e => e.Id == id);
+            return _context.FuelTypes.Any(e => e.Id == FuelId);
         }
     }
 }

@@ -29,10 +29,10 @@ namespace CarDepo.API.Controllers
         }
 
         // GET: api/Color/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Color>> GetColor(int id)
+        [HttpGet("{ColorId}")]
+        public async Task<ActionResult<Color>> GetColor(int ColorId)
         {
-            var color = await _context.Colors.FindAsync(id);
+            var color = await _context.Colors.FindAsync(ColorId);
 
             if (color == null)
             {
@@ -55,10 +55,10 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Color/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutColor(int id, Color color)
+        [HttpPut("{ColorId}")]
+        public async Task<IActionResult> PutColor(int ColorId, Color color)
         {
-            if (id != color.Id)
+            if (ColorId != color.Id)
             {
                 return BadRequest();
             }
@@ -71,7 +71,7 @@ namespace CarDepo.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColorExists(id))
+                if (!ColorExists(ColorId))
                 {
                     return NotFound();
                 }
@@ -85,10 +85,10 @@ namespace CarDepo.API.Controllers
         }
 
         // DELETE: api/Color/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColor(int id)
+        [HttpDelete("{ColorId}")]
+        public async Task<IActionResult> DeleteColor(int ColorId)
         {
-            var color = await _context.Colors.FindAsync(id);
+            var color = await _context.Colors.FindAsync(ColorId);
             if (color == null)
             {
                 return NotFound();
@@ -100,9 +100,9 @@ namespace CarDepo.API.Controllers
             return NoContent();
         }
 
-        private bool ColorExists(int id)
+        private bool ColorExists(int ColorId)
         {
-            return _context.Colors.Any(e => e.Id == id);
+            return _context.Colors.Any(e => e.Id == ColorId);
         }
     }
 }
