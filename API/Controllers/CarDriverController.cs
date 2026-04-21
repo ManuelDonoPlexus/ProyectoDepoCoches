@@ -59,8 +59,21 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CarDriver>> PostCarDriver(CarDriver carDriver)
         {
-            _context.CarConductors.Add(carDriver);
-            await _context.SaveChangesAsync();
+            CarDriver newCarDriver = carDriver;
+            newCarDriver.Car = carDriver.Car;
+            newCarDriver.CarCDId = carDriver.CarCDId;
+            newCarDriver.Driver = carDriver.Driver;
+            newCarDriver.DriverCDId = carDriver.DriverCDId;
+
+            try
+            {
+                _context.CarConductors.Add(newCarDriver);
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
 
             return CreatedAtAction("GetCarDriver", new { id = carDriver.Id }, carDriver);
         }

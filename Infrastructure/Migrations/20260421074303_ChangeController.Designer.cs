@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarDepo.Infrastructure.Migrations
 {
     [DbContext(typeof(CarDepoContext))]
-    [Migration("20260421063220_ChangeController")]
+    [Migration("20260421074303_ChangeController")]
     partial class ChangeController
     {
         /// <inheritdoc />

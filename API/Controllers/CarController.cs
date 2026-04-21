@@ -28,7 +28,6 @@ namespace CarDepo.API.Controllers
             var car = await _context.Cars
                 .Include(car => car.Color)
                 .Include(car => car.Make)
-                .ThenInclude(m => m.FuelType)
                 .Include(car => car.Owner)                
                 .ToListAsync();
             return await _context.Cars.ToListAsync();
@@ -41,7 +40,6 @@ namespace CarDepo.API.Controllers
             var car = await _context.Cars
                 .Include(car => car.Color)
                 .Include(car => car.Make)
-                .ThenInclude(m => m.FuelType)
                 .Include(car => car.Owner)
                 .FirstOrDefaultAsync(c=> c.Id == id);
             if (car == null)
@@ -49,6 +47,32 @@ namespace CarDepo.API.Controllers
                 return NotFound();
             }
             return car;
+        }
+
+        // POST: api/Car
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Car>> PostCar(Car car)
+        {
+            Car newCar = car;
+            newCar.ColorId = car.ColorId;
+            newCar.Color = car.Color;
+            newCar.MakeId = car.MakeId;
+            newCar.Make = car.Make;
+            newCar.OwnerId = car.OwnerId;
+            newCar.Owner = car.Owner;
+
+            try
+            {
+                _context.Cars.Add(newCar);
+                await _context.SaveChangesAsync();
+            }
+            catch (System.Exception)
+            {    
+                throw;
+            }
+
+            return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }
 
         // PUT: api/Car/5
@@ -80,17 +104,6 @@ namespace CarDepo.API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Car
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Car>> PostCar(Car car)
-        {
-            _context.Cars.Add(car);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }
 
         // DELETE: api/Car/5
