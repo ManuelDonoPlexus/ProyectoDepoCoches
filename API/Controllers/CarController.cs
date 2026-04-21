@@ -28,6 +28,7 @@ namespace CarDepo.API.Controllers
             var car = await _context.Cars
                 .Include(car => car.Color)
                 .Include(car => car.Make)
+                .ThenInclude(m => m.FuelType)
                 .Include(car => car.Owner)                
                 .ToListAsync();
             return await _context.Cars.ToListAsync();
@@ -40,6 +41,7 @@ namespace CarDepo.API.Controllers
             var car = await _context.Cars
                 .Include(car => car.Color)
                 .Include(car => car.Make)
+                .ThenInclude(m => m.FuelType)
                 .Include(car => car.Owner)
                 .FirstOrDefaultAsync(c=> c.Id == id);
             if (car == null)

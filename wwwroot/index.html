@@ -16,15 +16,15 @@
                 <button onclick="showView('carview')">Mostrar coches</button>
                 <button onclick="showView('makeview')">Mostrar modelos</button>
                 <button onclick="showView('ownerview')">Mostrar propietarios</button>
-                <button onclick="showView('driverview')">Mostrar conductores</button>
+                <button onclick="showView('cardriverview')">Mostrar conductores</button>
                 <button onclick="showView('fineview')">Mostrar multas</button>
             </div>
             <div class="addoperations">
-                <button onclick="">Crear coche</button>
-                <button onclick="">Crear modelo</button>
-                <button onclick="">Crear proietario</button>
-                <button onclick="">Crear conductor</button>
-                <button onclick="">Crear multa</button>
+                <button onclick="showView('carCreate')">Crear coche</button>
+                <button onclick="showView('makeCreate')">Crear modelo</button>
+                <button onclick="showView('ownerCreate')">Crear propietario</button>
+                <button onclick="showView('cardriverCreate')">Crear conductor</button>
+                <button onclick="showView('fineCreate')">Crear multa</button>
             </div>
         </div>
 
@@ -38,120 +38,175 @@
 
             <div id="carview">
                 <h2>Coches</h2>
-                <p id="counterCar">0 items</p>
 
-                <input type="text" id="carSearchbar" class="searchBar" onkeyup="searchCar()"
-                    placeholder="Buscar coche por matricula...">
+                <div id="carTable">
+                    <p id="counterCar">0 items</p>
+                    <input type="text" id="carSearchbar" class="searchBar" onkeyup="searchCar()"
+                        placeholder="Buscar coche por matricula...">
+                    <table>
+                        <tr>
+                            <th>Matricula</th>
+                            <th>Kilometros</th>
+                            <th>Color</th>
+                            <th>Propietario</th>
+                            <th>Modelo</th>
+                            <th colspan="2">Botones</th>
+                        </tr>
+                        <tbody id="carsTBody"></tbody>
+                    </table>
+                </div>
 
-                <table>
-                    <tr>
-                        <th>Matricula</th>
-                        <th>Kilometros</th>
-                        <th>Color</th>
-                        <th>Propietario</th>
-                        <th>Modelo</th>
-                        <th colspan="2">Botones</th>
-                    </tr>
-                    <tbody id="carsTBody"></tbody>
-                </table>
             </div>
 
             <div id="makeview">
                 <h2>Modelos</h2>
-                <p id="counterMake">0 items</p>
 
-                <input type="text" id="makeSearchBar" class="searchBar" onkeyup="searchMake()"
-                    placeholder="Buscar modelo por nombre...">
-                <table>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Poder de caballo</th>
-                        <th>Precio</th>
-                        <th>Combustible</th>
-                        <th colspan="2">Botones</th>
-                    </tr>
-                    <tbody id="makesTBody"></tbody>
-                </table>
+                <div id="makeTable">
+                    <p id="counterMake">0 items</p>
+                    <input type="text" id="makeSearchBar" class="searchBar" onkeyup="searchMake()"
+                        placeholder="Buscar modelo por nombre...">
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Poder de caballo</th>
+                            <th>Precio</th>
+                            <th>Combustible</th>
+                            <th colspan="2">Botones</th>
+                        </tr>
+                        <tbody id="makesTBody"></tbody>
+                    </table>
+                </div>
+
             </div>
 
             <div id="ownerview">
                 <h2>Propietarios</h2>
-                <p id="counterOwner">0 items</p>
 
-                <input type="text" id="ownerSearchbar" class="searchBar" onkeyup="searchOwner()"
-                    placeholder="Buscar propietario por nombre...">
-                <table>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>NIF</th>
-                        <th>Fecha de entrada</th>
-                        <th>Telefono</th>
-                        <th>Dirección de correo</th>
-                        <th colspan="2">Botones</th>
-                    </tr>
-                    <tbody id="ownersTBody"></tbody>
-                </table>
-            </div>
-
-            <div id="driverview">
-                <h2>Conductores</h2>
-
-                <div id="drivers">
-                    <p><b>Lista de Conductores</b></p>
-                    <p id="counterDriver">0 items</p>
-                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchDriver()"
-                        placeholder="Buscar conductor por nombre...">
+                <div id="ownerTable">
+                    <p id="counterOwner">0 items</p>
+                    <input type="text" id="ownerSearchbar" class="searchBar" onkeyup="searchOwner()"
+                        placeholder="Buscar propietario por nombre...">
                     <table>
                         <tr>
                             <th>Nombre</th>
-                            <th>DNI</th>
+                            <th>NIF</th>
+                            <th>Fecha de entrada</th>
                             <th>Telefono</th>
                             <th>Dirección de correo</th>
-                            <th>Propietario asociado</th>
                             <th colspan="2">Botones</th>
                         </tr>
-                        <tbody id="driversTBody"></tbody>
+                        <tbody id="ownersTBody"></tbody>
                     </table>
                 </div>
 
-                <div id="cardrivers">
-                    <p><b>Conductores asociados a vehiculos</b></p>
+            </div>
+
+            <div id="cardriverview">
+                <h2>Conductores</h2>
+
+                <div id="cardriverTable">
                     <p id="counterCarDriver">0 items</p>
-                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchCarDrivers()"
+                    <input type="text" id="cardriverSearchbar" class="searchBar" onkeyup="searchCarDriver()"
                         placeholder="Buscar conductor por nombre...">
                     <table>
                         <tr>
                             <th>Nombre del conductor</th>
+                            <th>DNI</th>
+                            <th>Telefono</th>
+                            <th>Dirección de correo</th>
                             <th>Fecha de conducción</th>
                             <th>Vehiculo asociado</th>
+                            <th>Propietario asociado</th>
                             <th colspan="2">Botones</th>
                         </tr>
                         <tbody id="cardriversTBody"></tbody>
                     </table>
                 </div>
+
             </div>
 
             <div id="fineview">
                 <h2>Multas</h2>
-                <p id="counterFine">0 items</p>
 
-                <input type="text" id="fineSearchbar" class="searchBar" onkeyup="searchDriver()"
-                    placeholder="Buscar multa por fecha...">
-                <table>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Importe</th>
-                        <th>Descripción</th>
-                        <th>Estado</th>
-                        <th>Propietario asociado</th>
-                        <th>Coche asociado</th>
-                        <th colspan="2">Botones</th>
-                    </tr>
-                    <tbody id="finesTBody"></tbody>
-                </table>
+                <div id="fineTable">
+                    <p id="counterFine">0 items</p>
+                    <input type="text" id="fineSearchbar" class="searchBar" onkeyup="searchDriver()"
+                        placeholder="Buscar multa por fecha...">
+                    <table>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Importe</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Propietario asociado</th>
+                            <th>Coche asociado</th>
+                            <th colspan="2">Botones</th>
+                        </tr>
+                        <tbody id="finesTBody"></tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div id="carCreate">
+                <h2>Añadir coche a la base de datos</h2>
+                <input id="add-car-license" type="text" placeholder="Matricula">
+                <input id="add-car-kms" type="number" placeholder="Kilometros">
+                <input id="add-car-color" list="colorList" placeholder="Color asociado">
+                <input id="add-car-owner" list="ownerList" placeholder="Propietario asociado">
+                <input id="add-car-make" list="makeList" placeholder="Modelo asociado">
+                <button onclick="addCar()">Añadir coche</button>
+            </div>
+
+            <div id="makeCreate">
+                <h2>Añadir modelo a la base de datos</h2>
+                <input id="add-make-name" type="text" placeholder="Nombre">
+                <input id="add-make-horsepower" type="number" placeholder="Poder de caballo">
+                <input id="add-make-price" type="number" placeholder="Precio">
+                <input id="add-make-fuel" list="fuelList" placeholder="Combustible">
+                <button onclick="addMake()">Añadir modelo</button>
+            </div>
+
+            <div id="ownerCreate">
+                <h2>Añadir propietario a la base de datos</h2>
+                <input id="add-owner-name" type="text" placeholder="Nombre">
+                <input id="add-owner-nif" type="text" placeholder="Nif">
+                <input id="add-owner-tel" type="tel" placeholder="Numero de telefono">
+                <input id="add-owner-date" type="date" placeholder="Fecha de entrada">
+                <input id="add-owner-email" type="email" placeholder="Dirección de correo">
+                <button onclick="addOwner()">Añadir propietario</button>
+            </div>
+
+            <div id="cardriverCreate">
+                <h2>Añadir conductor a la base de datos</h2>
+                <input id="add-driver-name" type="text" placeholder="Nombre">
+                <input id="add-driver-dni" type="text" placeholder="DNI">
+                <input id="add-driver-email" type="email" placeholder="Dirección de correo">
+                <input id="add-driver-tel" type="tel" placeholder="Telefono">
+                <input id="add-driver-owner" list="ownerList" placeholder="Propietario asociado">
+
+                <input id="add-driver-date" type="date" placeholder="Fecha de conducción">
+                <button onclick="addDriver()">Añadir conductor</button>
+            </div>
+
+            <div id="fineCreate">
+                <h2>Añadir multa a la base de datos</h2>
+                <input id="add-fine-price" type="number" placeholder="Precio">
+                <input id="add-fine-description" type="text" placeholder="Descripción">
+                <input id="add-fine-date" type="date" placeholder="Fecha">
+                <input id="add-fine-car" list="carList" placeholder="Vehiculo asociado">
+                <input id="add-fine-owner" list="ownerList" placeholder="Propietario asociado">
+                <button onclick="addFine()">Añadir multa</button>
             </div>
 
         </div>
+
+        <datalist id="carList"></datalist>
+        <datalist id="colorList"></datalist>
+        <datalist id="driverList"></datalist>
+        <datalist id="fuelList"></datalist>
+        <datalist id="makeList"></datalist>
+        <datalist id="ownerList"></datalist>
 
     </div>
 

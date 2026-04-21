@@ -13,9 +13,9 @@ public class Make
     public decimal Price { get; set; }
     
     // Fuel
+    [Required]
     [ForeignKey(nameof(FuelType))]
     public required int FuelTypeId { get; set; }
-    [Required]
     public virtual FuelType FuelType { get; set; }
 
 }

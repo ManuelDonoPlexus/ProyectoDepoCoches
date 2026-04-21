@@ -12,13 +12,13 @@ public class CarDriver
 
     // Car
     [ForeignKey(nameof(Car))]
-    public int CarCDId { get; set; }
     [Required]
+    public int CarCDId { get; set; }
     public Car Car { get; set; }
     
     // Conductor
     [ForeignKey(nameof(Driver))]
-    public int DriverCDId { get; set; }
     [Required]
+    public int DriverCDId { get; set; }
     public Driver Driver { get; set; }
 }

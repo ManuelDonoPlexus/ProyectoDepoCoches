@@ -16,7 +16,7 @@ public class Driver
 
     // Owner
     [ForeignKey(nameof(Owner))]
-    public required int OwnerId { get; set; } 
     [Required]
+    public required int OwnerId { get; set; } 
     public Owner Owner { get; set; }
 }
