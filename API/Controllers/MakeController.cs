@@ -25,11 +25,10 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Make>>> GetMakes()
         {
-            var makes = await _context.Makes
+            return await _context.Makes
                 .Include(m => m.FuelType)
                 .AsNoTracking()
                 .ToListAsync();
-            return makes;
         }
 
         // GET: api/Make/(id)
@@ -53,19 +52,8 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Make>> PostMake(Make make)
         {
-            Make newMake = make;
-            newMake.FuelTypeId = make.FuelTypeId;
-            newMake.FuelType = make.FuelType;
-
-            try
-            {
-                _context.Makes.Add(newMake);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Makes.Add(make);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMake", new { id = make.Id }, make);
         }

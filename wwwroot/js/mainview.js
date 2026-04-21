@@ -16,6 +16,7 @@ let owners = [];
 let fines = [];
 let fuels = [];
 let currentview = "welcomeview";
+let currentdriverview = "";
 
 // Función para inicializar
 
@@ -39,6 +40,9 @@ function initialize() {
     document.getElementById("ownerCreate").style.display = "none";
     document.getElementById("cardriverCreate").style.display = "none";
     document.getElementById("fineCreate").style.display = "none";
+
+    document.getElementById("drivers").style.display = "none";
+    document.getElementById("cardrivers").style.display = "none";
 }
 
 // Para mostrar un recuento de una entidad
@@ -56,6 +60,13 @@ function showView(id) {
     document.getElementById(id).style.display = "initial";
     document.getElementsByClassName("searchBar").value = "";
     currentview = id;
+}
+
+function showDrivers(id) {
+    if (document.getElementById(currentdriverview) != null) { document.getElementById(currentdriverview).style.display = "none" }
+
+    document.getElementById(id).style.display = "initial";
+    currentdriverview = id;
 }
 
 // Para obtener los datos de ciertas entidades de la base de datos 
@@ -97,7 +108,9 @@ async function getDrivers() {
     try {
         const response = await fetch(baseurl + uriDriver);
         drivers = await response.json();
+        _displayCount(drivers.length, "counterDriver");
         _fillDriverList();
+        _displayDrivers();
     } catch (error) {
         console.error('Unable to get drivers: ', error);
     }
@@ -106,7 +119,7 @@ async function getDrivers() {
 async function getFines() {
     try {
         const response = await fetch(baseurl + uriFine);
-        drivers = await response.json();
+        fines = await response.json();
         _displayCount(fines.length, "counterFine")
         _displayFines();
     } catch (error) {
@@ -334,14 +347,13 @@ function _displayCars() {
     })
 }
 
-function _displayCarDrivers() {
-    const tBody = document.getElementById("cardriversTBody");
+function _displayDrivers() {
+    const tBody = document.getElementById("driversTBody");
     tBody.innerHTML;
 
     const bton = document.createElement("button");
 
-    cardrivers.forEach(driver => {
-
+    drivers.forEach(driver => {
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("class", "detailsBton");
@@ -349,7 +361,57 @@ function _displayCarDrivers() {
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
         deleteBton.setAttribute("class", "deleteBton");
-        deleteBton.setAttribute("onclick", `deleteDriver(${driver.driver.id})`);
+
+        let tr = tBody.insertRow();
+        tr.setAttribute("class", "driver")
+
+        let td0 = tr.insertCell(0);
+        td0.setAttribute("class", "driverName");
+        let txtNode0 = document.createTextNode(driver.name);
+        td0.appendChild(txtNode0);
+
+        let td1 = tr.insertCell(1);
+        td1.setAttribute("class", "driverDNI");
+        let txtNode1 = document.createTextNode(driver.dni);
+        td1.appendChild(txtNode1);
+
+        let td2 = tr.insertCell(2);
+        td2.setAttribute("class", "driverPhone");
+        if (driver.phoneNumber === null) { td2.innerText = "-" }
+        else { td2.appendChild(document.createTextNode(driver.phoneNumber)) }
+
+        let td3 = tr.insertCell(3);
+        td3.setAttribute("class", "driverEmail");        
+        if (driver.emailAddr == null) { td3.innerText = "-" }
+        else { td3.appendChild(document.createTextNode(driver.emailAddr)) }
+
+        let td4 = tr.insertCell(4);
+        td4.setAttribute("class", "driverAssociatedOwner");
+        let txtNode4 = document.createTextNode(driver.owner.name);
+        td4.appendChild(txtNode4);
+
+        let td5 = tr.insertCell(5);
+        td5.appendChild(detailsBton);
+
+        let td6 = tr.insertCell(6);
+        td6.appendChild(deleteBton);
+    })
+}
+
+function _displayCarDrivers(){
+    const tBody = document.getElementById("cardriversTBody");
+    tBody.innerHTML;
+
+    const bton = document.createElement("button");
+
+    cardrivers.forEach(driver => {
+        let detailsBton = bton.cloneNode(false);
+        detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("class", "detailsBton");
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
         tr.setAttribute("class", "cardriver")
@@ -360,40 +422,20 @@ function _displayCarDrivers() {
         td0.appendChild(txtNode0);
 
         let td1 = tr.insertCell(1);
-        td1.setAttribute("class", "cardriverDNI");
-        let txtNode1 = document.createTextNode(driver.driver.dni);
+        td1.setAttribute("class", "cardriverDate");
+        let txtNode1 = document.createTextNode(driver.dateDrive);
         td1.appendChild(txtNode1);
 
         let td2 = tr.insertCell(2);
-        td2.setAttribute("class", "cardriverEmail");
-        if (driver.driver.emailAddr === null) { td2.innerText = "-" }
-        else { td2.appendChild(document.createTextNode(driver.driver.emailAddr)) }
+        td2.setAttribute("class", "cardriverAssociatedCar");
+        let txtNode2 = document.createTextNode(driver.car.license);
+        td2.appendChild(txtNode2);
 
         let td3 = tr.insertCell(3);
-        td3.setAttribute("class", "cardriverPhoneNumber");
-        if (driver.driver.phoneNumber === null) { td3.innerText = "-" }
-        else { td3.appendChild(document.createTextNode(driver.driver.phoneNumber)) }
+        td3.appendChild(detailsBton);
 
         let td4 = tr.insertCell(4);
-        td4.setAttribute("class", "cardriverDate");
-        let txtNode4 = document.createTextNode(driver.dateDrive);
-        td4.appendChild(txtNode4);
-
-        let td5 = tr.insertCell(5);
-        td5.setAttribute("class", "cardriverAssociatedCar");
-        let txtNode5 = document.createTextNode(driver.car.license);
-        td5.appendChild(txtNode5);
-
-        let td6 = tr.insertCell(6);
-        td6.setAttribute("class", "cardriverAssociatedOwner");
-        let txtNode6 = document.createTextNode(driver.driver.owner.name);
-        td6.appendChild(txtNode6);
-
-        let td7 = tr.insertCell(7);
-        td7.appendChild(detailsBton);
-
-        let td8 = tr.insertCell(8);
-        td8.appendChild(deleteBton);
+        td4.appendChild(deleteBton);
     })
 }
 
@@ -542,8 +584,9 @@ function _displayFines() {
         td4.appendChild(txtNode4);
 
         let td5 = tr.insertCell(5);
-        td5, setAttribute("class", "fineCarAssociate");
-        let txtNode5 = document.createTextNode(fine.car.license)
+        td5.setAttribute("class", "fineCarAssociate");
+        let txtNode5 = document.createTextNode(fine.car.license);
+        td5.appendChild(txtNode5);
 
         let td6 = tr.insertCell(6);
         td6.appendChild(detailsBton);
@@ -673,7 +716,6 @@ function addMake() {
         name: addName.value.trim(),
         horsePower: addHP.value.trim(),
         price: addPrice.value.trim(),
-        fuelType: addFuel,
         fuelTypeId: addFuel.id
     }
 
@@ -686,7 +728,7 @@ function addMake() {
         body: JSON.stringify(make)
     })
         .then(response => response.json)
-        //.then(() => location.reload())
+        .then(() => location.reload())
         .catch(error => console.error("Unable to add make to database. ", error))
 }
 
@@ -707,9 +749,7 @@ function addFine() {
         date: addDate.value.trim(),
         payed: false,
         ownerId: addOwner.id,
-        owner: addOwner,
         carId: addCar.id,
-        car: addCar
 
     }
     console.log(fine);
@@ -741,11 +781,8 @@ function addCar() {
     const car = {
         license: addLicense.value.trim(),
         kms: addKms.value.trim(),
-        color: addColor,
         colorId: addColor.id,
-        owner: addOwner,
         ownerId: addOwner.id,
-        make: addMake,
         makeId: addMake.id
     }
 
@@ -758,7 +795,7 @@ function addCar() {
         body: JSON.stringify(car)
     })
         .then(respone => respone.json())
-        .then(() => reload())
+        .then(() => location.reload())
         .catch(error => console.error("Unable to add fine to database. ", error))
 }
 
@@ -779,7 +816,6 @@ function addDriver() {
         dni: addDni.value.trim(),
         emailAddr: addEmail.value.trim(),
         phoneNumber: addTel.value.trim(),
-        owner: addOwner,
         ownerId: addOwner.id
     }
 
@@ -792,8 +828,7 @@ function addDriver() {
         body: JSON.stringify(driver)
     })
         .then(respone => respone.json())
-        .then(addCarDriver(addDate.value.trim(), addCar.value.trim(), addName.value.trim()))
-        .then(() => reload())
+        .then(() => location.reload())
         .catch(error => console.error("Unable to add fine to database. ", error))
 }
 
@@ -803,9 +838,7 @@ function addCarDriver(addDate, addCar, addDriver) {
 
     const cardriver = {
         date: addDate,
-        car: carToAdd,
         carId: carToAdd.id,
-        driver: driverToAdd,
         driverId: driverToAdd.id
     }
 
@@ -818,7 +851,7 @@ function addCarDriver(addDate, addCar, addDriver) {
         body: JSON.stringify(cardriver)
     })
         .then(respone => respone.json())
-        .then(() => reload())
+        .then(() => location.reload())
         .catch(error => console.error("Unable to add fine to database. ", error))
 }
 

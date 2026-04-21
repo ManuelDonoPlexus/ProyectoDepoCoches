@@ -18,11 +18,11 @@ public class Fine
     [ForeignKey(nameof(Owner))]
     [Required]
     public required int OwnerId { get; set; }
-    public Owner Owner { get; set; }
+    public virtual Owner? Owner { get; set; }
 
     // Owner
     [ForeignKey(nameof(Car))]
-    public required int CarId { get; set; }
     [Required]
-    public Car Car { get; set; }
+    public required int CarId { get; set; }
+    public virtual Car? Car { get; set; }
 }

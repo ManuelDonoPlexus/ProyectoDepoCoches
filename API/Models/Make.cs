@@ -16,6 +16,6 @@ public class Make
     [Required]
     [ForeignKey(nameof(FuelType))]
     public required int FuelTypeId { get; set; }
-    public virtual FuelType FuelType { get; set; }
+    public virtual FuelType? FuelType { get; set; }
 
 }

@@ -25,11 +25,10 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
         {
-            var driver = await _context.Drivers
+            return await _context.Drivers
                 .Include(d => d.Owner)
                 .AsNoTracking()
                 .ToListAsync();
-            return driver;
         }
 
         // GET: api/Driver/5
@@ -53,19 +52,8 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Driver>> PostDriver(Driver driver)
         {
-            Driver newDriver = driver;
-            newDriver.Owner = driver.Owner;
-            newDriver.OwnerId = driver.OwnerId;
-
-            try
-            {
-                _context.Drivers.Add(newDriver);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Drivers.Add(driver);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetDriver", new { id = driver.Id }, driver);
         }

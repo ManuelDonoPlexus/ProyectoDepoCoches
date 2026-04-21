@@ -16,17 +16,17 @@ public class Car
     [ForeignKey(nameof(Color))]
     [Required]
     public required int ColorId { get; set; }
-    public virtual Color Color { get; set; }
+    public virtual Color? Color { get; set; }
     
     // Owner
     [ForeignKey(nameof(Owner))]
     [Required]
     public required int OwnerId { get; set; }
-    public virtual Owner Owner { get; set; }
+    public virtual Owner? Owner { get; set; }
     
     // Make
     [ForeignKey(nameof(Make))]
     [Required]
     public required int MakeId { get; set; }
-    public Make Make { get; set; }
+    public Make? Make { get; set; }
 }

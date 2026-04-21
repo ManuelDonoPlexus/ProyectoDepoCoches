@@ -24,14 +24,12 @@ namespace CarDepo.API.Controllers
         // GET: api/Fine
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Fine>>> GetFines()
-        {
-            var fine =  await _context.Fines
+        {            
+            return await _context.Fines
                 .Include(f => f.Owner)
                 .Include(f => f.Car)
                 .AsNoTracking()
                 .ToListAsync();
-            
-            return fine;
         }
 
         // GET: api/Fine/5
@@ -57,21 +55,8 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Fine>> PostFine(Fine fine)
         {
-            Fine newFine = fine;
-            newFine.Car = fine.Car;
-            newFine.CarId = fine.CarId;
-            newFine.Owner = fine.Owner;
-            newFine.OwnerId = fine.OwnerId;
-
-            try
-            {
-                _context.Fines.Add(newFine);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.Fines.Add(fine);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetFine", new { id = fine.Id }, fine);
         }

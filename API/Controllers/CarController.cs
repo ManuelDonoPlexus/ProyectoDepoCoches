@@ -25,12 +25,11 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
-            var car = await _context.Cars
+            return await _context.Cars
                 .Include(car => car.Color)
                 .Include(car => car.Make)
                 .Include(car => car.Owner)                
                 .ToListAsync();
-            return await _context.Cars.ToListAsync();
         }
 
         // GET: api/Car/5
@@ -54,23 +53,8 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Car>> PostCar(Car car)
         {
-            Car newCar = car;
-            newCar.ColorId = car.ColorId;
-            newCar.Color = car.Color;
-            newCar.MakeId = car.MakeId;
-            newCar.Make = car.Make;
-            newCar.OwnerId = car.OwnerId;
-            newCar.Owner = car.Owner;
-
-            try
-            {
-                _context.Cars.Add(newCar);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {    
-                throw;
-            }
+            _context.Cars.Add(car);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }

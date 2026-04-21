@@ -42,6 +42,17 @@ namespace CarDepo.API.Controllers
             return fuelType;
         }
 
+        // POST: api/FuelType
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<FuelType>> PostFuelType(FuelType fuelType)
+        {
+            _context.FuelTypes.Add(fuelType);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetFuelType", new { id = fuelType.Id }, fuelType);
+        }
+
         // PUT: api/FuelType/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -71,17 +82,6 @@ namespace CarDepo.API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/FuelType
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<FuelType>> PostFuelType(FuelType fuelType)
-        {
-            _context.FuelTypes.Add(fuelType);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetFuelType", new { id = fuelType.Id }, fuelType);
         }
 
         // DELETE: api/FuelType/5

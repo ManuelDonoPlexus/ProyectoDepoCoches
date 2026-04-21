@@ -42,6 +42,17 @@ namespace CarDepo.API.Controllers
             return color;
         }
 
+        // POST: api/Color
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Color>> PostColor(Color color)
+        {
+            _context.Colors.Add(color);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetColor", new { id = color.Id }, color);
+        }
+
         // PUT: api/Color/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -71,17 +82,6 @@ namespace CarDepo.API.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Color
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
-        {
-            _context.Colors.Add(color);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetColor", new { id = color.Id }, color);
         }
 
         // DELETE: api/Color/5

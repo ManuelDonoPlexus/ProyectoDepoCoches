@@ -25,14 +25,11 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarDriver>>> GetCarConductors()
         {
-            var cardrivers = await _context.CarConductors
+            return await _context.CarConductors
                 .Include(cd => cd.Driver)
-                .ThenInclude(d => d.Owner)
                 .Include(cd => cd.Car)
-                .ThenInclude(c => c.Color)
                 .AsNoTracking()
                 .ToListAsync();
-            return cardrivers;
         }
 
         // GET: api/CarDriver/5
@@ -41,9 +38,7 @@ namespace CarDepo.API.Controllers
         {
             var carDriver = await _context.CarConductors
                 .Include(cd => cd.Driver)
-                .ThenInclude(d => d.Owner)
                 .Include(cd => cd.Car)
-                .ThenInclude(c => c.Color)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cd => cd.Id == id);
 
@@ -59,21 +54,8 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CarDriver>> PostCarDriver(CarDriver carDriver)
         {
-            CarDriver newCarDriver = carDriver;
-            newCarDriver.Car = carDriver.Car;
-            newCarDriver.CarCDId = carDriver.CarCDId;
-            newCarDriver.Driver = carDriver.Driver;
-            newCarDriver.DriverCDId = carDriver.DriverCDId;
-
-            try
-            {
-                _context.CarConductors.Add(newCarDriver);
-                await _context.SaveChangesAsync();
-            }
-            catch (System.Exception)
-            {
-                throw;
-            }
+            _context.CarConductors.Add(carDriver);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCarDriver", new { id = carDriver.Id }, carDriver);
         }

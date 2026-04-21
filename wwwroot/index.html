@@ -104,19 +104,37 @@
             <div id="cardriverview">
                 <h2>Conductores</h2>
 
-                <div id="cardriverTable">
+                <button class="regularBton" onclick="showDrivers('drivers')">Mostrar todos los conductores de la base de datos</button>
+                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar a los conductores asociados a un vehiculo</button>
+
+                <div id="drivers">
+                    <p><b>Lista de Conductores</b></p>
+                    <p id="counterDriver">0 items</p>
+                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchDriver()"
+                        placeholder="Buscar conductor por nombre...">
+                    <table>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>DNI</th>
+                            <th>Telefono</th>
+                            <th>Dirección de correo</th>
+                            <th>Propietario asociado</th>
+                            <th colspan="2">Botones</th>
+                        </tr>
+                        <tbody id="driversTBody"></tbody>
+                    </table>
+                </div>
+
+                <div id="cardrivers">
+                    <p><b>Conductores asociados a vehiculos</b></p>
                     <p id="counterCarDriver">0 items</p>
-                    <input type="text" id="cardriverSearchbar" class="searchBar" onkeyup="searchCarDriver()"
+                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchCarDrivers()"
                         placeholder="Buscar conductor por nombre...">
                     <table>
                         <tr>
                             <th>Nombre del conductor</th>
-                            <th>DNI</th>
-                            <th>Telefono</th>
-                            <th>Dirección de correo</th>
                             <th>Fecha de conducción</th>
                             <th>Vehiculo asociado</th>
-                            <th>Propietario asociado</th>
                             <th colspan="2">Botones</th>
                         </tr>
                         <tbody id="cardriversTBody"></tbody>
@@ -148,7 +166,7 @@
 
             </div>
 
-            <div id="carCreate">
+            <div class="addView" id="carCreate">
                 <h2>Añadir coche a la base de datos</h2>
                 <input id="add-car-license" type="text" placeholder="Matricula">
                 <input id="add-car-kms" type="number" placeholder="Kilometros">
@@ -158,7 +176,7 @@
                 <button onclick="addCar()">Añadir coche</button>
             </div>
 
-            <div id="makeCreate">
+            <div class="addView" id="makeCreate">
                 <h2>Añadir modelo a la base de datos</h2>
                 <input id="add-make-name" type="text" placeholder="Nombre">
                 <input id="add-make-horsepower" type="number" placeholder="Poder de caballo">
@@ -167,7 +185,7 @@
                 <button onclick="addMake()">Añadir modelo</button>
             </div>
 
-            <div id="ownerCreate">
+            <div class="addView" id="ownerCreate">
                 <h2>Añadir propietario a la base de datos</h2>
                 <input id="add-owner-name" type="text" placeholder="Nombre">
                 <input id="add-owner-nif" type="text" placeholder="Nif">
@@ -177,7 +195,7 @@
                 <button onclick="addOwner()">Añadir propietario</button>
             </div>
 
-            <div id="cardriverCreate">
+            <div class="addView" id="cardriverCreate">
                 <h2>Añadir conductor a la base de datos</h2>
                 <input id="add-driver-name" type="text" placeholder="Nombre">
                 <input id="add-driver-dni" type="text" placeholder="DNI">
@@ -189,7 +207,7 @@
                 <button onclick="addDriver()">Añadir conductor</button>
             </div>
 
-            <div id="fineCreate">
+            <div class="addView" id="fineCreate">
                 <h2>Añadir multa a la base de datos</h2>
                 <input id="add-fine-price" type="number" placeholder="Precio">
                 <input id="add-fine-description" type="text" placeholder="Descripción">
