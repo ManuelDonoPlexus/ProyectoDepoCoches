@@ -808,9 +808,6 @@ function addDriver() {
 
     const addOwner = getSpecificOwner(addOwnerName.value.trim());
 
-    const addDate = document.getElementById("add-driver-date");
-    const addCarName = document.getElementById("add-driver-car");
-
     const driver = {
         name: addName.value.trim(),
         dni: addDni.value.trim(),
