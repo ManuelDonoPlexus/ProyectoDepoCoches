@@ -32,13 +32,13 @@ function initialize() {
     document.getElementById("carview").style.display = "none";
     document.getElementById("makeview").style.display = "none";
     document.getElementById("ownerview").style.display = "none";
-    document.getElementById("cardriverview").style.display = "none";
+    document.getElementById("driverview").style.display = "none";
     document.getElementById("fineview").style.display = "none";
 
     document.getElementById("carCreate").style.display = "none";
     document.getElementById("makeCreate").style.display = "none";
     document.getElementById("ownerCreate").style.display = "none";
-    document.getElementById("cardriverCreate").style.display = "none";
+    document.getElementById("driverCreate").style.display = "none";
     document.getElementById("fineCreate").style.display = "none";
 
     document.getElementById("drivers").style.display = "none";
@@ -60,6 +60,9 @@ function showView(id) {
     document.getElementById(id).style.display = "initial";
     document.getElementsByClassName("searchBar").value = "";
     currentview = id;
+
+    document.getElementById("drivers").style.display = "none"
+    document.getElementById("cardrivers").style.display = "none"
 }
 
 function showDrivers(id) {
