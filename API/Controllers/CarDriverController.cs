@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
+using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.API.Controllers
 {
@@ -14,39 +15,27 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class CarDriverController : ControllerBase
     {
-        private readonly CarDepoContext _context;
+        private readonly ICarDriverRepository _cardriverRepo;
 
-        public CarDriverController(CarDepoContext context)
+        public CarDriverController(ICarDriverRepository cardriverRepo)
         {
-            _context = context;
+            _cardriverRepo = cardriverRepo;
         }
 
         // GET: api/CarDriver
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarDriver>>> GetCarConductors()
+        public async Task<ActionResult<IEnumerable<CarDriver>>> GetCarDrivers()
         {
-            return await _context.CarConductors
-                .Include(cd => cd.Driver)
-                .Include(cd => cd.Car)
-                .AsNoTracking()
-                .ToListAsync();
+            var cardrivers = Ok(await _cardriverRepo.GetCarDrivers());
+            return cardrivers;
         }
 
         // GET: api/CarDriver/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CarDriver>> GetCarDriver(int CDId)
+        [HttpGet("{CarDriverId}")]
+        public async Task<ActionResult<CarDriver>> GetCarDriver(int CarDriverId)
         {
-            var carDriver = await _context.CarConductors
-                .Include(cd => cd.Driver)
-                .Include(cd => cd.Car)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(cd => cd.Id == CDId);
-
-            if (carDriver == null)
-            {
-                return NotFound();
-            }
-
+            var carDriver = await _cardriverRepo.GetCarDriver(CarDriverId);
+            if (carDriver == null) { return NotFound(); }
             return carDriver;
         }
 
@@ -54,61 +43,36 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CarDriver>> PostCarDriver(CarDriver carDriver)
         {
-            _context.CarConductors.Add(carDriver);
-            await _context.SaveChangesAsync();
-
+            await _cardriverRepo.InsertCarDriver(carDriver);
             return CreatedAtAction("GetCarDriver", new { id = carDriver.Id }, carDriver);
         }
 
         // PUT: api/CarDriver/5
-        [HttpPut("{CDId}")]
-        public async Task<IActionResult> PutCarDriver(int CDId, CarDriver carDriver)
+        [HttpPut("{CarDriverId}")]
+        public async Task<IActionResult> PutCarDriver(int CarDriverId, CarDriver carDriver)
         {
-            if (CDId != carDriver.Id)
-            {
-                return BadRequest();
-            }
+            if (CarDriverId != carDriver.Id) { return BadRequest(); }
 
-            _context.Entry(carDriver).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
+            try { await _cardriverRepo.UpdateCarDriver(CarDriverId, carDriver); }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarDriverExists(CDId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!_cardriverRepo.IfCarDriverExists(CarDriverId)) { return NotFound(); }
+                else { throw; }
             }
 
             return NoContent();
         }
 
         // DELETE: api/CarDriver/5
-        [HttpDelete("{CDId}")]
-        public async Task<IActionResult> DeleteCarDriver(int CDId)
+        [HttpDelete("{CarDriverId}")]
+        public async Task<IActionResult> DeleteCarDriver(int CarDriverId)
         {
-            var carDriver = await _context.CarConductors.FindAsync(CDId);
-            if (carDriver == null)
-            {
-                return NotFound();
-            }
+            var cardriver = await _cardriverRepo.GetCarDriver(CarDriverId);
+            if (cardriver == null) { return NotFound(); }
 
-            _context.CarConductors.Remove(carDriver);
-            await _context.SaveChangesAsync();
+            await _cardriverRepo.DeleteCarDriver(CarDriverId);
 
             return NoContent();
-        }
-
-        private bool CarDriverExists(int CDId)
-        {
-            return _context.CarConductors.Any(e => e.Id == CDId);
         }
     }
 }

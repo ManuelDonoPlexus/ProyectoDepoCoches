@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
+using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.API.Controllers
 {
@@ -14,36 +15,27 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class MakeController : ControllerBase
     {
-        private readonly CarDepoContext _context;
+        private readonly IMakeRepository _makeRepo;
 
-        public MakeController(CarDepoContext context)
+        public MakeController(IMakeRepository makeRepo)
         {
-            _context = context;
+            _makeRepo = makeRepo;
         }
 
         // GET: api/Make
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Make>>> GetMakes()
         {
-            return await _context.Makes
-                .Include(m => m.FuelType)
-                .AsNoTracking()
-                .ToListAsync();
+            var makes = Ok(await _makeRepo.GetMakes());
+            return makes;
         }
 
         // GET: api/Make/(id)
         [HttpGet("{MakeId}")]
         public async Task<ActionResult<Make>> GetMake(int MakeId)
         {
-            var make = await _context.Makes
-                .Include(m => m.FuelType)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Id == MakeId);
-
-            if (make == null)
-            {
-                return NotFound();
-            }
+            var make = await _makeRepo.GetMake(MakeId);
+            if (make == null){return NotFound();}
 
             return make;
         }
@@ -52,9 +44,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Make>> PostMake(Make make)
         {
-            _context.Makes.Add(make);
-            await _context.SaveChangesAsync();
-
+            await _makeRepo.InsertMake(make);
             return CreatedAtAction("GetMake", new { id = make.Id }, make);
         }
 
@@ -62,27 +52,16 @@ namespace CarDepo.API.Controllers
         [HttpPut("{MakeId}")]
         public async Task<IActionResult> PutMake(int MakeId, Make make)
         {
-            if (MakeId != make.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(make).State = EntityState.Modified;
+            if (MakeId != make.Id) { return BadRequest(); }
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _makeRepo.UpdateMake(MakeId, make);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MakeExists(MakeId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!_makeRepo.IfMakeExists(MakeId)) { return NotFound(); }
+                else { throw; }
             }
 
             return NoContent();
@@ -92,21 +71,11 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{MakeId}")]
         public async Task<IActionResult> DeleteMake(int MakeId)
         {
-            var make = await _context.Makes.FindAsync(MakeId);
-            if (make == null)
-            {
-                return NotFound();
-            }
-
-            _context.Makes.Remove(make);
-            await _context.SaveChangesAsync();
-
+            var make = await _makeRepo.GetMake(MakeId);
+            if (make == null) { return NotFound(); }
+            await _makeRepo.DeleteMake(MakeId);
             return NoContent();
         }
 
-        private bool MakeExists(int MakeId)
-        {
-            return _context.Makes.Any(e => e.Id == MakeId);
-        }
     }
 }

@@ -6,7 +6,7 @@ namespace CarDepo.Infrastructure.Data
     public class CarDepoContext(DbContextOptions<CarDepoContext> options) : DbContext(options)
     {
         public DbSet<API.Models.Car> Cars { get; set; } = default!;
-        public DbSet<API.Models.CarDriver> CarConductors { get; set; } = default!;
+        public DbSet<API.Models.CarDriver> CarDrivers { get; set; } = default!;
         public DbSet<API.Models.Color> Colors { get; set; } = default!;
         public DbSet<API.Models.Driver> Drivers { get; set; } = default!;
         public DbSet<API.Models.Fine> Fines { get; set; } = default!;

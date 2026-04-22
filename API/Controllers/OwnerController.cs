@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
+using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.API.Controllers
 {
@@ -14,31 +15,27 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class OwnerController : ControllerBase
     {
-        private readonly CarDepoContext _context;
+        private readonly IOwnerRepository _ownerRepo;
 
-        public OwnerController(CarDepoContext context)
+        public OwnerController(IOwnerRepository ownerRepo)
         {
-            _context = context;
+            _ownerRepo = ownerRepo;
         }
 
         // GET: api/Owner
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Owner>>> GetOwners()
         {
-            return await _context.Owners.ToListAsync();
+            var owenrs = Ok(_ownerRepo.GetOwners());
+            return owenrs;
         }
 
         // GET: api/Owner/5
         [HttpGet("{OwnerId}")]
         public async Task<ActionResult<Owner>> GetOwner(int OwnerId)
         {
-            var owner = await _context.Owners.FindAsync(OwnerId);
-
-            if (owner == null)
-            {
-                return NotFound();
-            }
-
+            var owner = Ok(_ownerRepo.GetOwner(OwnerId));
+            if (owner == null) { return NotFound(); }
             return owner;
         }
 
@@ -47,9 +44,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Owner>> PostOwner(Owner owner)
         {
-            _context.Owners.Add(owner);
-            await _context.SaveChangesAsync();
-
+            await _ownerRepo.InsertOwner(owner);
             return CreatedAtAction("GetOwner", new { id = owner.Id }, owner);
         }
 
@@ -58,27 +53,16 @@ namespace CarDepo.API.Controllers
         [HttpPut("{OwnerId}")]
         public async Task<IActionResult> PutOwner(int OwnerId, Owner owner)
         {
-            if (OwnerId != owner.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(owner).State = EntityState.Modified;
+            if (OwnerId != owner.Id) { return BadRequest(); }
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _ownerRepo.UpdateOwner(OwnerId, owner);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OwnerExists(OwnerId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!_ownerRepo.IfOwnerExists(OwnerId)) { return NotFound(); }
+                else { throw; }
             }
 
             return NoContent();
@@ -88,21 +72,10 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{OwnerId}")]
         public async Task<IActionResult> DeleteOwner(int OwnerId)
         {
-            var owner = await _context.Owners.FindAsync(OwnerId);
-            if (owner == null)
-            {
-                return NotFound();
-            }
-
-            _context.Owners.Remove(owner);
-            await _context.SaveChangesAsync();
-
+            var owner = await _ownerRepo.GetOwner(OwnerId);
+            if (owner == null) { return NotFound(); }
+            await _ownerRepo.DeleteOwner(OwnerId);
             return NoContent();
-        }
-
-        private bool OwnerExists(int OwnerId)
-        {
-            return _context.Owners.Any(e => e.Id == OwnerId);
         }
     }
 }

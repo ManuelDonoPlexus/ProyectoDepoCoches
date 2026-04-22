@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
+using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.API.Controllers
 {
@@ -14,25 +15,26 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class ColorController : ControllerBase
     {
-        private readonly CarDepoContext _context;
+        private readonly IColorRepository _colorRepo;
 
-        public ColorController(CarDepoContext context)
+        public ColorController(IColorRepository colorRepo)
         {
-            _context = context;
+            _colorRepo = colorRepo;
         }
 
         // GET: api/Color
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Color>>> GetColors()
         {
-            return await _context.Colors.ToListAsync();
+            var colors = Ok(await _colorRepo.GetColors());
+            return colors;
         }
 
         // GET: api/Color/5
         [HttpGet("{ColorId}")]
         public async Task<ActionResult<Color>> GetColor(int ColorId)
         {
-            var color = await _context.Colors.FindAsync(ColorId);
+            var color = Ok(await _colorRepo.GetColor(ColorId));
 
             if (color == null)
             {
@@ -47,9 +49,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Color>> PostColor(Color color)
         {
-            _context.Colors.Add(color);
-            await _context.SaveChangesAsync();
-
+            await _colorRepo.InsertColor(color);
             return CreatedAtAction("GetColor", new { id = color.Id }, color);
         }
 
@@ -58,27 +58,16 @@ namespace CarDepo.API.Controllers
         [HttpPut("{ColorId}")]
         public async Task<IActionResult> PutColor(int ColorId, Color color)
         {
-            if (ColorId != color.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(color).State = EntityState.Modified;
+            if (ColorId != color.Id) { return BadRequest(); }
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _colorRepo.UpdateColor(ColorId, color);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColorExists(ColorId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!_colorRepo.IfColorExists(ColorId)) { return NotFound(); }
+                else { throw; }
             }
 
             return NoContent();
@@ -88,21 +77,11 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{ColorId}")]
         public async Task<IActionResult> DeleteColor(int ColorId)
         {
-            var color = await _context.Colors.FindAsync(ColorId);
-            if (color == null)
-            {
-                return NotFound();
-            }
-
-            _context.Colors.Remove(color);
-            await _context.SaveChangesAsync();
-
+            var color = await _colorRepo.GetColor(ColorId);
+            if (color == null){ return NotFound(); }
+            
+            await _colorRepo.DeleteColor(ColorId);
             return NoContent();
-        }
-
-        private bool ColorExists(int ColorId)
-        {
-            return _context.Colors.Any(e => e.Id == ColorId);
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
+using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.API.Controllers
 {
@@ -14,39 +15,26 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class FineController : ControllerBase
     {
-        private readonly CarDepoContext _context;
+        private readonly IFineRepository _fineRepository;
 
-        public FineController(CarDepoContext context)
+        public FineController(IFineRepository fineRepository)
         {
-            _context = context;
+            _fineRepository = fineRepository;
         }
 
         // GET: api/Fine
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Fine>>> GetFines()
-        {            
-            return await _context.Fines
-                .Include(f => f.Owner)
-                .Include(f => f.Car)
-                .AsNoTracking()
-                .ToListAsync();
+        {
+            var fines = Ok( _fineRepository.GetFines());
+            return fines;
         }
 
         // GET: api/Fine/5
         [HttpGet("{FineId}")]
         public async Task<ActionResult<Fine>> GetFine(int FineId)
         {
-            var fine = await _context.Fines
-                .Include(f => f.Owner)
-                .Include(f => f.Car)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(f => f.Id == FineId);
-
-            if (fine == null)
-            {
-                return NotFound();
-            }
-
+            var fine = Ok( _fineRepository.GetFine(FineId));
             return fine;
         }
 
@@ -55,9 +43,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Fine>> PostFine(Fine fine)
         {
-            _context.Fines.Add(fine);
-            await _context.SaveChangesAsync();
-
+            await _fineRepository.InsertFine(fine);
             return CreatedAtAction("GetFine", new { id = fine.Id }, fine);
         }
 
@@ -66,27 +52,16 @@ namespace CarDepo.API.Controllers
         [HttpPut("{FineId}")]
         public async Task<IActionResult> PutFine(int FineId, Fine fine)
         {
-            if (FineId != fine.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(fine).State = EntityState.Modified;
+            if (FineId != fine.Id) { return BadRequest(); }
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _fineRepository.UpdateFine(FineId, fine);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FineExists(FineId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!_fineRepository.IfFineExists(FineId)) { return NotFound(); }
+                else { throw; }
             }
 
             return NoContent();
@@ -96,21 +71,11 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{FineId}")]
         public async Task<IActionResult> DeleteFine(int FineId)
         {
-            var fine = await _context.Fines.FindAsync(FineId);
-            if (fine == null)
-            {
-                return NotFound();
-            }
+            var fine = await _fineRepository.GetFine(FineId);
+            if (fine == null) { return NotFound(); }
 
-            _context.Fines.Remove(fine);
-            await _context.SaveChangesAsync();
-
+            await _fineRepository.DeleteFine(FineId);
             return NoContent();
-        }
-
-        private bool FineExists(int FineId)
-        {
-            return _context.Fines.Any(e => e.Id == FineId);
         }
     }
 }

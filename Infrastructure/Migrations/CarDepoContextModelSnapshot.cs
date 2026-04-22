@@ -154,7 +154,7 @@ namespace CarDepo.Infrastructure.Migrations
 
                     b.HasIndex("DriverCDId");
 
-                    b.ToTable("CarConductors");
+                    b.ToTable("CarDrivers");
 
                     b.HasData(
                         new

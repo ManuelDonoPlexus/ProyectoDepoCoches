@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
+using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.API.Controllers
 {
@@ -14,32 +15,33 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class FuelTypeController : ControllerBase
     {
-        private readonly CarDepoContext _context;
+        private readonly IFuelTypeRepository _fueltypeRepo;
 
-        public FuelTypeController(CarDepoContext context)
+        public FuelTypeController(IFuelTypeRepository fueltypeRepo)
         {
-            _context = context;
+            _fueltypeRepo = fueltypeRepo;
         }
 
         // GET: api/FuelType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FuelType>>> GetFuelTypes()
         {
-            return await _context.FuelTypes.ToListAsync();
+            var fuels = Ok(await _fueltypeRepo.GetFuelTypes());
+            return fuels;
         }
 
         // GET: api/FuelType/5
         [HttpGet("{FuelId}")]
         public async Task<ActionResult<FuelType>> GetFuelType(int FuelId)
         {
-            var fuelType = await _context.FuelTypes.FindAsync(FuelId);
+            var fuel = Ok(await _fueltypeRepo.GetFuelTypes());
 
-            if (fuelType == null)
+            if (fuel == null)
             {
                 return NotFound();
             }
 
-            return fuelType;
+            return fuel;
         }
 
         // POST: api/FuelType
@@ -47,9 +49,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<FuelType>> PostFuelType(FuelType fuelType)
         {
-            _context.FuelTypes.Add(fuelType);
-            await _context.SaveChangesAsync();
-
+            await _fueltypeRepo.InsertFuelType(fuelType);
             return CreatedAtAction("GetFuelType", new { id = fuelType.Id }, fuelType);
         }
 
@@ -58,27 +58,16 @@ namespace CarDepo.API.Controllers
         [HttpPut("{FuelId}")]
         public async Task<IActionResult> PutFuelType(int FuelId, FuelType fuelType)
         {
-            if (FuelId != fuelType.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(fuelType).State = EntityState.Modified;
+            if (FuelId != fuelType.Id) { return BadRequest(); }
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _fueltypeRepo.UpdateFuelType(FuelId, fuelType);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FuelTypeExists(FuelId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!_fueltypeRepo.IfFuelTypeExists(FuelId)) { return NotFound(); }
+                else { throw; }
             }
 
             return NoContent();
@@ -88,21 +77,10 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{FuelId}")]
         public async Task<IActionResult> DeleteFuelType(int FuelId)
         {
-            var fuelType = await _context.FuelTypes.FindAsync(FuelId);
-            if (fuelType == null)
-            {
-                return NotFound();
-            }
-
-            _context.FuelTypes.Remove(fuelType);
-            await _context.SaveChangesAsync();
-
+            var fuel = _fueltypeRepo.GetFuelType(FuelId);
+            if (fuel == null) { return NotFound(); }
+            await _fueltypeRepo.DeleteFuelType(FuelId);
             return NoContent();
-        }
-
-        private bool FuelTypeExists(int FuelId)
-        {
-            return _context.FuelTypes.Any(e => e.Id == FuelId);
         }
     }
 }

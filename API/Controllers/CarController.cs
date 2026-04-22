@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
+using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.API.Controllers
 {
@@ -14,37 +15,27 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly CarDepoContext _context;
+        private readonly ICarRepository _carRepo;
 
-        public CarController(CarDepoContext context)
+        public CarController(ICarRepository carRepo)
         {
-            _context = context;
+            _carRepo = carRepo;
         }
 
         // GET: api/Car
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetCars()
         {
-            return await _context.Cars
-                .Include(car => car.Color)
-                .Include(car => car.Make)
-                .Include(car => car.Owner)                
-                .ToListAsync();
+            var cars = Ok(await _carRepo.GetCars());
+            return cars;
         }
 
         // GET: api/Car/5
         [HttpGet("{CarId}")]
         public async Task<ActionResult<Car>> GetCar(int CarId)
         {
-            var car = await _context.Cars
-                .Include(car => car.Color)
-                .Include(car => car.Make)
-                .Include(car => car.Owner)
-                .FirstOrDefaultAsync(c=> c.Id == CarId);
-            if (car == null)
-            {
-                return NotFound();
-            }
+            var car = Ok(await _carRepo.GetCar(CarId));
+            if (car == null) { return NotFound(); }
             return car;
         }
 
@@ -53,9 +44,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Car>> PostCar(Car car)
         {
-            _context.Cars.Add(car);
-            await _context.SaveChangesAsync();
-
+            await _carRepo.InsertCar(car);
             return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }
 
@@ -64,27 +53,13 @@ namespace CarDepo.API.Controllers
         [HttpPut("{CarId}")]
         public async Task<IActionResult> PutCar(int CarId, Car car)
         {
-            if (CarId != car.Id)
-            {
-                return BadRequest();
-            }
+            if (CarId != car.Id) { return BadRequest(); }
 
-            _context.Entry(car).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
+            try { await _carRepo.UpdateCar(CarId, car);  }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CarExists(CarId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!_carRepo.IfCarExists(CarId)) { return NotFound(); }
+                else { throw; }
             }
 
             return NoContent();
@@ -94,21 +69,12 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{CarId}")]
         public async Task<IActionResult> DeleteCar(int CarId)
         {
-            var car = await _context.Cars.FindAsync(CarId);
-            if (car == null)
-            {
-                return NotFound();
-            }
+            var car = await _carRepo.GetCar(CarId);
+            if (car == null) { return NotFound(); }
 
-            _context.Cars.Remove(car);
-            await _context.SaveChangesAsync();
+            await _carRepo.DeleteCar(CarId);
 
             return NoContent();
-        }
-
-        private bool CarExists(int CarId)
-        {
-            return _context.Cars.Any(e => e.Id == CarId);
         }
     }
 }
