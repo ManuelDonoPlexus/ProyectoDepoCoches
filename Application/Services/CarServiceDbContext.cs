@@ -4,11 +4,11 @@ using CarDepo.Infrastructure.Data;
 
 namespace CarDepo.Application.Services;
 
-public class TestCarServiceDbContext
+public class CarServiceDbContext
 {
     private readonly CarDepoContext _context;
 
-    public TestCarServiceDbContext(CarDepoContext context)
+    public CarServiceDbContext(CarDepoContext context)
     {
         _context = context;
     }
@@ -24,20 +24,11 @@ public class TestCarServiceDbContext
             MakeId = 1,
         };
 
-        if (!_context.Colors.Any(c => cartoadd.ColorId == c.Id))
-        {
-            return false;
-        }
+        if (!_context.Colors.Any(c => cartoadd.ColorId == c.Id)) { return false; }
 
-        if (!_context.Owners.Any(c => cartoadd.OwnerId == c.Id))
-        {
-            return false;
-        }
+        if (!_context.Owners.Any(c => cartoadd.OwnerId == c.Id)) { return false; }
 
-        if (!_context.Colors.Any(c => cartoadd.MakeId == c.Id))
-        {
-            return false;
-        }
+        if (!_context.Makes.Any(c => cartoadd.MakeId == c.Id)) { return false; }
 
         await _context.Cars.AddAsync(cartoadd);
         await _context.SaveChangesAsync();

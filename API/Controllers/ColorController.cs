@@ -24,7 +24,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Color
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Color>>> GetColors()
+        public async Task<ActionResult<IEnumerable<Color>>> GetAllColors()
         {
             var colors = Ok(await _colorRepo.GetColors());
             return colors;
@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Color/5
         [HttpGet("{ColorId}")]
-        public async Task<ActionResult<Color>> GetColor(int ColorId)
+        public async Task<ActionResult<Color>> GetSpecificColor(int ColorId)
         {
             var color = Ok(await _colorRepo.GetColor(ColorId));
 
@@ -45,18 +45,16 @@ namespace CarDepo.API.Controllers
         }
 
         // POST: api/Color
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
+        public async Task<ActionResult<Color>> CreateColor(Color color)
         {
             await _colorRepo.InsertColor(color);
             return CreatedAtAction("GetColor", new { id = color.Id }, color);
         }
 
         // PUT: api/Color/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{ColorId}")]
-        public async Task<IActionResult> PutColor(int ColorId, Color color)
+        public async Task<IActionResult> ModifyColor(int ColorId, Color color)
         {
             if (ColorId != color.Id) { return BadRequest(); }
 

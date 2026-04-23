@@ -24,7 +24,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Make
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Make>>> GetMakes()
+        public async Task<ActionResult<IEnumerable<Make>>> GetAllMakes()
         {
             var makes = Ok(await _makeRepo.GetMakes());
             return makes;
@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Make/(id)
         [HttpGet("{MakeId}")]
-        public async Task<ActionResult<Make>> GetMake(int MakeId)
+        public async Task<ActionResult<Make>> GetSpecificMake(int MakeId)
         {
             var make = await _makeRepo.GetMake(MakeId);
             if (make == null){return NotFound();}
@@ -42,7 +42,7 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Make
         [HttpPost]
-        public async Task<ActionResult<Make>> PostMake(Make make)
+        public async Task<ActionResult<Make>> CreateMake(Make make)
         {
             await _makeRepo.InsertMake(make);
             return CreatedAtAction("GetMake", new { id = make.Id }, make);
@@ -50,14 +50,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Make/5
         [HttpPut("{MakeId}")]
-        public async Task<IActionResult> PutMake(int MakeId, Make make)
+        public async Task<IActionResult> ModifyMake(int MakeId, Make make)
         {
             if (MakeId != make.Id) { return BadRequest(); }
 
-            try
-            {
-                await _makeRepo.UpdateMake(MakeId, make);
-            }
+            try { await _makeRepo.UpdateMake(MakeId, make); }
             catch (DbUpdateConcurrencyException)
             {
                 if (!_makeRepo.IfMakeExists(MakeId)) { return NotFound(); }

@@ -24,7 +24,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Car
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetCars()
+        public async Task<ActionResult<IEnumerable<Car>>> GetAllCars()
         {
             var cars = Ok(await _carRepo.GetCars());
             return cars;
@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Car/5
         [HttpGet("{CarId}")]
-        public async Task<ActionResult<Car>> GetCar(int CarId)
+        public async Task<ActionResult<Car>> GetSpecificCar(int CarId)
         {
             var car = Ok(await _carRepo.GetCar(CarId));
             if (car == null) { return NotFound(); }
@@ -40,18 +40,16 @@ namespace CarDepo.API.Controllers
         }
 
         // POST: api/Car
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Car>> PostCar(Car car)
+        public async Task<ActionResult<Car>> CreateCar(Car car)
         {
             await _carRepo.InsertCar(car);
             return CreatedAtAction("GetCar", new { id = car.Id }, car);
         }
 
         // PUT: api/Car/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{CarId}")]
-        public async Task<IActionResult> PutCar(int CarId, Car car)
+        public async Task<IActionResult> ModifyCar(int CarId, Car car)
         {
             if (CarId != car.Id) { return BadRequest(); }
 
@@ -71,9 +69,7 @@ namespace CarDepo.API.Controllers
         {
             var car = await _carRepo.GetCar(CarId);
             if (car == null) { return NotFound(); }
-
             await _carRepo.DeleteCar(CarId);
-
             return NoContent();
         }
     }

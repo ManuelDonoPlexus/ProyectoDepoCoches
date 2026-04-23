@@ -24,7 +24,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Driver
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Driver>>> GetDrivers()
+        public async Task<ActionResult<IEnumerable<Driver>>> GetAllDrivers()
         {
             var drivers = Ok(await _driverRepo.GetDrivers());
             return drivers;
@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Driver/5
         [HttpGet("{DriverId}")]
-        public async Task<ActionResult<Driver>> GetDriver(int DriverId)
+        public async Task<ActionResult<Driver>> GetSpecificDriver(int DriverId)
         {
             var driver = Ok(await _driverRepo.GetDriver(DriverId));
 
@@ -45,7 +45,7 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Driver
         [HttpPost]
-        public async Task<ActionResult<Driver>> PostDriver(Driver driver)
+        public async Task<ActionResult<Driver>> CreateDriver(Driver driver)
         {
             await _driverRepo.InsertDriver(driver);
             return CreatedAtAction("GetDriver", new { id = driver.Id }, driver);
@@ -53,7 +53,7 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Driver/5
         [HttpPut("{DriverId}")]
-        public async Task<IActionResult> PutDriver(int DriverId, Driver driver)
+        public async Task<IActionResult> ModifyDriver(int DriverId, Driver driver)
         {
             if (DriverId != driver.Id) { return BadRequest(); }
 

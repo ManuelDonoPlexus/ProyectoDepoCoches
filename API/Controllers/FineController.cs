@@ -24,24 +24,24 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Fine
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Fine>>> GetFines()
+        public async Task<ActionResult<IEnumerable<Fine>>> GetAllFines()
         {
-            var fines = Ok( _fineRepository.GetFines());
+            var fines = Ok(await _fineRepository.GetFines());
             return fines;
         }
 
         // GET: api/Fine/5
         [HttpGet("{FineId}")]
-        public async Task<ActionResult<Fine>> GetFine(int FineId)
+        public async Task<ActionResult<Fine>> GetSpecificFine(int FineId)
         {
-            var fine = Ok( _fineRepository.GetFine(FineId));
+            var fine = Ok(await _fineRepository.GetFine(FineId));
             return fine;
         }
 
         // POST: api/Fine
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Fine>> PostFine(Fine fine)
+        public async Task<ActionResult<Fine>> CreateFine(Fine fine)
         {
             await _fineRepository.InsertFine(fine);
             return CreatedAtAction("GetFine", new { id = fine.Id }, fine);
@@ -50,14 +50,11 @@ namespace CarDepo.API.Controllers
         // PUT: api/Fine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{FineId}")]
-        public async Task<IActionResult> PutFine(int FineId, Fine fine)
+        public async Task<IActionResult> ModifyFine(int FineId, Fine fine)
         {
             if (FineId != fine.Id) { return BadRequest(); }
 
-            try
-            {
-                await _fineRepository.UpdateFine(FineId, fine);
-            }
+            try { await _fineRepository.UpdateFine(FineId, fine); }
             catch (DbUpdateConcurrencyException)
             {
                 if (!_fineRepository.IfFineExists(FineId)) { return NotFound(); }

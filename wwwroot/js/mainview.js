@@ -151,8 +151,8 @@ async function getMakes() {
     try {
         const response = await fetch(baseurl + uriMake);
         makes = await response.json();
-        _fillMakeList()
-        _displayCount(makes.length, "counterMake")
+        _fillMakeList();
+        _displayCount(makes.length, "counterMake");
         _displayMakes();
     } catch (error) {
         console.error('Unable to get makes: ', error);
@@ -161,10 +161,10 @@ async function getMakes() {
 
 async function getOwners() {
     try {
-        const response = await fetch(baseurl + uriOwner);
+        const response = await fetch(baseurl + uriOwner);        
         owners = await response.json();
         _fillOwnerList();
-        _displayCount(owners.length, "counterOwner")
+        _displayCount(owners.length, "counterOwner");
         _displayOwners();
     } catch (error) {
         console.error('Unable to get owners: ', error)
@@ -322,8 +322,8 @@ function _fillOwnerList() {
 
     owners.forEach(owner => {
         let optionOwner = option.cloneNode(false);
-        optionOwner.setAttribute("value", `${owner.name}`)
-        list.appendChild(optionOwner)
+        optionOwner.setAttribute("value", `${owner.name}`);
+        list.appendChild(optionOwner);
     })
 }
 
@@ -634,7 +634,7 @@ function _displayFines() {
         td6.appendChild(detailsBton);
 
         let td7 = tr.insertCell(7);
-        td7.appendChild(deleteBton)
+        td7.appendChild(deleteBton);
     })
 }
 
@@ -794,7 +794,6 @@ function addFine() {
         carId: addCar.id,
 
     }
-    console.log(fine);
 
     fetch(baseurl + uriFine, {
         method: "POST",
@@ -804,7 +803,7 @@ function addFine() {
         },
         body: JSON.stringify(fine)
     })
-        //.then(() => location.reload())
+        .then(() => location.reload())
         .catch(error => console.error("Unable to add fine to database. ", error))
 
 }
@@ -945,8 +944,6 @@ function carShowEdit(id) {
 
     let delBton = document.getElementById("deleteCar");
     delBton.setAttribute("onclick", `deleteCar(${id})`);
-
-    console.log(car)
 }
 
 function driverShowEdit(id) {
@@ -959,8 +956,6 @@ function driverShowEdit(id) {
 
     let delBton = document.getElementById("deleteDriver");
     delBton.setAttribute("onclick", `deleteDriver(${id})`);
-
-    console.log(driver)
 }
 
 function makeShowEdit(id) {
@@ -972,8 +967,6 @@ function makeShowEdit(id) {
 
     let delBton = document.getElementById("deleteMake");
     delBton.setAttribute("onclick", `deleteMake(${id})`);
-
-    console.log(make)
 }
 
 function ownerShowEdit(id) {
@@ -986,8 +979,6 @@ function ownerShowEdit(id) {
 
     let delBton = document.getElementById("deleteOwner");
     delBton.setAttribute("onclick", `deleteOwner(${id})`);
-
-    console.log(owner)
 }
 
 function fineShowEdit(id) {
@@ -1002,6 +993,4 @@ function fineShowEdit(id) {
 
     let delBton = document.getElementById("deleteFine");
     delBton.setAttribute("onclick", `deleteFine(${id})`);
-
-    console.log(fine)
 }
