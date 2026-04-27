@@ -45,7 +45,7 @@ namespace CarDepo.API.Controllers
         {
             Car? newcar = await _carRepo.InsertCar(car);
             
-            if (newcar != null) { return CreatedAtAction("GetCar", new { id = newcar.Id }, newcar); } 
+            if (newcar != null) { return await GetSpecificCar(newcar.Id);} 
             else { return BadRequest(); }
         }
 

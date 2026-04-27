@@ -40,17 +40,15 @@ namespace CarDepo.API.Controllers
         }
 
         // POST: api/FuelType
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<FuelType?>> CreateFuelType(FuelType? fuelType)
         {
             FuelType? newFuel = await _fueltypeRepo.InsertFuelType(fuelType);
-            if ( newFuel != null ){ return CreatedAtAction("GetFuelType", new { id = newFuel.Id }, newFuel); }
+            if ( newFuel != null ){ return await GetSpecificFuelType(newFuel.Id); }
             else { return BadRequest(); }
         }
 
         // PUT: api/FuelType/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{FuelId}")]
         public async Task<IActionResult> ModifyFuelType(int FuelId, FuelType fuelType)
         {

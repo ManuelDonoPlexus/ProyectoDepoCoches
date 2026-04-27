@@ -49,7 +49,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Color?>> CreateColor(Color? color)
         {
             Color? newColor = await _colorRepo.InsertColor(color);
-            if ( newColor != null ) { return CreatedAtAction("GetColor", new { id = newColor.Id }, newColor); }
+            if ( newColor != null ) { return await GetSpecificColor(newColor.Id); }
             else { return BadRequest(); }            
         }
 

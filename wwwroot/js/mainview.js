@@ -878,7 +878,8 @@ function deleteCar(id) {
     fetch(`${baseurl}${uriCar}/${id}`, {
         method: `DELETE`
     })
-        .then(() => location.reload())
+        .then(() => getCars())
+        //.then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
 
@@ -886,6 +887,7 @@ function deleteCarDrivers(id) {
     fetch(`${baseurl}${uriCarDriver}/${id}`, {
         method: `DELETE`
     })
+        .then(() => getCarDrivers())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -894,6 +896,7 @@ function deleteDriver(id) {
     fetch(`${baseurl}${uriDriver}/${id}`, {
         method: `DELETE`
     })
+        .then(() => getDrivers())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -902,6 +905,7 @@ function deleteFine(id) {
     fetch(`${baseurl}${uriFine}/${id}`, {
         method: `DELETE`
     })
+        .then(() => getFines())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -910,6 +914,7 @@ function deleteMake(id) {
     fetch(`${baseurl}${uriMake}/${id}`, {
         method: `DELETE`
     })
+        .then(() => getMakes())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -918,6 +923,7 @@ function deleteOwner(id) {
     fetch(`${baseurl}${uriOwner}/${id}`, {
         method: `DELETE`
     })
+        .then(() => getOwners())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }

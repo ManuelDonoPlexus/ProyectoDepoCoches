@@ -44,7 +44,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<CarDriver?>> CreateCarDriver(CarDriver? carDriver)
         {
             CarDriver? newcardriver = await _cardriverRepo.InsertCarDriver(carDriver);
-            if (newcardriver != null) { return CreatedAtAction("GetCarDriver", new { id = newcardriver.Id }, newcardriver); }
+            if (newcardriver != null) { return await GetSpecificCarDriver(newcardriver.Id); }
             else { return BadRequest(); }
         }
 

@@ -39,17 +39,15 @@ namespace CarDepo.API.Controllers
         }
 
         // POST: api/Fine
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Fine?>> CreateFine(Fine? fine)
         {
             Fine? newFine = await _fineRepository.InsertFine(fine);
-            if (newFine != null) { return CreatedAtAction("GetFine", new { id = newFine.Id }, newFine); }
+            if (newFine != null) { return await GetSpecificFine(newFine.Id); }
             else { return BadRequest(); }
         }
 
         // PUT: api/Fine/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{FineId}")]
         public async Task<IActionResult> ModifyFine(int FineId, Fine fine)
         {

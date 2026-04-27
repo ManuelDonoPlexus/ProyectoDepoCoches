@@ -44,7 +44,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Owner?>> CreateOwner(Owner? owner)
         {
             Owner? newowner = await _ownerRepo.InsertOwner(owner);
-            if (newowner != null) { return CreatedAtAction("GetOwner", new { id = newowner.Id }, newowner); }
+            if (newowner != null) { return await GetSpecificOwner(newowner.Id); }
             else { return BadRequest(); }
         }
 

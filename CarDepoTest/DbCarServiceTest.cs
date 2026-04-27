@@ -13,6 +13,8 @@ namespace CarDepo.CarDepoTest;
 public class CarRepoTest
 {
 
+    // UNIT TEST
+
     [Fact]
     public async Task GetCar_ReturnsOkObjectResult()
     {
@@ -41,6 +43,9 @@ public class CarRepoTest
         Assert.IsType<NotFoundResult>(result);
     }
 
+    // INTEGRATION TEST
+
+/*
     [Fact]
     public async Task InsertContext_Success()
     {
@@ -54,5 +59,51 @@ public class CarRepoTest
             OwnerId = 1,
         };
     }
+
+    [Fact]
+    public async Task InsertContext_FailColor()
+    {
+        var context = new Mock<CarDepoContext>();
+        var car = new Car
+        {
+            License = "1234-AB",
+            Kms = 123,
+            ColorId = -1,
+            MakeId = 1,
+            OwnerId = 1,
+        };
+        
+    }
+
+    [Fact]
+    public async Task InsertContext_FailMake()
+    {
+        var context = new Mock<CarDepoContext>();
+        var car = new Car
+        {
+            License = "1234-AB",
+            Kms = 123,
+            ColorId = 1,
+            MakeId = -1,
+            OwnerId = 1,
+        };
+        
+    }
+
+    [Fact]
+    public async Task InsertContext_FailOwner()
+    {
+        
+        var context = new Mock<CarDepoContext>();
+        var car = new Car
+        {
+            License = "1234-AB",
+            Kms = 123,
+            ColorId = 1,
+            MakeId = 1,
+            OwnerId = -1,
+        };
+    }
+*/
 
 }
