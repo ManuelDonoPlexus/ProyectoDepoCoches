@@ -68,6 +68,8 @@ namespace CarDepo.Infrastructure.Data
                 .HasForeignKey(e => e.CarCDId)
                 .IsRequired();
 
+            // DATA SEEDING
+
             modelBuilder.Entity<FuelType>().HasData(
                 new FuelType { Id = 1, Name = "Petroleo" },
                 new FuelType { Id = 2, Name = "Diesel" },

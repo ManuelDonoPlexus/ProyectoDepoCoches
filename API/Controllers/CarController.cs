@@ -69,8 +69,6 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{CarId}")]
         public async Task<IActionResult> DeleteCar(int CarId)
         {
-            var car = await _carRepo.GetCar(CarId);
-            if (car == null) { return NotFound(); }
             await _carRepo.DeleteCar(CarId);
             return NoContent();
         }

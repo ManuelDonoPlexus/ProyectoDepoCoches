@@ -65,10 +65,10 @@ public class CarRepository : ICarRepository
 
     public async Task DeleteCar(int CarId)
     {
-        var car = await _context.CarDrivers.FindAsync(CarId);
+        var car = await GetCar(CarId);
         if (car != null)
         {
-            _context.CarDrivers.Remove(car);
+            _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
         }
 

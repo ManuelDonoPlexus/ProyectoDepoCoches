@@ -878,7 +878,6 @@ function deleteCar(id) {
     fetch(`${baseurl}${uriCar}/${id}`, {
         method: `DELETE`
     })
-        .then(() => getCars())
         //.then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -887,7 +886,6 @@ function deleteCarDrivers(id) {
     fetch(`${baseurl}${uriCarDriver}/${id}`, {
         method: `DELETE`
     })
-        .then(() => getCarDrivers())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -896,7 +894,6 @@ function deleteDriver(id) {
     fetch(`${baseurl}${uriDriver}/${id}`, {
         method: `DELETE`
     })
-        .then(() => getDrivers())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -905,7 +902,6 @@ function deleteFine(id) {
     fetch(`${baseurl}${uriFine}/${id}`, {
         method: `DELETE`
     })
-        .then(() => getFines())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -914,7 +910,6 @@ function deleteMake(id) {
     fetch(`${baseurl}${uriMake}/${id}`, {
         method: `DELETE`
     })
-        .then(() => getMakes())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -923,7 +918,6 @@ function deleteOwner(id) {
     fetch(`${baseurl}${uriOwner}/${id}`, {
         method: `DELETE`
     })
-        .then(() => getOwners())
         .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
@@ -942,61 +936,246 @@ function showEditForm(nameView, idEntity) {
 
 function carShowEdit(id) {
     let car = getSpecificCar(id, "id");
-    document.getElementById("licenseCar").value = car.license;
-    document.getElementById("kmsCar").value = car.kms;
-    document.getElementById("colorCar").value = car.color;
-    document.getElementById("ownerCar").value = car.owner.name;
-    document.getElementById("makeCar").value = car.make.name;
+    var license = document.getElementById("licenseCar");
+    var kms = document.getElementById("kmsCar");
+    var color = document.getElementById("colorCar");
+    var owner = document.getElementById("ownerCar");
+    var make = document.getElementById("makeCar");
 
-    let delBton = document.getElementById("deleteCar");
+    license.value = car.license;
+    license.disabled = true
+    kms.value = car.kms;
+    kms.disabled = true;
+    color.value = car.color.name;
+    color.disabled = true;
+    owner.value = car.owner.name;
+    owner.disabled = true;
+    make.value = car.make.name;
+    make.disabled = true;
+
+    let delBton = document.getElementById("deleteEditCar");
     delBton.setAttribute("onclick", `deleteCar(${id})`);
-}
 
-function driverShowEdit(id) {
-    let driver = getSpecificDriver(id, "id");
-    document.getElementById("nameDriver").value = driver.name;
-    document.getElementById("dniDriver").value = driver.dni;
-    document.getElementById("emailaddrDriver").value = driver.emailAddr;
-    document.getElementById("phonenumberDriver").value = driver.phoneNumber;
-    document.getElementById("ownerDriver").value = driver.owner.name;
+    let enableBton = document.getElementById("enableEditCar");
+    enableBton.setAttribute("onclick", `enableEditCar(${id})`);
 
-    let delBton = document.getElementById("deleteDriver");
-    delBton.setAttribute("onclick", `deleteDriver(${id})`);
+    let saveBton = document.getElementById("saveEditCar");
+    saveBton.setAttribute("onclick", `saveCar(${id})`);
 }
 
 function makeShowEdit(id) {
     let make = getSpecificMake(id, "id");
-    document.getElementById("nameMake").value = make.name;
-    document.getElementById("horsepowerMake").value = make.horsePower;
-    document.getElementById("priceMake").value = make.price;
-    document.getElementById("fueltypeMake").value = make.fuelType.name;
+    var name = document.getElementById("nameMake");
+    var horsePower = document.getElementById("horsepowerMake");
+    var price = document.getElementById("priceMake");
+    var fuel = document.getElementById("fueltypeMake");
 
-    let delBton = document.getElementById("deleteMake");
+    name.value = make.name;
+    name.disabled = true;
+    horsePower.value = make.horsePower;
+    horsePower.disabled = true;
+    price.value = make.price;
+    price.disabled = true;
+    fuel.value = make.fuelType.name;
+    fuel.disabled = true;
+
+    let delBton = document.getElementById("deleteEditMake");
     delBton.setAttribute("onclick", `deleteMake(${id})`);
+
+    let enableBton = document.getElementById("enableEditMake");
+    enableBton.setAttribute("onclick", `enableEditMake(${id})`);
+
+    let saveBton = document.getElementById("saveEditMake");
+    saveBton.setAttribute("onclick", `saveMake(${id})`);
+}
+
+function driverShowEdit(id) {
+    let driver = getSpecificDriver(id, "id");
+    var name = document.getElementById("nameDriver");
+    var dni = document.getElementById("dniDriver");
+    var email = document.getElementById("emailaddrDriver");
+    var phone = document.getElementById("phonenumberDriver");
+    var owner = document.getElementById("ownerDriver");
+
+    name.value = driver.name;
+    name.disabled = true;
+    dni.value = driver.dni;
+    dni.disabled = true;
+    email.value = driver.emailAddr;
+    email.disabled = true;
+    phone.value = driver.phoneNumber;
+    phone.disabled = true;
+    owner.value = driver.owner.name;
+    owner.disabled = true;
+
+    let delBton = document.getElementById("deleteDriver");
+    delBton.setAttribute("onclick", `deleteDriver(${id})`);
+
+    let enableBton = document.getElementById("enableEditDriver");
+    enableBton.setAttribute("onclick", `enableEditDriver(${id})`);
+
+    let saveBton = document.getElementById("saveEditDriver");
+    saveBton.setAttribute("onclick", `saveDriver(${id})`);
 }
 
 function ownerShowEdit(id) {
     let owner = getSpecificOwner(id, "id");
-    document.getElementById("nameOwner").value = owner.name;
-    document.getElementById("nifOwner").value = owner.nif;
-    document.getElementById("phonenumberOwner").value = owner.phoneNumber;
-    document.getElementById("datentryOwner").value = owner.dateEntry;
-    document.getElementById("emailaddrOwner").value = owner.emailAddr;
+    var name = document.getElementById("nameOwner");
+    var nif = document.getElementById("nifOwner");
+    var phone = document.getElementById("phonenumberOwner");
+    var date = document.getElementById("datentryOwner");
+    var email = document.getElementById("emailaddrOwner");
+
+    name.value = owner.name;
+    name.disabled = true;
+    nif.value = owner.nif;
+    nif.disabled = true;
+    phone.value = owner.phoneNumber;
+    phone.disabled = true;
+    date.value = owner.dateEntry;
+    date.disabled = true;
+    email.value = owner.emailAddr;
+    email.disabled = true;
 
     let delBton = document.getElementById("deleteOwner");
     delBton.setAttribute("onclick", `deleteOwner(${id})`);
+
+    let enableBton = document.getElementById("enableEditOwner");
+    enableBton.setAttribute("onclick", `enableEditOwner(${id})`);
+
+    let saveBton = document.getElementById("saveEditOwner");
+    saveBton.setAttribute("onclick", `saveOwner(${id})`);
 }
 
 function fineShowEdit(id) {
     let fine = getSpecificFine(id, "id");
-    document.getElementById("priceFine").value = fine.price;
-    if (fine.payed == true) { document.getElementById("payedFine").checked = true }
-    else { document.getElementById("payedFine").checked = false }
-    document.getElementById("descriptionFine").value = fine.description;
-    document.getElementById("dateFine").value = fine.date;
-    document.getElementById("ownerFine").value = fine.owner.name;
-    document.getElementById("carFine").value = fine.car.name;
+    var price = document.getElementById("priceFine");
+    var payed = document.getElementById("payedFine");
+    var description = document.getElementById("descriptionFine");
+    var date = document.getElementById("dateFine");
+    var owner = document.getElementById("ownerFine");
+    var car = document.getElementById("carFine");
+
+    price.value = fine.price;
+    price.disabled = true;
+    if (fine.payed == true) { payed.checked = true }
+    else { payed.checked = false }
+    payed.disabled = true;
+    description.value = fine.description;
+    description.disabled = true;
+    date.value = fine.date;
+    date.disabled = true;
+    owner.value = fine.owner.name;
+    owner.disabled = true;
+    car.value = fine.car.name;
+    car.disabled = true;
 
     let delBton = document.getElementById("deleteFine");
     delBton.setAttribute("onclick", `deleteFine(${id})`);
+
+    let enableBton = document.getElementById("enableEditFine");
+    enableBton.setAttribute("onclick", `enableEditFine(${id})`);
+
+    let saveBton = document.getElementById("saveEditFine");
+    saveBton.setAttribute("onclick", `saveFine(${id})`);
+}
+
+function enableEditCar(id){
+    var license = document.getElementById("licenseCar");
+    var kms = document.getElementById("kmsCar");
+    var color = document.getElementById("colorCar");
+    var owner = document.getElementById("ownerCar");
+    var make = document.getElementById("makeCar");
+
+    license.disabled = false;
+    kms.disabled = false;
+    color.disabled = false;
+    owner.disabled = false;
+    make.disabled = false;
+
+    let enableBton = document.getElementById("enableEditCar");
+    enableBton.hidden = true;
+
+    let saveBton = document.getElementById("saveEditCar");
+    saveBton.hidden = false;
+}
+
+function enableEditMake(id){
+    var name = document.getElementById("nameMake");
+    var horsePower = document.getElementById("horsepowerMake");
+    var price = document.getElementById("priceMake");
+    var fuel = document.getElementById("fueltypeMake");
+
+    name.disabled = false;
+    horsePower.disabled = false;
+    price.disabled = false;
+    fuel.disabled = false;
+
+    let enableBton = document.getElementById("enableEditMake");
+    enableBton.hidden = true;
+
+    let saveBton = document.getElementById("saveEditMake");
+    saveBton.hidden = false;
+}
+
+function enableEditDriver(id){
+    var name = document.getElementById("nameDriver");
+    var dni = document.getElementById("dniDriver");
+    var email = document.getElementById("emailaddrDriver");
+    var phone = document.getElementById("phonenumberDriver");
+    var owner = document.getElementById("ownerDriver");
+
+    name.disabled = false;
+    dni.disabled = false;
+    email.disabled = false;
+    phone.disabled = false;
+    owner.disabled = false;
+
+    let enableBton = document.getElementById("enableEditDriver");
+    enableBton.hidden = true;
+
+    let saveBton = document.getElementById("saveEditDriver");
+    saveBton.hidden = false;
+}
+
+function enableEditOwner(id){
+    var name = document.getElementById("nameOwner");
+    var nif = document.getElementById("nifOwner");
+    var phone = document.getElementById("phonenumberOwner");
+    var date = document.getElementById("datentryOwner");
+    var email = document.getElementById("emailaddrOwner");
+
+    name.disabled = false;
+    nif.disabled = false;
+    phone.disabled = false;
+    date.disabled = false;
+    email.disabled = false;
+
+    let enableBton = document.getElementById("enableEditOwner");
+    enableBton.hidden = true;
+
+    let saveBton = document.getElementById("saveEditOwner");
+    saveBton.hidden = false;
+}
+
+function enableEditFine(id){
+    var price = document.getElementById("priceFine");    
+    var payed = document.getElementById("payedFine");
+    var description = document.getElementById("descriptionFine");
+    var date = document.getElementById("dateFine");
+    var owner = document.getElementById("ownerFine");
+    var car = document.getElementById("carFine");
+
+    price.disabled = false;
+    payed.disabled = false;
+    description.disabled = false;
+    date.disabled = false;
+    owner.disabled = false;
+    car.disabled = false;
+
+    let enableBton = document.getElementById("enableEditFine");
+    enableBton.hidden = true;
+
+    let saveBton = document.getElementById("saveEditFine");
+    saveBton.hidden = false;
 }
