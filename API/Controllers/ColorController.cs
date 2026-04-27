@@ -46,10 +46,11 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Color
         [HttpPost]
-        public async Task<ActionResult<Color>> CreateColor(Color color)
+        public async Task<ActionResult<Color?>> CreateColor(Color? color)
         {
-            await _colorRepo.InsertColor(color);
-            return CreatedAtAction("GetColor", new { id = color.Id }, color);
+            Color? newColor = await _colorRepo.InsertColor(color);
+            if ( newColor != null ) { return CreatedAtAction("GetColor", new { id = newColor.Id }, newColor); }
+            else { return BadRequest(); }            
         }
 
         // PUT: api/Color/5

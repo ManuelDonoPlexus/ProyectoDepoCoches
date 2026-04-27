@@ -8,7 +8,7 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IDriverRepository
 {
-    Task<Driver> InsertDriver(Driver Driver);
+    Task<Driver?> InsertDriver(Driver? Driver);
     Task<Driver?> GetDriver(int DriverId);
     Task<IEnumerable<Driver>> GetDrivers();
     Task DeleteDriver(int DriverId);
@@ -41,12 +41,15 @@ public class DriverRepository : IDriverRepository
                 .FirstOrDefaultAsync(cd => cd.Id == DriverId);
     }
 
-    public async Task<Driver> InsertDriver(Driver Driver)
+    public async Task<Driver?> InsertDriver(Driver? Driver)
     {
-        EntityEntry<Driver> driver = _context.Drivers.Add(Driver);
-        await _context.SaveChangesAsync();
-
-        return driver.Entity;
+        if (Driver != null)
+        {
+            EntityEntry<Driver> driver = _context.Drivers.Add(Driver);
+            await _context.SaveChangesAsync();
+            return driver.Entity;
+        }
+        else { return null; }
     }
 
     public async Task UpdateDriver(int DriverId, Driver Driver)

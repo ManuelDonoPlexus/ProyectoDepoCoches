@@ -41,10 +41,11 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Owner
         [HttpPost]
-        public async Task<ActionResult<Owner>> CreateOwner(Owner owner)
+        public async Task<ActionResult<Owner?>> CreateOwner(Owner? owner)
         {
-            await _ownerRepo.InsertOwner(owner);
-            return CreatedAtAction("GetOwner", new { id = owner.Id }, owner);
+            Owner? newowner = await _ownerRepo.InsertOwner(owner);
+            if (newowner != null) { return CreatedAtAction("GetOwner", new { id = newowner.Id }, newowner); }
+            else { return BadRequest(); }
         }
 
         // PUT: api/Owner/5

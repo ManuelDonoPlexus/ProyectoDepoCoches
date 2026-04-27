@@ -8,7 +8,7 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface ICarRepository
 {
-    Task<Car> InsertCar(Car Car);
+    Task<Car?> InsertCar(Car? Car);
     Task<Car?> GetCar(int CarId);
     Task<IEnumerable<Car>> GetCars();
     Task DeleteCar(int CarId);
@@ -43,12 +43,15 @@ public class CarRepository : ICarRepository
             .FirstOrDefaultAsync(car => car.Id == CarId);
     }
 
-    public async Task<Car> InsertCar(Car Car)
+    public async Task<Car?> InsertCar(Car? Car)
     {
-        EntityEntry<Car> car = _context.Cars.Add(Car);
-        await _context.SaveChangesAsync();
-
-        return car.Entity;
+        if (Car != null)
+        {
+            EntityEntry<Car> car = _context.Cars.Add(Car);
+            await _context.SaveChangesAsync();
+            return car?.Entity;
+        } 
+        else { return null; }
     }
 
     public async Task UpdateCar(int CarId, Car Car)
@@ -68,7 +71,7 @@ public class CarRepository : ICarRepository
             _context.CarDrivers.Remove(car);
             await _context.SaveChangesAsync();
         }
-        
+
     }
 
     public bool IfCarExists(int CarId)

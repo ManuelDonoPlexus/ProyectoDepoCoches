@@ -41,10 +41,11 @@ namespace CarDepo.API.Controllers
 
         // POST: api/CarDriver
         [HttpPost]
-        public async Task<ActionResult<CarDriver>> CreateCarDriver(CarDriver carDriver)
+        public async Task<ActionResult<CarDriver?>> CreateCarDriver(CarDriver? carDriver)
         {
-            await _cardriverRepo.InsertCarDriver(carDriver);
-            return CreatedAtAction("GetCarDriver", new { id = carDriver.Id }, carDriver);
+            CarDriver? newcardriver = await _cardriverRepo.InsertCarDriver(carDriver);
+            if (newcardriver != null) { return CreatedAtAction("GetCarDriver", new { id = newcardriver.Id }, newcardriver); }
+            else { return BadRequest(); }
         }
 
         // PUT: api/CarDriver/5

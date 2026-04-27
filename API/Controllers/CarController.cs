@@ -41,10 +41,12 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Car
         [HttpPost]
-        public async Task<ActionResult<Car>> CreateCar(Car car)
+        public async Task<ActionResult<Car?>> CreateCar(Car? car)
         {
-            await _carRepo.InsertCar(car);
-            return CreatedAtAction("GetCar", new { id = car.Id }, car);
+            Car? newcar = await _carRepo.InsertCar(car);
+            
+            if (newcar != null) { return CreatedAtAction("GetCar", new { id = newcar.Id }, newcar); } 
+            else { return BadRequest(); }
         }
 
         // PUT: api/Car/5

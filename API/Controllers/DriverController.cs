@@ -45,10 +45,11 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Driver
         [HttpPost]
-        public async Task<ActionResult<Driver>> CreateDriver(Driver driver)
+        public async Task<ActionResult<Driver?>> CreateDriver(Driver? driver)
         {
-            await _driverRepo.InsertDriver(driver);
-            return CreatedAtAction("GetDriver", new { id = driver.Id }, driver);
+            Driver? newdriver = await _driverRepo.InsertDriver(driver);
+            if (newdriver != null) { return CreatedAtAction("GetDriver", new { id = newdriver.Id }, newdriver); }
+            else { return BadRequest(); }            
         }
 
         // PUT: api/Driver/5

@@ -42,10 +42,11 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Make
         [HttpPost]
-        public async Task<ActionResult<Make>> CreateMake(Make make)
+        public async Task<ActionResult<Make?>> CreateMake(Make? make)
         {
-            await _makeRepo.InsertMake(make);
-            return CreatedAtAction("GetMake", new { id = make.Id }, make);
+            Make? newmake = await _makeRepo.InsertMake(make);
+            if (newmake != null) { return CreatedAtAction("GetMake", new { id = newmake.Id }, newmake); }
+            else { return BadRequest(); }
         }
 
         // PUT: api/Make/5

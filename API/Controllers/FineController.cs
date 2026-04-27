@@ -41,10 +41,11 @@ namespace CarDepo.API.Controllers
         // POST: api/Fine
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Fine>> CreateFine(Fine fine)
+        public async Task<ActionResult<Fine?>> CreateFine(Fine? fine)
         {
-            await _fineRepository.InsertFine(fine);
-            return CreatedAtAction("GetFine", new { id = fine.Id }, fine);
+            Fine? newFine = await _fineRepository.InsertFine(fine);
+            if (newFine != null) { return CreatedAtAction("GetFine", new { id = newFine.Id }, newFine); }
+            else { return BadRequest(); }
         }
 
         // PUT: api/Fine/5

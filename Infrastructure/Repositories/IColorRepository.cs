@@ -8,7 +8,7 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IColorRepository
 {
-    Task<Color> InsertColor(Color Color);
+    Task<Color?> InsertColor(Color? Color);
     Task<Color?> GetColor(int ColorId);
     Task<IEnumerable<Color>> GetColors();
     Task DeleteColor(int ColorId);
@@ -39,12 +39,16 @@ public class ColorRepository : IColorRepository
                 .FirstOrDefaultAsync(c => c.Id == ColorId);
     }
 
-    public async Task<Color> InsertColor(Color Color)
+    public async Task<Color?> InsertColor(Color? Color)
     {
-        EntityEntry<Color> color = _context.Colors.Add(Color);
-        await _context.SaveChangesAsync();
+        if (Color != null)
+        {
+            EntityEntry<Color> color = _context.Colors.Add(Color);
+            await _context.SaveChangesAsync();
+            return color.Entity;
+        }
+        else { return null; }
 
-        return color.Entity;
     }
 
     public async Task UpdateColor(int ColorId, Color Color)

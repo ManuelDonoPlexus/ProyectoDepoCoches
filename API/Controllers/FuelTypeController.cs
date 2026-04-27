@@ -42,10 +42,11 @@ namespace CarDepo.API.Controllers
         // POST: api/FuelType
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<FuelType>> CreateFuelType(FuelType fuelType)
+        public async Task<ActionResult<FuelType?>> CreateFuelType(FuelType? fuelType)
         {
-            await _fueltypeRepo.InsertFuelType(fuelType);
-            return CreatedAtAction("GetFuelType", new { id = fuelType.Id }, fuelType);
+            FuelType? newFuel = await _fueltypeRepo.InsertFuelType(fuelType);
+            if ( newFuel != null ){ return CreatedAtAction("GetFuelType", new { id = newFuel.Id }, newFuel); }
+            else { return BadRequest(); }
         }
 
         // PUT: api/FuelType/5
