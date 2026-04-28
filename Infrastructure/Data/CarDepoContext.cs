@@ -3,17 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarDepo.Infrastructure.Data
 {
+    // Esta clase esta encargada de la construcción de la sesión con la base de datos que sera usada por los repositorios y controladores del programa.   
     public class CarDepoContext(DbContextOptions<CarDepoContext> options) : DbContext(options)
     {
-        public DbSet<API.Models.Car> Cars { get; set; } = default!;
-        public DbSet<API.Models.CarDriver> CarDrivers { get; set; } = default!;
-        public DbSet<API.Models.Color> Colors { get; set; } = default!;
-        public DbSet<API.Models.Driver> Drivers { get; set; } = default!;
-        public DbSet<API.Models.Fine> Fines { get; set; } = default!;
-        public DbSet<API.Models.FuelType> FuelTypes { get; set; } = default!;
-        public DbSet<API.Models.Make> Makes { get; set; } = default!;
-        public DbSet<API.Models.Owner> Owners { get; set; } = default!;
+        // Esta sesión almacena los conjuntos de información relacionados con las entidades de la base de datos
+        public DbSet<Car> Cars { get; set; } = default!;
+        public DbSet<CarDriver> CarDrivers { get; set; } = default!;
+        public DbSet<Color> Colors { get; set; } = default!;
+        public DbSet<Driver> Drivers { get; set; } = default!;
+        public DbSet<Fine> Fines { get; set; } = default!;
+        public DbSet<FuelType> FuelTypes { get; set; } = default!;
+        public DbSet<Make> Makes { get; set; } = default!;
+        public DbSet<Owner> Owners { get; set; } = default!;
 
+        // Para especificar configuraciones especificas de la base de datos y sus entidades, siendo usado principalmente para definir las claves foraneas y el dataseeding
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

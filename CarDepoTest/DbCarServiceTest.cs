@@ -12,7 +12,6 @@ namespace CarDepo.CarDepoTest;
 
 public class CarRepoTest
 {
-
     // UNIT TEST
 
     [Fact]
@@ -28,7 +27,6 @@ public class CarRepoTest
     public async Task CreateCar_Fail()
     {
         var repoMock = new Mock<ICarRepository>();
-
         var controller = new CarController(repoMock.Object);
         var result = await controller.CreateCar(null);
         Assert.IsType<BadRequestResult>(result!.Result);

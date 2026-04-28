@@ -19,9 +19,9 @@ public class CarServiceDbContext
         {
             License = license,
             Kms = kms,
-            ColorId = 7,
-            OwnerId = 3,
-            MakeId = 1,
+            ColorId = colorId,
+            OwnerId = ownerId,
+            MakeId = makeId,
         };
 
         if (!_context.Colors.Any(c => cartoadd.ColorId == c.Id)) { return false; }

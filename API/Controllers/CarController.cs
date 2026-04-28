@@ -40,17 +40,16 @@ namespace CarDepo.API.Controllers
         }
 
         // POST: api/Car
+        // Recibe una entidad "Car" nulable como parametro.
         [HttpPost]
         public async Task<ActionResult<Car?>?> CreateCar(Car? car)
         {
+            // Ejecuta el metodo InsertCar del repositorio con el parametro de la funcionalidad
             Car? newcar = await _carRepo.InsertCar(car);
 
-            if (newcar != null)
-            {
-                ActionResult<Car?> result = await GetSpecificCar(newcar.Id);
-                if (result != null) { return result; }
-                else { return BadRequest(); }
-            }
+            // Si el resultado no es nulo, de devuelve la entidad creada des pues de buscarla por su id. 
+            // Si es nulo, se devuelve BadRequest para indicar un problema con la adición 
+            if (newcar != null) { return await GetSpecificCar(newcar.Id); }
             else { return BadRequest(); }
         }
 

@@ -45,12 +45,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Make?>> CreateMake(Make? make)
         {
             Make? newmake = await _makeRepo.InsertMake(make);
-            if (newmake != null)
-            {
-                ActionResult<Make?> result = await GetSpecificMake(newmake.Id);
-                if (result != null) { return result; }
-                else { return BadRequest(); }
-            }
+            if (newmake != null){return await GetSpecificMake(newmake.Id);}
             else { return BadRequest(); }
         }
 

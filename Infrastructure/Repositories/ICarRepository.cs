@@ -43,10 +43,14 @@ public class CarRepository : ICarRepository
             .FirstOrDefaultAsync(car => car.Id == CarId);
     }
 
+    // Implementa de la interfaz de repositorio el metodo InsertCar para añadir un coche a la base de datos
     public async Task<Car?> InsertCar(Car? Car)
     {
+        // Si el parametro no es nulo, se ejecuta se añade a la sesión
+        // Si es nulo, se devuelve null
         if (Car != null)
         {
+            //Se añade a la sesión el coche pasado por parametro, se guardan los cambios realizados, y se devuelve la entidad resultante. 
             EntityEntry<Car> car = _context.Cars.Add(Car);
             await _context.SaveChangesAsync();
             return car?.Entity;

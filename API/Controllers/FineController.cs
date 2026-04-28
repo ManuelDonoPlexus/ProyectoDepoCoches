@@ -43,12 +43,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Fine?>> CreateFine(Fine? fine)
         {
             Fine? newFine = await _fineRepository.InsertFine(fine);
-            if (newFine != null)
-            {
-                ActionResult<Fine?> result = await GetSpecificFine(newFine.Id);
-                if (result != null) { return result; }
-                else { return BadRequest(); }
-            }
+            if (newFine != null) { return await GetSpecificFine(newFine.Id); }
             else { return BadRequest(); }
         }
 
