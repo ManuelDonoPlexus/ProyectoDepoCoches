@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Car/5
         [HttpGet("{CarId}")]
-        public async Task<ActionResult<Car>> GetSpecificCar(int CarId)
+        public async Task<ActionResult<Car?>> GetSpecificCar(int CarId)
         {
             var car = Ok(await _carRepo.GetCar(CarId));
             if (car == null) { return NotFound(); }
@@ -41,11 +41,16 @@ namespace CarDepo.API.Controllers
 
         // POST: api/Car
         [HttpPost]
-        public async Task<ActionResult<Car?>> CreateCar(Car? car)
+        public async Task<ActionResult<Car?>?> CreateCar(Car? car)
         {
             Car? newcar = await _carRepo.InsertCar(car);
-            
-            if (newcar != null) { return await GetSpecificCar(newcar.Id);} 
+
+            if (newcar != null)
+            {
+                ActionResult<Car?> result = await GetSpecificCar(newcar.Id);
+                if (result != null) { return result; }
+                else { return BadRequest(); }
+            }
             else { return BadRequest(); }
         }
 
@@ -55,7 +60,7 @@ namespace CarDepo.API.Controllers
         {
             if (CarId != car.Id) { return BadRequest(); }
 
-            try { await _carRepo.UpdateCar(CarId, car);  }
+            try { await _carRepo.UpdateCar(CarId, car); }
             catch (DbUpdateConcurrencyException)
             {
                 if (!_carRepo.IfCarExists(CarId)) { return NotFound(); }

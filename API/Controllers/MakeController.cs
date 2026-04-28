@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Make/(id)
         [HttpGet("{MakeId}")]
-        public async Task<ActionResult<Make>> GetSpecificMake(int MakeId)
+        public async Task<ActionResult<Make?>> GetSpecificMake(int MakeId)
         {
             var make = await _makeRepo.GetMake(MakeId);
             if (make == null){return NotFound();}
@@ -45,7 +45,12 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Make?>> CreateMake(Make? make)
         {
             Make? newmake = await _makeRepo.InsertMake(make);
-            if (newmake != null) { return await GetSpecificMake(newmake.Id); }
+            if (newmake != null)
+            {
+                ActionResult<Make?> result = await GetSpecificMake(newmake.Id);
+                if (result != null) { return result; }
+                else { return BadRequest(); }
+            }
             else { return BadRequest(); }
         }
 

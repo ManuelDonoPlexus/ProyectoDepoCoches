@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Fine/5
         [HttpGet("{FineId}")]
-        public async Task<ActionResult<Fine>> GetSpecificFine(int FineId)
+        public async Task<ActionResult<Fine?>> GetSpecificFine(int FineId)
         {
             var fine = Ok(await _fineRepository.GetFine(FineId));
             return fine;
@@ -43,7 +43,12 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Fine?>> CreateFine(Fine? fine)
         {
             Fine? newFine = await _fineRepository.InsertFine(fine);
-            if (newFine != null) { return await GetSpecificFine(newFine.Id); }
+            if (newFine != null)
+            {
+                ActionResult<Fine?> result = await GetSpecificFine(newFine.Id);
+                if (result != null) { return result; }
+                else { return BadRequest(); }
+            }
             else { return BadRequest(); }
         }
 

@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Owner/5
         [HttpGet("{OwnerId}")]
-        public async Task<ActionResult<Owner>> GetSpecificOwner(int OwnerId)
+        public async Task<ActionResult<Owner?>> GetSpecificOwner(int OwnerId)
         {
             var owner = Ok(await _ownerRepo.GetOwner(OwnerId));
             if (owner == null) { return NotFound(); }
@@ -44,7 +44,12 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Owner?>> CreateOwner(Owner? owner)
         {
             Owner? newowner = await _ownerRepo.InsertOwner(owner);
-            if (newowner != null) { return await GetSpecificOwner(newowner.Id); }
+            if (newowner != null) 
+            {
+                ActionResult<Owner?> result = await GetSpecificOwner(newowner.Id);
+                if (result != null) { return result; }
+                else { return BadRequest(); }
+            }
             else { return BadRequest(); }
         }
 

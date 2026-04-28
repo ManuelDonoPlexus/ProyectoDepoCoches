@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Color/5
         [HttpGet("{ColorId}")]
-        public async Task<ActionResult<Color>> GetSpecificColor(int ColorId)
+        public async Task<ActionResult<Color?>> GetSpecificColor(int ColorId)
         {
             var color = Ok(await _colorRepo.GetColor(ColorId));
 
@@ -48,9 +48,14 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Color?>> CreateColor(Color? color)
         {
-            Color? newColor = await _colorRepo.InsertColor(color);
-            if ( newColor != null ) { return await GetSpecificColor(newColor.Id); }
-            else { return BadRequest(); }            
+            Color? newcolor = await _colorRepo.InsertColor(color);
+            if (newcolor != null)
+            {
+                ActionResult<Color?> result = await GetSpecificColor(newcolor.Id);
+                if (result != null) { return result; }
+                else { return BadRequest(); }
+            }
+            else { return BadRequest(); }
         }
 
         // PUT: api/Color/5
@@ -77,8 +82,8 @@ namespace CarDepo.API.Controllers
         public async Task<IActionResult> DeleteColor(int ColorId)
         {
             var color = await _colorRepo.GetColor(ColorId);
-            if (color == null){ return NotFound(); }
-            
+            if (color == null) { return NotFound(); }
+
             await _colorRepo.DeleteColor(ColorId);
             return NoContent();
         }

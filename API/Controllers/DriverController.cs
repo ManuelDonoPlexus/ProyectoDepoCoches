@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/Driver/5
         [HttpGet("{DriverId}")]
-        public async Task<ActionResult<Driver>> GetSpecificDriver(int DriverId)
+        public async Task<ActionResult<Driver?>> GetSpecificDriver(int DriverId)
         {
             var driver = Ok(await _driverRepo.GetDriver(DriverId));
 
@@ -48,8 +48,13 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Driver?>> CreateDriver(Driver? driver)
         {
             Driver? newdriver = await _driverRepo.InsertDriver(driver);
-            if (newdriver != null) { return await GetSpecificDriver(newdriver.Id); }
-            else { return BadRequest(); }            
+            if (newdriver != null)
+            {
+                ActionResult<Driver?> result = await GetSpecificDriver(newdriver.Id);
+                if (result != null) { return result; }
+                else { return BadRequest(); }
+            }
+            else { return BadRequest(); }
         }
 
         // PUT: api/Driver/5

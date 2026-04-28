@@ -32,7 +32,7 @@ namespace CarDepo.API.Controllers
 
         // GET: api/FuelType/5
         [HttpGet("{FuelId}")]
-        public async Task<ActionResult<FuelType>> GetSpecificFuelType(int FuelId)
+        public async Task<ActionResult<FuelType?>> GetSpecificFuelType(int FuelId)
         {
             var fuel = Ok(await _fueltypeRepo.GetFuelTypes());
             if (fuel == null) { return NotFound(); }
@@ -44,7 +44,12 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<FuelType?>> CreateFuelType(FuelType? fuelType)
         {
             FuelType? newFuel = await _fueltypeRepo.InsertFuelType(fuelType);
-            if ( newFuel != null ){ return await GetSpecificFuelType(newFuel.Id); }
+            if (newFuel != null)
+            {
+                ActionResult<FuelType?> result = await GetSpecificFuelType(newFuel.Id);
+                if (result != null) { return result; }
+                else { return BadRequest(); }
+            }
             else { return BadRequest(); }
         }
 
