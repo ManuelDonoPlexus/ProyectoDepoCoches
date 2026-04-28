@@ -31,79 +31,18 @@ public class CarRepoTest
 
         var controller = new CarController(repoMock.Object);
         var result = await controller.CreateCar(null);
-        Assert.IsType<BadRequestResult>(result.Result);
+        Assert.IsType<BadRequestResult>(result!.Result);
     }
 
     [Fact]
-    public async Task DeleteCar_NotFound()
+    public async Task DeleteCar_NotContentResult()
     {
         var repoMock = new Mock<ICarRepository>();
         var controller = new CarController(repoMock.Object);
         var result = await controller.DeleteCar(-9);
-        Assert.IsType<NotFoundResult>(result);
+        Assert.IsType<NoContentResult>(result);
     }
 
     // INTEGRATION TEST
-
-/*
-    [Fact]
-    public async Task InsertContext_Success()
-    {
-        var context = new Mock<CarDepoContext>();
-        var car = new Car
-        {
-            License = "1234-AB",
-            Kms = 123,
-            ColorId = 1,
-            MakeId = 1,
-            OwnerId = 1,
-        };
-    }
-
-    [Fact]
-    public async Task InsertContext_FailColor()
-    {
-        var context = new Mock<CarDepoContext>();
-        var car = new Car
-        {
-            License = "1234-AB",
-            Kms = 123,
-            ColorId = -1,
-            MakeId = 1,
-            OwnerId = 1,
-        };
-        
-    }
-
-    [Fact]
-    public async Task InsertContext_FailMake()
-    {
-        var context = new Mock<CarDepoContext>();
-        var car = new Car
-        {
-            License = "1234-AB",
-            Kms = 123,
-            ColorId = 1,
-            MakeId = -1,
-            OwnerId = 1,
-        };
-        
-    }
-
-    [Fact]
-    public async Task InsertContext_FailOwner()
-    {
-        
-        var context = new Mock<CarDepoContext>();
-        var car = new Car
-        {
-            License = "1234-AB",
-            Kms = 123,
-            ColorId = 1,
-            MakeId = 1,
-            OwnerId = -1,
-        };
-    }
-*/
 
 }

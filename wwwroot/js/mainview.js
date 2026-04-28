@@ -1203,7 +1203,7 @@ function saveEditCar() {
         makeId: editMake.id
     }
     fetch(baseurl + uriCar, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
@@ -1231,7 +1231,7 @@ function saveEditMake() {
         fuelTypeId: editFuel.id
     }
     fetch(baseurl + uriMake, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
@@ -1260,7 +1260,7 @@ function saveEditDriver() {
         ownerId: editOwner.id
     }
     fetch(baseurl + uriDriver, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
@@ -1287,7 +1287,7 @@ function saveEditOwner() {
         emailAddr: editEmail.value.trim()
     }
     fetch(baseurl + uriOwner, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
@@ -1324,7 +1324,7 @@ function saveEditFine() {
 
     }
     fetch(baseurl + uriFine, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
