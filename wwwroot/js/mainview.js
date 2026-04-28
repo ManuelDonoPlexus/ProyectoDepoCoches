@@ -878,7 +878,7 @@ function deleteCar(id) {
     fetch(`${baseurl}${uriCar}/${id}`, {
         method: `DELETE`
     })
-        //.then(() => location.reload())
+        .then(() => location.reload())
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
 

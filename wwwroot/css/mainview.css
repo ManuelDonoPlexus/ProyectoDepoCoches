@@ -94,6 +94,40 @@ body {
     padding-top: 10px;
 }
 
+.addform{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.addform input{
+    border-color: black;
+    width: 100%;
+    padding: 2%;
+    margin-top: 4%;
+    border-radius: 6px;
+    font-family: "Oswald", sans-serif;
+}
+
+.editform{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.editform input{
+    border-color: black;
+    width: 100%;
+    padding: 2%;
+    margin-top: 4%;
+    border-radius: 6px;
+    font-family: "Oswald", sans-serif;
+}
+
+
+/* Estilos de clases: botones, textos, etc */
 
 .title{
     font-weight: bold;
@@ -141,6 +175,24 @@ body {
     border-color: blue;
 }
 
+.enableditBton{
+    font-family: 'Oswald', sans-serif;
+    margin-top: 4%;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    color: black;
+    background-color: transparent;
+    border-color: transparent;
+    transition-duration: 0.4s;
+}
+
+.enableditBton:hover{
+    color: white;
+    background-color: blue;
+    border-color: blue;
+}
+
 .deleteBton{
     font-family: 'Oswald', sans-serif;
     margin-top: 4%;
@@ -157,6 +209,42 @@ body {
     color: white;
     background-color: red;
     border-color: red;
+}
+
+.cancelBton{
+    font-family: 'Oswald', sans-serif;
+    margin-top: 4%;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    color: black;
+    background-color: transparent;
+    border-color: transparent;
+    transition-duration: 0.4s;
+}
+
+.cancelBton:hover{
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+.saveBton{
+    font-family: 'Oswald', sans-serif;
+    margin-top: 4%;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    color: black;
+    background-color: transparent;
+    border-color: transparent;
+    transition-duration: 0.4s;
+}
+
+.saveBton:hover{
+    color: white;
+    background-color: green;
+    border-color: green;
 }
 
 .searchBar{
