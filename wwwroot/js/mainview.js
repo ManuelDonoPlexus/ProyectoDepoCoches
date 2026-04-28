@@ -922,7 +922,7 @@ function deleteOwner(id) {
         .catch(error => console.error("Unable to delete car from database. ", error))
 }
 
-// Editform
+// Show Editform
 
 function showEditForm(nameView, idEntity) {
     showView(nameView);
@@ -960,7 +960,7 @@ function carShowEdit(id) {
     enableBton.setAttribute("onclick", `enableEditCar(${id})`);
 
     let saveBton = document.getElementById("saveEditCar");
-    saveBton.setAttribute("onclick", `saveCar(${id})`);
+    saveBton.setAttribute("onclick", `saveEditCar(${id})`);
 }
 
 function makeShowEdit(id) {
@@ -986,7 +986,7 @@ function makeShowEdit(id) {
     enableBton.setAttribute("onclick", `enableEditMake(${id})`);
 
     let saveBton = document.getElementById("saveEditMake");
-    saveBton.setAttribute("onclick", `saveMake(${id})`);
+    saveBton.setAttribute("onclick", `saveEditMake(${id})`);
 }
 
 function driverShowEdit(id) {
@@ -1015,7 +1015,7 @@ function driverShowEdit(id) {
     enableBton.setAttribute("onclick", `enableEditDriver(${id})`);
 
     let saveBton = document.getElementById("saveEditDriver");
-    saveBton.setAttribute("onclick", `saveDriver(${id})`);
+    saveBton.setAttribute("onclick", `saveEditDriver(${id})`);
 }
 
 function ownerShowEdit(id) {
@@ -1044,7 +1044,7 @@ function ownerShowEdit(id) {
     enableBton.setAttribute("onclick", `enableEditOwner(${id})`);
 
     let saveBton = document.getElementById("saveEditOwner");
-    saveBton.setAttribute("onclick", `saveOwner(${id})`);
+    saveBton.setAttribute("onclick", `saveEditOwner(${id})`);
 }
 
 function fineShowEdit(id) {
@@ -1077,8 +1077,10 @@ function fineShowEdit(id) {
     enableBton.setAttribute("onclick", `enableEditFine(${id})`);
 
     let saveBton = document.getElementById("saveEditFine");
-    saveBton.setAttribute("onclick", `saveFine(${id})`);
+    saveBton.setAttribute("onclick", `saveEditFine(${id})`);
 }
+
+// Enable Editform
 
 function enableEditCar(id){
     var license = document.getElementById("licenseCar");
@@ -1178,4 +1180,157 @@ function enableEditFine(id){
 
     let saveBton = document.getElementById("saveEditFine");
     saveBton.hidden = false;
+}
+
+// Save changes from Edit
+
+function saveEditCar() {
+    var editLicense = document.getElementById("licenseCar");
+    var editKms = document.getElementById("kmsCar");
+    
+    var editColorName = document.getElementById("colorCar").value.trim();
+    var editOwnerName = document.getElementById("ownerCar").value.trim();
+    var editMakeName = document.getElementById("makeCar").value.trim();
+    editColor = getSpecificColor(editColorName, "name");
+    editOwner = getSpecificOwner(editOwnerName, "name");
+    editMake = getSpecificMake(editMakeName, "name");
+
+    const car = {
+        license: editLicense.value.trim(),
+        kms: editKms.value.trim(),
+        colorId: editColor.id,
+        ownerId: editOwner.id,
+        makeId: editMake.id
+    }
+    fetch(baseurl + uriCar, {
+        method: "PUT",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(car)
+    })
+        .then(respone => respone.json())
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to add fine to database. ", error))
+}
+
+function saveEditMake() {
+    var editName = document.getElementById("nameMake");
+    var editHorsePower = document.getElementById("horsepowerMake");
+    var editPrice = document.getElementById("priceMake");
+
+    var editFuelName = document.getElementById("fueltypeMake").value.trim();
+    editFuel = getSpecificFuel(editFuelName,"name")
+
+
+    const make = {
+        name: editName.value.trim(),
+        horsePower: editHorsePower.value.trim(),
+        price: editPrice.value.trim(),
+        fuelTypeId: editFuel.id
+    }
+    fetch(baseurl + uriMake, {
+        method: "PUT",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(make)
+    })
+        .then(response => response.json)
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to add make to database. ", error))
+}
+
+function saveEditDriver() {
+    var editName = document.getElementById("nameDriver");
+    var editDni = document.getElementById("dniDriver");
+    var editEmail = document.getElementById("emailaddrDriver");
+    var editPhone = document.getElementById("phonenumberDriver");
+
+    var editOwnerName = document.getElementById("ownerDriver").value.trim();
+    editOwner = getSpecificOwner(editOwnerName)
+
+    const driver = {
+        name: editName.value.trim(),
+        dni: editDni.value.trim(),
+        emailAddr: editEmail.value.trim(),
+        phoneNumber: editPhone.value.trim(),
+        ownerId: editOwner.id
+    }
+    fetch(baseurl + uriDriver, {
+        method: "PUT",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(driver)
+    })
+        .then(respone => respone.json())
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to add fine to database. ", error))
+}
+
+function saveEditOwner() {
+    var editName = document.getElementById("nameOwner");
+    var editNif = document.getElementById("nifOwner");
+    var editPhone = document.getElementById("phonenumberOwner");
+    var editDate = document.getElementById("datentryOwner");
+    var editEmail = document.getElementById("emailaddrOwner");
+
+    const owner = {
+        name: editName.value.trim(),
+        nif: editNif.value.trim(),
+        phoneNumber: editPhone.value.trim(),
+        dateEntry: editDate.value.trim(),
+        emailAddr: editEmail.value.trim()
+    }
+    fetch(baseurl + uriOwner, {
+        method: "PUT",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(owner)
+    })
+        .then(response => response.json)
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to add owner to database. ", error))
+}
+
+function saveEditFine() {
+    var editPrice = document.getElementById("priceFine");    
+    var editPayed = document.getElementById("payedFine");
+    var editDescription = document.getElementById("descriptionFine");
+    var editDate = document.getElementById("dateFine");
+
+    var editOwnerName = document.getElementById("ownerFine").value.trim();
+    var editCarName = document.getElementById("carFine").value.trim();
+    editOwner = getSpecificOwner(editOwnerName, "name");
+    editCar = getSpecificCar(editCarName, "name")
+
+    var payed;
+    if (editPayed.checked == true) { payed = true }
+    else { payed = false }
+
+    const fine = {
+        price: editPrice.value.trim(),
+        date: editDate.value.trim(),
+        description: editDescription.value.trim(),
+        payed: payed,
+        ownerId: editOwner.id,
+        carId: editCar.id,
+
+    }
+    fetch(baseurl + uriFine, {
+        method: "PUT",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(fine)
+    })
+        .then(() => location.reload())
+        .catch(error => console.error("Unable to add fine to database. ", error))
 }
