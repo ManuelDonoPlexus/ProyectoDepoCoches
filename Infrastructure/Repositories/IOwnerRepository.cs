@@ -12,7 +12,7 @@ public interface IOwnerRepository
     Task<Owner?> GetOwner(int OwnerId);
     Task<IEnumerable<Owner>> GetOwners();
     Task DeleteOwner(int OwnerId);
-    Task UpdateOwner(int OwnerId, Owner Owner);
+    Task<Owner?> UpdateOwner(int OwnerId, Owner Owner);
     bool IfOwnerExists(int OwnerId);
 }
 
@@ -51,21 +51,29 @@ public class OwnerRepository : IOwnerRepository
         else { return null; }
     }
 
-    public async Task UpdateOwner(int OwnerId, Owner Owner)
+    public async Task<Owner?> UpdateOwner(int OwnerId, Owner newOwner)
     {
-        if (OwnerId == Owner.Id)
+        var result = await GetOwner(OwnerId);
+
+        if (result != null)
         {
-            _context.Entry(Owner).State = EntityState.Modified;
+            result.Name = newOwner.Name;
+            result.Nif = newOwner.Nif;
+            result.PhoneNumber = newOwner.PhoneNumber;
+            result.DateEntry = newOwner.DateEntry;
+            result.EmailAddr = newOwner.EmailAddr;
             await _context.SaveChangesAsync();
+            return result;
         }
+        else { return null; }
     }
 
     public async Task DeleteOwner(int OwnerId)
     {
-        var Owner = await _context.Owners.FindAsync(OwnerId);
-        if (Owner != null)
+        var result = await _context.Owners.FindAsync(OwnerId);
+        if (result != null)
         {
-            _context.Owners.Remove(Owner);
+            _context.Owners.Remove(result);
             await _context.SaveChangesAsync();
         }
     }

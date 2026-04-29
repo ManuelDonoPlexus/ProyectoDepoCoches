@@ -55,21 +55,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Color/5
         [HttpPut("{ColorId}")]
-        public async Task<IActionResult> ModifyColor(int ColorId, Color color)
+        public async Task<IActionResult> ModifyColor(int ColorId, Color newColor)
         {
-            if (ColorId != color.Id) { return BadRequest(); }
-
-            try
-            {
-                await _colorRepo.UpdateColor(ColorId, color);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_colorRepo.IfColorExists(ColorId)) { return NotFound(); }
-                else { throw; }
-            }
-
-            return NoContent();
+            Color? result = await _colorRepo.UpdateColor(ColorId, newColor);
+            if(result != null) { return NoContent(); }
+            else { return BadRequest(); }
         }
 
         // DELETE: api/Color/5

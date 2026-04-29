@@ -8,11 +8,11 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface ICarDriverRepository
 {
-    Task<CarDriver?> InsertCarDriver(CarDriver? CarDriver);
+    Task<CarDriver?> InsertCarDriver(CarDriver? newCarDriver);
     Task<CarDriver?> GetCarDriver(int CarDriverId);
     Task<IEnumerable<CarDriver>> GetCarDrivers();
     Task DeleteCarDriver(int CarDriverId);
-    Task UpdateCarDriver(int CarDriverId, CarDriver CarDriver);
+    Task<CarDriver?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver);
     bool IfCarDriverExists(int CarDriverId);
 }
 
@@ -44,32 +44,41 @@ public class CarDriverRepository : ICarDriverRepository
                 .FirstOrDefaultAsync(cd => cd.Id == CarDriverId);
     }
 
-    public async Task<CarDriver?> InsertCarDriver(CarDriver? CarDriver)
+    public async Task<CarDriver?> InsertCarDriver(CarDriver? newCarDriver)
     {
-        if (CarDriver != null)
+        if (newCarDriver != null)
         {
-            EntityEntry<CarDriver> cardriver = _context.CarDrivers.Add(CarDriver);
+            EntityEntry<CarDriver> cardriver = _context.CarDrivers.Add(newCarDriver);
             await _context.SaveChangesAsync();
             return cardriver.Entity;
         } 
         else { return null; }
     }
 
-    public async Task UpdateCarDriver(int CarDriverId, CarDriver CarDriver)
+    public async Task<CarDriver?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
     {
-        if (CarDriverId == CarDriver.Id)
+        var result = await _context.CarDrivers.FindAsync(CarDriverId);
+
+        if (result != null)
         {
-            _context.Entry(CarDriver).State = EntityState.Modified;
+            result.DateDrive = newCarDriver.DateDrive;
+            result.CarCDId = newCarDriver.CarCDId;
+            result.DriverCDId = newCarDriver.DriverCDId;
+            result.Car = newCarDriver.Car;
+            result.Driver = newCarDriver.Driver;
+            
             await _context.SaveChangesAsync();
+            return result;
         }
+        else { return null; }   
     }
 
     public async Task DeleteCarDriver(int CarDriverId)
     {
-        var cardriver = await _context.CarDrivers.FindAsync(CarDriverId);
-        if (cardriver != null)
+        var result = await GetCarDriver(CarDriverId);
+        if (result != null)
         {
-            _context.CarDrivers.Remove(cardriver);
+            _context.CarDrivers.Remove(result);
             await _context.SaveChangesAsync();
         }
     }

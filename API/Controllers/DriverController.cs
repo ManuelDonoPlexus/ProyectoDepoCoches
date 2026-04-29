@@ -54,21 +54,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Driver/5
         [HttpPut("{DriverId}")]
-        public async Task<IActionResult> ModifyDriver(int DriverId, Driver driver)
+        public async Task<IActionResult> ModifyDriver(int DriverId, Driver newDriver)
         {
-            if (DriverId != driver.Id) { return BadRequest(); }
-
-            try
-            {
-                await _driverRepo.UpdateDriver(DriverId, driver);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_driverRepo.IfDriverExists(DriverId)) { return NotFound(); }
-                else { throw; }
-            }
-
-            return NoContent();
+            Driver? result = await _driverRepo.UpdateDriver(DriverId, newDriver);
+            if(result != null) { return NoContent(); }
+            else { return BadRequest(); }
         }
 
         // DELETE: api/Driver/5

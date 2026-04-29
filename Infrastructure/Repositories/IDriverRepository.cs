@@ -12,7 +12,7 @@ public interface IDriverRepository
     Task<Driver?> GetDriver(int DriverId);
     Task<IEnumerable<Driver>> GetDrivers();
     Task DeleteDriver(int DriverId);
-    Task UpdateDriver(int DriverId, Driver Driver);
+    Task<Driver?> UpdateDriver(int DriverId, Driver newDriver);
     bool IfDriverExists(int DriverId);
 }
 
@@ -52,21 +52,30 @@ public class DriverRepository : IDriverRepository
         else { return null; }
     }
 
-    public async Task UpdateDriver(int DriverId, Driver Driver)
+    public async Task<Driver?> UpdateDriver(int DriverId, Driver newDriver)
     {
-        if (DriverId == Driver.Id)
+        var result = await _context.Drivers.FindAsync(newDriver);
+
+        if (result != null)
         {
-            _context.Entry(Driver).State = EntityState.Modified;
+            result.Name = newDriver.Name;
+            result.Dni = newDriver.Dni;
+            result.EmailAddr = newDriver.EmailAddr;
+            result.PhoneNumber = newDriver.PhoneNumber;
+            result.OwnerId = newDriver.OwnerId;
+            result.Owner = newDriver.Owner;
             await _context.SaveChangesAsync();
+            return result;
         }
+        else { return null; }  
     }
 
     public async Task DeleteDriver(int DriverId)
     {
-        var Driver = await _context.Drivers.FindAsync(DriverId);
-        if (Driver != null)
+        var result = await GetDriver(DriverId);
+        if (result != null)
         {
-            _context.Drivers.Remove(Driver);
+            _context.Drivers.Remove(result);
             await _context.SaveChangesAsync();
         }
     }

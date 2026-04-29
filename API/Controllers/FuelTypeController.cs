@@ -50,18 +50,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/FuelType/5
         [HttpPut("{FuelId}")]
-        public async Task<IActionResult> ModifyFuelType(int FuelId, FuelType fuelType)
+        public async Task<IActionResult> ModifyFuelType(int FuelId, FuelType newFuelType)
         {
-            if (FuelId != fuelType.Id) { return BadRequest(); }
-
-            try { await _fueltypeRepo.UpdateFuelType(FuelId, fuelType); }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_fueltypeRepo.IfFuelTypeExists(FuelId)) { return NotFound(); }
-                else { throw; }
-            }
-
-            return NoContent();
+            FuelType? result = await _fueltypeRepo.UpdateFuelType(FuelId, newFuelType);
+            if(result != null) { return NoContent(); }
+            else { return BadRequest(); }
         }
 
         // DELETE: api/FuelType/5

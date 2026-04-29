@@ -49,18 +49,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Fine/5
         [HttpPut("{FineId}")]
-        public async Task<IActionResult> ModifyFine(int FineId, Fine fine)
+        public async Task<IActionResult> ModifyFine(int FineId, Fine newFine)
         {
-            if (FineId != fine.Id) { return BadRequest(); }
-
-            try { await _fineRepository.UpdateFine(FineId, fine); }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_fineRepository.IfFineExists(FineId)) { return NotFound(); }
-                else { throw; }
-            }
-
-            return NoContent();
+            Fine? result = await _fineRepository.UpdateFine(FineId, newFine);
+            if(result != null) { return NoContent(); }
+            else { return BadRequest(); }
         }
 
         // DELETE: api/Fine/5

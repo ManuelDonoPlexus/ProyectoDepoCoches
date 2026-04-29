@@ -12,7 +12,7 @@ public interface IColorRepository
     Task<Color?> GetColor(int ColorId);
     Task<IEnumerable<Color>> GetColors();
     Task DeleteColor(int ColorId);
-    Task UpdateColor(int ColorId, Color Color);
+    Task<Color?> UpdateColor(int ColorId, Color newColor);
     bool IfColorExists(int ColorId);
 }
 
@@ -51,21 +51,25 @@ public class ColorRepository : IColorRepository
 
     }
 
-    public async Task UpdateColor(int ColorId, Color Color)
+    public async Task<Color?> UpdateColor(int ColorId, Color newColor)
     {
-        if (ColorId == Color.Id)
+        var result = await _context.Colors.FindAsync(ColorId);
+
+        if (result != null)
         {
-            _context.Entry(Color).State = EntityState.Modified;
+            result.Name = newColor.Name;
             await _context.SaveChangesAsync();
+            return result;
         }
+        else { return null; }    
     }
 
     public async Task DeleteColor(int ColorId)
     {
-        var color = await _context.Colors.FindAsync(ColorId);
-        if (color != null)
+        var result = await GetColor(ColorId);
+        if (result != null)
         {
-            _context.Colors.Remove(color);
+            _context.Colors.Remove(result);
             await _context.SaveChangesAsync();
         }
     }

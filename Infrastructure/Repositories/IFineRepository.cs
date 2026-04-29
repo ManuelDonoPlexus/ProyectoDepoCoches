@@ -12,7 +12,7 @@ public interface IFineRepository
     Task<Fine?> GetFine(int FineId);
     Task<IEnumerable<Fine>> GetFines();
     Task DeleteFine(int FineId);
-    Task UpdateFine(int FineId, Fine Fine);
+    Task<Fine?> UpdateFine(int FineId, Fine newFine);
     bool IfFineExists(int FineId);
 }
 
@@ -54,21 +54,31 @@ public class FineRepository : IFineRepository
         else { return null; }
     }
 
-    public async Task UpdateFine(int FineId, Fine Fine)
+    public async Task<Fine?> UpdateFine(int FineId, Fine newFine)
     {
-        if (FineId == Fine.Id)
+        var result = await _context.Fines.FindAsync(newFine);
+
+        if (result != null)
         {
-            _context.Entry(Fine).State = EntityState.Modified;
+            result.Date = newFine.Date;
+            result.Description = newFine.Description;
+            result.Price = newFine.Price;
+            result.Payed = newFine.Payed;
+            result.OwnerId = newFine.OwnerId;
+            result.CarId = newFine.CarId;
             await _context.SaveChangesAsync();
+            return result;
         }
+        else { return null; }  
+        
     }
 
     public async Task DeleteFine(int FineId)
     {
-        var Fine = await _context.Fines.FindAsync(FineId);
-        if (Fine != null)
+        var result = await GetFine(FineId);
+        if (result != null)
         {
-            _context.Fines.Remove(Fine);
+            _context.Fines.Remove(result);
             await _context.SaveChangesAsync();
         }
     }

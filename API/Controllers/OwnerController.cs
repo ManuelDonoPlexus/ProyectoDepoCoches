@@ -50,18 +50,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Owner/5
         [HttpPut("{OwnerId}")]
-        public async Task<IActionResult> ModifyOwner(int OwnerId, Owner owner)
+        public async Task<IActionResult> ModifyOwner(int OwnerId, Owner newOwner)
         {
-            if (OwnerId != owner.Id) { return BadRequest(); }
-
-            try { await _ownerRepo.UpdateOwner(OwnerId, owner); }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_ownerRepo.IfOwnerExists(OwnerId)) { return NotFound(); }
-                else { throw; }
-            }
-
-            return NoContent();
+            Owner? result = await _ownerRepo.UpdateOwner(OwnerId, newOwner);
+            if(result != null) { return NoContent(); }
+            else { return BadRequest(); }
         }
 
         // DELETE: api/Owner/5

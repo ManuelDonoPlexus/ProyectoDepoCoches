@@ -55,18 +55,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Car/5
         [HttpPut("{CarId}")]
-        public async Task<IActionResult> ModifyCar(int CarId, Car car)
+        public async Task<IActionResult> ModifyCar(int CarId, Car newCar)
         {
-            if (CarId != car.Id) { return BadRequest(); }
-
-            try { await _carRepo.UpdateCar(CarId, car); }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_carRepo.IfCarExists(CarId)) { return NotFound(); }
-                else { throw; }
-            }
-
-            return NoContent();
+            Car? result = await _carRepo.UpdateCar(CarId, newCar);
+            if(result != null) { return NoContent(); }
+            else { return BadRequest(); }
         }
 
         // DELETE: api/Car/5

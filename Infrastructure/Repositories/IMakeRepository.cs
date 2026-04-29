@@ -12,7 +12,7 @@ public interface IMakeRepository
     Task<Make?> GetMake(int OwnerId);
     Task<IEnumerable<Make>> GetMakes();
     Task DeleteMake(int OwnerId);
-    Task UpdateMake(int OwnerId, Make Owner);
+    Task<Make?> UpdateMake(int OwnerId, Make newOwner);
     bool IfMakeExists(int OwnerId);
 }
 
@@ -51,24 +51,30 @@ public class MakeRepository : IMakeRepository
             return make.Entity;
         }
         else { return null; }
-
     }
 
-    public async Task UpdateMake(int MakeId, Make Make)
+    public async Task<Make?> UpdateMake(int MakeId, Make newMake)
     {
-        if (MakeId == Make.Id)
+        var result = await GetMake(MakeId);
+
+        if (result != null)
         {
-            _context.Entry(Make).State = EntityState.Modified;
+            result.Name = newMake.Name;
+            result.Price = newMake.Price;
+            result.FuelTypeId = newMake.FuelTypeId;
+            result.FuelType = newMake.FuelType;
             await _context.SaveChangesAsync();
+            return result;
         }
+        else { return null; }    
     }
 
     public async Task DeleteMake(int MakeId)
     {
-        var Make = await _context.Makes.FindAsync(MakeId);
-        if (Make != null)
+        var result = await GetMake(MakeId);
+        if (result != null)
         {
-            _context.Makes.Remove(Make);
+            _context.Makes.Remove(result);
             await _context.SaveChangesAsync();
         }
     }

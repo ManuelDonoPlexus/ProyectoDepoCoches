@@ -51,18 +51,11 @@ namespace CarDepo.API.Controllers
 
         // PUT: api/Make/5
         [HttpPut("{MakeId}")]
-        public async Task<IActionResult> ModifyMake(int MakeId, Make make)
+        public async Task<IActionResult> ModifyMake(int MakeId, Make newMake)
         {
-            if (MakeId != make.Id) { return BadRequest(); }
-
-            try { await _makeRepo.UpdateMake(MakeId, make); }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_makeRepo.IfMakeExists(MakeId)) { return NotFound(); }
-                else { throw; }
-            }
-
-            return NoContent();
+            Make? result = await _makeRepo.UpdateMake(MakeId, newMake);
+            if(result != null) { return NoContent(); }
+            else { return BadRequest(); }
         }
 
         // DELETE: api/Make/5

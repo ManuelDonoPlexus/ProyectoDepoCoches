@@ -12,7 +12,7 @@ public interface IFuelTypeRepository
     Task<FuelType?> GetFuelType(int FuelTypeId);
     Task<IEnumerable<FuelType>> GetFuelTypes();
     Task DeleteFuelType(int FuelTypeId);
-    Task UpdateFuelType(int FuelTypeId, FuelType FuelType);
+    Task<FuelType?> UpdateFuelType(int FuelTypeId, FuelType newFuelType);
     bool IfFuelTypeExists(int FuelTypeId);
 }
 
@@ -51,21 +51,25 @@ public class FuelTypeRepository : IFuelTypeRepository
         else { return null; }
     }
 
-    public async Task UpdateFuelType(int FuelTypeId, FuelType FuelType)
+    public async Task<FuelType?> UpdateFuelType(int FuelTypeId, FuelType newFuelType)
     {
-        if (FuelTypeId == FuelType.Id)
+        var result = await GetFuelType(FuelTypeId);
+
+        if (result != null)
         {
-            _context.Entry(FuelType).State = EntityState.Modified;
+            result.Name = newFuelType.Name;
             await _context.SaveChangesAsync();
+            return result;
         }
+        else { return null; }        
     }
 
     public async Task DeleteFuelType(int FuelTypeId)
     {
-        var FuelType = await _context.FuelTypes.FindAsync(FuelTypeId);
-        if (FuelType != null)
+        var result = await GetFuelType(FuelTypeId);
+        if (result != null)
         {
-            _context.FuelTypes.Remove(FuelType);
+            _context.FuelTypes.Remove(result);
             await _context.SaveChangesAsync();
         }
     }
