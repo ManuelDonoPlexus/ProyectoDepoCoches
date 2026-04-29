@@ -1,0 +1,10 @@
+# Ignora todo de la carpeta Debug
+obj/
+bin/
+CarDepoTest/obj/
+CarDepoTest/bin/
+Migrations/
+.vscode/
+*.db
+*.db-shm
+*.db-wal
