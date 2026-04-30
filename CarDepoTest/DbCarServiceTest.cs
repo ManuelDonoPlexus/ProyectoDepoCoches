@@ -41,4 +41,22 @@ public class CarRepoTest
         Assert.IsType<NoContentResult>(result);
     }
 
+    [Fact]
+    public async Task DBContext()
+    {
+        var mockSet = new Mock<DbSet<Car>>();
+        var mockContext = new Mock<CarDepoContext>();
+        mockContext.Setup(c => c.Cars).Returns(mockSet.Object);
+
+        var service = new CarServiceDbContext(mockContext.Object);
+
+        var License = "ABCD-123";
+        var Kms = 123;
+        var ColorId = 1;
+        var OwnerId = 1;
+        var MakeId = 1;
+
+        var result = await service.insertCarWithValidation(License,Kms,ColorId,OwnerId,MakeId);
+        Assert.True(result);
+    }
 }
