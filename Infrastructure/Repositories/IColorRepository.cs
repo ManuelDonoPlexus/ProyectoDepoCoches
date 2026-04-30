@@ -18,23 +18,23 @@ public interface IColorRepository
 
 public class ColorRepository : IColorRepository
 {
-    private readonly CarDepoContext _context;
+    private readonly CarDepoContext _cardepocontext;
 
     public ColorRepository(CarDepoContext context)
     {
-        _context = context;
+        _cardepocontext = context;
     }
 
     public async Task<IEnumerable<Color>> GetColors()
     {
-        return await _context.Colors
+        return await _cardepocontext.Colors
                 .AsNoTracking()
                 .ToListAsync();
     }
 
     public async Task<Color?> GetColor(int ColorId)
     {
-        return await _context.Colors
+        return await _cardepocontext.Colors
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == ColorId);
     }
@@ -43,8 +43,8 @@ public class ColorRepository : IColorRepository
     {
         if (Color != null)
         {
-            EntityEntry<Color> color = _context.Colors.Add(Color);
-            await _context.SaveChangesAsync();
+            EntityEntry<Color> color = _cardepocontext.Colors.Add(Color);
+            await _cardepocontext.SaveChangesAsync();
             return color.Entity;
         }
         else { return null; }
@@ -53,12 +53,12 @@ public class ColorRepository : IColorRepository
 
     public async Task<Color?> UpdateColor(int ColorId, Color newColor)
     {
-        var result = await _context.Colors.FindAsync(ColorId);
+        var result = await _cardepocontext.Colors.FindAsync(ColorId);
 
         if (result != null)
         {
             result.Name = newColor.Name;
-            await _context.SaveChangesAsync();
+            await _cardepocontext.SaveChangesAsync();
             return result;
         }
         else { return null; }    
@@ -69,13 +69,13 @@ public class ColorRepository : IColorRepository
         var result = await GetColor(ColorId);
         if (result != null)
         {
-            _context.Colors.Remove(result);
-            await _context.SaveChangesAsync();
+            _cardepocontext.Colors.Remove(result);
+            await _cardepocontext.SaveChangesAsync();
         }
     }
 
     public bool IfColorExists(int ColorId)
     {
-        return _context.Colors.Any(e => e.Id == ColorId);
+        return _cardepocontext.Colors.Any(e => e.Id == ColorId);
     }
 }

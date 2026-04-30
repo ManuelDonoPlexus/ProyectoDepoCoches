@@ -18,16 +18,16 @@ public interface IDriverRepository
 
 public class DriverRepository : IDriverRepository
 {
-    private readonly CarDepoContext _context;
+    private readonly CarDepoContext _cardepocontext;
 
     public DriverRepository(CarDepoContext context)
     {
-        _context = context;
+        _cardepocontext = context;
     }
 
     public async Task<IEnumerable<Driver>> GetDrivers()
     {
-        return await _context.Drivers
+        return await _cardepocontext.Drivers
                 .Include(d => d.Owner)
                 .AsNoTracking()
                 .ToListAsync();
@@ -35,7 +35,7 @@ public class DriverRepository : IDriverRepository
 
     public async Task<Driver?> GetDriver(int DriverId)
     {
-        return await _context.Drivers
+        return await _cardepocontext.Drivers
                 .Include(d => d.Owner)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cd => cd.Id == DriverId);
@@ -45,8 +45,8 @@ public class DriverRepository : IDriverRepository
     {
         if (Driver != null)
         {
-            EntityEntry<Driver> driver = _context.Drivers.Add(Driver);
-            await _context.SaveChangesAsync();
+            EntityEntry<Driver> driver = _cardepocontext.Drivers.Add(Driver);
+            await _cardepocontext.SaveChangesAsync();
             return driver.Entity;
         }
         else { return null; }
@@ -54,7 +54,7 @@ public class DriverRepository : IDriverRepository
 
     public async Task<Driver?> UpdateDriver(int DriverId, Driver newDriver)
     {
-        var result = await _context.Drivers.FindAsync(newDriver);
+        var result = await _cardepocontext.Drivers.FindAsync(newDriver);
 
         if (result != null)
         {
@@ -64,7 +64,7 @@ public class DriverRepository : IDriverRepository
             result.PhoneNumber = newDriver.PhoneNumber;
             result.OwnerId = newDriver.OwnerId;
             result.Owner = newDriver.Owner;
-            await _context.SaveChangesAsync();
+            await _cardepocontext.SaveChangesAsync();
             return result;
         }
         else { return null; }  
@@ -75,13 +75,13 @@ public class DriverRepository : IDriverRepository
         var result = await GetDriver(DriverId);
         if (result != null)
         {
-            _context.Drivers.Remove(result);
-            await _context.SaveChangesAsync();
+            _cardepocontext.Drivers.Remove(result);
+            await _cardepocontext.SaveChangesAsync();
         }
     }
 
     public bool IfDriverExists(int DriverId)
     {
-        return _context.Drivers.Any(e => e.Id == DriverId);
+        return _cardepocontext.Drivers.Any(e => e.Id == DriverId);
     }
 }

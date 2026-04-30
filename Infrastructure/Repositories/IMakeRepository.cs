@@ -19,16 +19,16 @@ public interface IMakeRepository
 
 public class MakeRepository : IMakeRepository
 {
-    private readonly CarDepoContext _context;
+    private readonly CarDepoContext _cardepocontext;
 
     public MakeRepository(CarDepoContext context)
     {
-        _context = context;
+        _cardepocontext = context;
     }
 
     public async Task<IEnumerable<Make>> GetMakes()
     {
-        return await _context.Makes
+        return await _cardepocontext.Makes
                 .Include(m => m.FuelType)
                 .AsNoTracking()
                 .ToListAsync();
@@ -36,7 +36,7 @@ public class MakeRepository : IMakeRepository
 
     public async Task<Make?> GetMake(int MakeId)
     {
-        return await _context.Makes
+        return await _cardepocontext.Makes
                 .Include(m => m.FuelType)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == MakeId);
@@ -46,8 +46,8 @@ public class MakeRepository : IMakeRepository
     {
         if (Make != null)
         {
-            EntityEntry<Make> make = _context.Makes.Add(Make);
-            await _context.SaveChangesAsync();
+            EntityEntry<Make> make = _cardepocontext.Makes.Add(Make);
+            await _cardepocontext.SaveChangesAsync();
             return make.Entity;
         }
         else { return null; }
@@ -63,7 +63,7 @@ public class MakeRepository : IMakeRepository
             result.Price = newMake.Price;
             result.FuelTypeId = newMake.FuelTypeId;
             result.FuelType = newMake.FuelType;
-            await _context.SaveChangesAsync();
+            await _cardepocontext.SaveChangesAsync();
             return result;
         }
         else { return null; }    
@@ -74,13 +74,13 @@ public class MakeRepository : IMakeRepository
         var result = await GetMake(MakeId);
         if (result != null)
         {
-            _context.Makes.Remove(result);
-            await _context.SaveChangesAsync();
+            _cardepocontext.Makes.Remove(result);
+            await _cardepocontext.SaveChangesAsync();
         }
     }
 
     public bool IfMakeExists(int MakeId)
     {
-        return _context.Makes.Any(e => e.Id == MakeId);
+        return _cardepocontext.Makes.Any(e => e.Id == MakeId);
     }
 }

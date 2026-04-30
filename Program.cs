@@ -16,12 +16,12 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<CarDepoContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("CarDepoContext")));
 
-// Para añadir un servicio especifico a la aplicación. En este caso, añadimos los servicios de la interfaz del repositorio y el propio repositorio.
+// Para añadir una dependencia especifica a la aplicación. En este caso, añadimos a la interfaz del repositorio y el propio repositorio. Esto se hace para su uso por el resto del codigo
 /*
 Para añadir un servicio, existen tres formas de hacerlo:
-    -> Transient:    se crea una nueva instancia por cada petición
-    -> Singleton:    se crea una única instancia para todas las peticiones 
-    -> Scoped:       son la misma instancia, pero diferentes llamadas de la petición
+    -> Transient:    se crea una única instancia para todas las peticiones
+    -> Singleton:    se usara una única instancia por cada petición, y perdurara por toda la sesión 
+    -> Scoped:       una instancia por cada petición, hasta que deje de hacer falta
 */
 
 builder.Services.AddScoped<ICarRepository, CarRepository>();

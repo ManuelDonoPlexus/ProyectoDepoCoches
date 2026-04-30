@@ -19,23 +19,23 @@ public interface IFuelTypeRepository
 
 public class FuelTypeRepository : IFuelTypeRepository
 {
-    private readonly CarDepoContext _context;
+    private readonly CarDepoContext _cardepocontext;
 
     public FuelTypeRepository(CarDepoContext context)
     {
-        _context = context;
+        _cardepocontext = context;
     }
 
     public async Task<IEnumerable<FuelType>> GetFuelTypes()
     {
-        return await _context.FuelTypes
+        return await _cardepocontext.FuelTypes
                 .AsNoTracking()
                 .ToListAsync();
     }
 
     public async Task<FuelType?> GetFuelType(int FuelTypeId)
     {
-        return await _context.FuelTypes
+        return await _cardepocontext.FuelTypes
                 .AsNoTracking()
                 .FirstOrDefaultAsync(f => f.Id == FuelTypeId);
     }
@@ -44,8 +44,8 @@ public class FuelTypeRepository : IFuelTypeRepository
     {
         if (FuelType != null)
         {
-            EntityEntry<FuelType> fuelType = _context.FuelTypes.Add(FuelType);
-            await _context.SaveChangesAsync();
+            EntityEntry<FuelType> fuelType = _cardepocontext.FuelTypes.Add(FuelType);
+            await _cardepocontext.SaveChangesAsync();
             return fuelType.Entity;
         }
         else { return null; }
@@ -58,7 +58,7 @@ public class FuelTypeRepository : IFuelTypeRepository
         if (result != null)
         {
             result.Name = newFuelType.Name;
-            await _context.SaveChangesAsync();
+            await _cardepocontext.SaveChangesAsync();
             return result;
         }
         else { return null; }        
@@ -69,13 +69,13 @@ public class FuelTypeRepository : IFuelTypeRepository
         var result = await GetFuelType(FuelTypeId);
         if (result != null)
         {
-            _context.FuelTypes.Remove(result);
-            await _context.SaveChangesAsync();
+            _cardepocontext.FuelTypes.Remove(result);
+            await _cardepocontext.SaveChangesAsync();
         }
     }
 
     public bool IfFuelTypeExists(int FuelTypeId)
     {
-        return _context.FuelTypes.Any(e => e.Id == FuelTypeId);
+        return _cardepocontext.FuelTypes.Any(e => e.Id == FuelTypeId);
     }
 }

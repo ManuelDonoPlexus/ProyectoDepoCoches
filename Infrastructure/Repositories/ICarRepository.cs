@@ -18,16 +18,16 @@ public interface ICarRepository
 
 public class CarRepository : ICarRepository
 {
-    private readonly CarDepoContext _context;
+    private readonly CarDepoContext _cardepocontext;
 
     public CarRepository(CarDepoContext context)
     {
-        _context = context;
+        _cardepocontext = context;
     }
 
     public async Task<IEnumerable<Car>> GetCars()
     {
-        return await _context.Cars
+        return await _cardepocontext.Cars
             .Include(car => car.Color)
             .Include(car => car.Make)
             .Include(car => car.Owner)
@@ -36,23 +36,19 @@ public class CarRepository : ICarRepository
 
     public async Task<Car?> GetCar(int CarId)
     {
-        return await _context.Cars
+        return await _cardepocontext.Cars
             .Include(car => car.Color)
             .Include(car => car.Make)
             .Include(car => car.Owner)
             .FirstOrDefaultAsync(car => car.Id == CarId);
     }
 
-    // Implementa de la interfaz de repositorio el metodo InsertCar para añadir un coche a la base de datos
     public async Task<Car?> InsertCar(Car? newCar)
     {
-        // Si el parametro no es nulo, se ejecuta se añade a la sesión
-        // Si es nulo, se devuelve null
         if (newCar != null)
         {
-            //Se añade a la sesión el coche pasado por parametro, se guardan los cambios realizados, y se devuelve la entidad resultante. 
-            EntityEntry<Car> car = _context.Cars.Add(newCar);
-            await _context.SaveChangesAsync();
+            EntityEntry<Car> car = _cardepocontext.Cars.Add(newCar);
+            await _cardepocontext.SaveChangesAsync();
             return car?.Entity;
         } 
         else { return null; }
@@ -73,7 +69,7 @@ public class CarRepository : ICarRepository
             result.Owner = newCar.Owner;
             result.Make = newCar.Make;
             
-            await _context.SaveChangesAsync();
+            await _cardepocontext.SaveChangesAsync();
             return result;
         }
         else { return null; }        
@@ -84,14 +80,14 @@ public class CarRepository : ICarRepository
         var result = await GetCar(CarId);
         if (result != null)
         {
-            _context.Cars.Remove(result);
-            await _context.SaveChangesAsync();
+            _cardepocontext.Cars.Remove(result);
+            await _cardepocontext.SaveChangesAsync();
         }
 
     }
 
     public bool IfCarExists(int CarId)
     {
-        return _context.Cars.Any(e => e.Id == CarId);
+        return _cardepocontext.Cars.Any(e => e.Id == CarId);
     }
 }

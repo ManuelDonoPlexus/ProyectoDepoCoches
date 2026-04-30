@@ -18,16 +18,16 @@ public interface IFineRepository
 
 public class FineRepository : IFineRepository
 {
-    private readonly CarDepoContext _context;
+    private readonly CarDepoContext _cardepocontext;
 
     public FineRepository(CarDepoContext context)
     {
-        _context = context;
+        _cardepocontext = context;
     }
 
     public async Task<IEnumerable<Fine>> GetFines()
     {
-        return await _context.Fines
+        return await _cardepocontext.Fines
                 .Include(f => f.Owner)
                 .Include(f => f.Car)
                 .AsNoTracking()
@@ -36,7 +36,7 @@ public class FineRepository : IFineRepository
 
     public async Task<Fine?> GetFine(int FineId)
     {
-        return await _context.Fines
+        return await _cardepocontext.Fines
                 .Include(f => f.Owner)
                 .Include(f => f.Car)
                 .AsNoTracking()
@@ -47,8 +47,8 @@ public class FineRepository : IFineRepository
     {
         if (Fine != null)
         {
-            EntityEntry<Fine> fine = _context.Fines.Add(Fine);
-            await _context.SaveChangesAsync();
+            EntityEntry<Fine> fine = _cardepocontext.Fines.Add(Fine);
+            await _cardepocontext.SaveChangesAsync();
             return fine.Entity;
         }
         else { return null; }
@@ -56,7 +56,7 @@ public class FineRepository : IFineRepository
 
     public async Task<Fine?> UpdateFine(int FineId, Fine newFine)
     {
-        var result = await _context.Fines.FindAsync(newFine);
+        var result = await _cardepocontext.Fines.FindAsync(newFine);
 
         if (result != null)
         {
@@ -66,7 +66,7 @@ public class FineRepository : IFineRepository
             result.Payed = newFine.Payed;
             result.OwnerId = newFine.OwnerId;
             result.CarId = newFine.CarId;
-            await _context.SaveChangesAsync();
+            await _cardepocontext.SaveChangesAsync();
             return result;
         }
         else { return null; }  
@@ -78,13 +78,13 @@ public class FineRepository : IFineRepository
         var result = await GetFine(FineId);
         if (result != null)
         {
-            _context.Fines.Remove(result);
-            await _context.SaveChangesAsync();
+            _cardepocontext.Fines.Remove(result);
+            await _cardepocontext.SaveChangesAsync();
         }
     }
 
     public bool IfFineExists(int FineId)
     {
-        return _context.Fines.Any(e => e.Id == FineId);
+        return _cardepocontext.Fines.Any(e => e.Id == FineId);
     }
 }

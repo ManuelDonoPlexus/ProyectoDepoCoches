@@ -19,23 +19,23 @@ public interface IOwnerRepository
 
 public class OwnerRepository : IOwnerRepository
 {
-    private readonly CarDepoContext _context;
+    private readonly CarDepoContext _cardepocontext;
 
     public OwnerRepository(CarDepoContext context)
     {
-        _context = context;
+        _cardepocontext = context;
     }
 
     public async Task<IEnumerable<Owner>> GetOwners()
     {
-        return await _context.Owners
+        return await _cardepocontext.Owners
                 .AsNoTracking()
                 .ToListAsync();
     }
 
     public async Task<Owner?> GetOwner(int OwnerId)
     {
-        return await _context.Owners
+        return await _cardepocontext.Owners
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == OwnerId);
     }
@@ -44,8 +44,8 @@ public class OwnerRepository : IOwnerRepository
     {
         if (Owner != null)
         {
-            EntityEntry<Owner> owner = _context.Owners.Add(Owner);
-            await _context.SaveChangesAsync();
+            EntityEntry<Owner> owner = _cardepocontext.Owners.Add(Owner);
+            await _cardepocontext.SaveChangesAsync();
             return owner.Entity;
         }
         else { return null; }
@@ -62,7 +62,7 @@ public class OwnerRepository : IOwnerRepository
             result.PhoneNumber = newOwner.PhoneNumber;
             result.DateEntry = newOwner.DateEntry;
             result.EmailAddr = newOwner.EmailAddr;
-            await _context.SaveChangesAsync();
+            await _cardepocontext.SaveChangesAsync();
             return result;
         }
         else { return null; }
@@ -70,16 +70,16 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task DeleteOwner(int OwnerId)
     {
-        var result = await _context.Owners.FindAsync(OwnerId);
+        var result = await _cardepocontext.Owners.FindAsync(OwnerId);
         if (result != null)
         {
-            _context.Owners.Remove(result);
-            await _context.SaveChangesAsync();
+            _cardepocontext.Owners.Remove(result);
+            await _cardepocontext.SaveChangesAsync();
         }
     }
 
     public bool IfOwnerExists(int OwnerId)
     {
-        return _context.Owners.Any(e => e.Id == OwnerId);
+        return _cardepocontext.Owners.Any(e => e.Id == OwnerId);
     }
 }
