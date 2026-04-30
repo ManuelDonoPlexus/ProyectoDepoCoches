@@ -41,6 +41,4 @@ public class CarRepoTest
         Assert.IsType<NoContentResult>(result);
     }
 
-    // INTEGRATION TEST
-
 }

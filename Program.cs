@@ -19,9 +19,9 @@ builder.Services.AddDbContext<CarDepoContext>(options =>
 
 /*
 Para añadir un servicio, existen tres formas de hacerlo:
-    - Transient:    se crea una nueva instancia por cada petición
-    - Singleton:    se crea una única instancia para todas las peticiones 
-    - Scoped:       son la misma instancia, pero diferentes llamadas de la petición
+    -> Transient:    se crea una nueva instancia por cada petición
+    -> Singleton:    se crea una única instancia para todas las peticiones 
+    -> Scoped:       son la misma instancia, pero diferentes llamadas de la petición
 */
 
 builder.Services.AddScoped<ICarRepository, CarRepository>();
@@ -50,6 +50,7 @@ if (app.Environment.IsDevelopment())
 // - Usar el mapeo por defecto
 // - Usar los archivos de WebRootPath, por defecto wwwroot
 // - Usar redirección de HTTPS
+// - Activa las capacidades de autorización
 // - Mapear las acciones de los controladores
 
 app.UseDefaultFiles();
