@@ -83,8 +83,8 @@ function showDrivers(id) {
 
 async function getCars() {
     try {
-        const response = await fetch(baseurl + uriCar);
-        cars = await response.json();
+        const response = await fetch(baseurl + uriCar).then((response) => response.json());
+        cars = await response.value;
         _fillCarList();
         _displayCount(cars.length, "counterCar")
         _displayCars();
@@ -95,8 +95,8 @@ async function getCars() {
 
 async function getCarDrivers() {
     try {
-        const response = await fetch(baseurl + uriCarDriver);
-        cardrivers = await response.json();
+        const response = await fetch(baseurl + uriCarDriver).then((response) => response.json());
+        cardrivers = await response.value;
         _displayCount(cardrivers.length, "counterCarDriver");
         _displayCarDrivers();
     } catch (error) {
@@ -106,8 +106,8 @@ async function getCarDrivers() {
 
 async function getColors() {
     try {
-        const response = await fetch(baseurl + uriColor);
-        colors = await response.json();
+        const response = await fetch(baseurl + uriColor).then((response) => response.json());
+        colors = await response.value;
         _fillColorList();
     } catch (error) {
         console.error('Unable to get makes: ', error);
@@ -116,8 +116,8 @@ async function getColors() {
 
 async function getDrivers() {
     try {
-        const response = await fetch(baseurl + uriDriver);
-        drivers = await response.json();
+        const response = await fetch(baseurl + uriDriver).then((response) => response.json());
+        drivers = await response.value;
         _displayCount(drivers.length, "counterDriver");
         _fillDriverList();
         _displayDrivers();
@@ -128,8 +128,8 @@ async function getDrivers() {
 
 async function getFines() {
     try {
-        const response = await fetch(baseurl + uriFine);
-        fines = await response.json();
+        const response = await fetch(baseurl + uriFine).then((response) => response.json());
+        fines = await response.value;
         _displayCount(fines.length, "counterFine")
         _displayFines();
     } catch (error) {
@@ -139,8 +139,8 @@ async function getFines() {
 
 async function getFuels() {
     try {
-        const response = await fetch(baseurl + uriFuel);
-        fuels = await response.json();
+        const response = await fetch(baseurl + uriFuel).then((response) => response.json());
+        fuels = await response.value;
         _fillFuelList();
     } catch (error) {
         console.error('Unable to get drivers: ', error);
@@ -149,8 +149,8 @@ async function getFuels() {
 
 async function getMakes() {
     try {
-        const response = await fetch(baseurl + uriMake);
-        makes = await response.json();
+        const response = await fetch(baseurl + uriMake).then((response) => response.json());
+        makes = await response.value;
         _fillMakeList();
         _displayCount(makes.length, "counterMake");
         _displayMakes();
@@ -161,8 +161,8 @@ async function getMakes() {
 
 async function getOwners() {
     try {
-        const response = await fetch(baseurl + uriOwner);        
-        owners = await response.json();
+        const response = await fetch(baseurl + uriOwner).then((response) => response.json());
+        owners = await response.value;
         _fillOwnerList();
         _displayCount(owners.length, "counterOwner");
         _displayOwners();
@@ -175,85 +175,92 @@ async function getOwners() {
 
 function getSpecificCar(search, filter) {
     let result;
-    cars.forEach(car => {
+    for (let i = 0; i < cars.length; i++) {
+        const car = cars[i];
         if (filter == "license") {
             if (car.license == search) { result = car; }
         } else if (filter == "id") {
             if (car.id == search) { result = car; }
         }
-    })
+    }
     return result;
 }
 
 function getSpecificDriver(search, filter) {
     let result;
-    drivers.forEach(driver => {
+    for (let i = 0; i < drivers.length; i++) {
+        const driver = driver[i];
         if (filter == "id") {
             if (driver.id == search) { result = driver; }
         } else if (filter == "name") {
             if (driver.name == search) { result = driver; }
         }
-    })
+    }
     return result;
 }
 
 function getSpecificColor(search, filter) {
     let result;
-    colors.forEach(color => {
+    for (let i = 0; i < colors.length; i++) {
+        const color = colors[i];
         if (filter == "id") {
             if (color.id == search) { result = color; }
         } else if (filter == "name") {
             if (color.name == search) { result = color; }
         }
-    })
+    }
     return result;
 }
 
 function getSpecificOwner(search, filter) {
     let result;
-    owners.forEach(owner => {
+    for (let i = 0; i < owners.length; i++) {
+        const owner = owners[i];
         if (filter == "id") {
             if (owner.id == search) { result = owner; }
         } else if (filter == "name") {
             if (owner.name == search) { result = owner; }
         }
-    })
+    }
     return result;
 }
 
 function getSpecificMake(search, filter) {
     let result;
-    makes.forEach(make => {
+    for (let i = 0; i < makes.length; i++) {
+        const make = makes[i];
         if (filter == "id") {
             if (make.id == search) { result = make; }
         } else if (filter == "name") {
             if (make.name == search) { result = make; }
         }
-    })
+    }
     return result;
 }
 
 function getSpecificFuel(search, filter) {
     let result;
-    fuels.forEach(fuel => {
+    for (let i = 0; i < fuels.length; i++) {
+        const fuel = fuels[i];
         if (filter == "id") {
             if (fuel.id == search) { result = fuel; }
         } else if (filter == "name") {
             if (fuel.name == search) { result = fuel; }
         }
-    })
+    }
     return result;
 }
 
 function getSpecificFine(search, filter) {
     let result;
-    fines.forEach(fine => {
+    for (let i = 0; i < fines.length; i++) {
+        const fine = fines[i];
         if (filter == "id") {
             if (fine.id == search) { result = fine; }
         } else if (filter == "name") {
             if (fine.name == search) { result = fine; }
         }
-    })
+    }
     return result;
 }
 
@@ -263,68 +270,73 @@ function _fillCarList() {
     const list = document.getElementById("carList");
     const option = document.createElement("option");
 
-    cars.forEach(car => {
+    for (let i = 0; i < cars.length; i++) {
+        const car = cars[i];
         let optionCar = option.cloneNode(false);
         optionCar.setAttribute("value", `${car.license}`)
         list.appendChild(optionCar)
-    })
-
+    }
 }
 
 function _fillDriverList() {
     const list = document.getElementById("driverList");
     const option = document.createElement("option");
 
-    drivers.forEach(driver => {
+    for (let i = 0; i < drivers.length; i++) {
+        const driver = drivers[i];
         let optionDriver = option.cloneNode(false);
         optionDriver.setAttribute("value", `${driver.name}`)
         list.appendChild(optionDriver)
-    })
-
+    }
 }
 
 function _fillColorList() {
     const list = document.getElementById("colorList");
     const option = document.createElement("option");
 
-    colors.forEach(color => {
+    for (let i = 0; i < colors.length; i++) {
+        const color = colors[i];
         let optionColor = option.cloneNode(false);
         optionColor.setAttribute("value", `${color.name}`)
         list.appendChild(optionColor)
-    })
+    }
 }
 
 function _fillFuelList() {
     const list = document.getElementById("fuelList");
     const option = document.createElement("option");
 
-    fuels.forEach(fuel => {
+    for (let i = 0; i < fuels.length; i++) {
+        const fuel = fuels[i];
         let optionFuel = option.cloneNode(false);
         optionFuel.setAttribute("value", `${fuel.name}`)
         list.appendChild(optionFuel)
-    })
+        
+    }
 }
 
 function _fillMakeList() {
     const list = document.getElementById("makeList");
     const option = document.createElement("option");
 
-    makes.forEach(make => {
+    for (let i = 0; i < makes.length; i++) {
+        const make = makes[i];
         let optionMake = option.cloneNode(false);
         optionMake.setAttribute("value", `${make.name}`)
         list.appendChild(optionMake)
-    })
+    }
 }
 
 function _fillOwnerList() {
     const list = document.getElementById("ownerList");
     const option = document.createElement("option");
 
-    owners.forEach(owner => {
+    for (let i = 0; i < owners.length; i++) {
+        const owner = owners[i];
         let optionOwner = option.cloneNode(false);
         optionOwner.setAttribute("value", `${owner.name}`);
         list.appendChild(optionOwner);
-    })
+    }
 }
 
 // Mostrar todos los datos
@@ -335,7 +347,8 @@ function _displayCars() {
 
     const bton = document.createElement("button");
 
-    cars.forEach(car => {
+    for (let i = 0; i < cars.length; i++) {
+        const car = cars[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('carView',${car.id})`);
@@ -379,7 +392,7 @@ function _displayCars() {
 
         let td6 = tr.insertCell(6);
         td6.appendChild(deleteBton);
-    })
+    }
 }
 
 function _displayDrivers() {
@@ -388,7 +401,8 @@ function _displayDrivers() {
 
     const bton = document.createElement("button");
 
-    drivers.forEach(driver => {
+    for (let i = 0; i < drivers.length; i++) {
+        const driver = drivers[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('driverView',${driver.id})`);
@@ -432,7 +446,7 @@ function _displayDrivers() {
 
         let td6 = tr.insertCell(6);
         td6.appendChild(deleteBton);
-    })
+    }
 }
 
 function _displayCarDrivers() {
@@ -441,7 +455,8 @@ function _displayCarDrivers() {
 
     const bton = document.createElement("button");
 
-    cardrivers.forEach(driver => {
+    for (let i = 0; i < cardrivers.length; i++) {
+        const driver = cardrivers[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('driverView',${driver.id})`);
@@ -475,7 +490,7 @@ function _displayCarDrivers() {
 
         let td4 = tr.insertCell(4);
         td4.appendChild(deleteBton);
-    })
+    }
 }
 
 function _displayMakes() {
@@ -484,7 +499,8 @@ function _displayMakes() {
 
     const bton = document.createElement("button");
 
-    makes.forEach(make => {
+    for (let i = 0; i < makes.length; i++) {
+        const make = makes[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('makeView',${make.id})`);
@@ -523,7 +539,7 @@ function _displayMakes() {
 
         let td5 = tr.insertCell(5);
         td5.appendChild(deleteBton);
-    })
+    }
 }
 
 function _displayOwners() {
@@ -532,7 +548,8 @@ function _displayOwners() {
 
     const bton = document.createElement("button");
 
-    owners.forEach(owner => {
+    for (let i = 0; i < owners.length; i++) {
+        const owner = owners[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('ownerView',${owner.id})`);
@@ -576,8 +593,7 @@ function _displayOwners() {
 
         let td6 = tr.insertCell(6);
         td6.appendChild(deleteBton);
-
-    })
+    }
 }
 
 function _displayFines() {
@@ -586,7 +602,8 @@ function _displayFines() {
 
     const bton = document.createElement("button");
 
-    fines.forEach(fine => {
+    for (let i = 0; i < fines.length; i++) {
+        const fine = fines[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('fineView',${fine.id})`);
@@ -635,7 +652,7 @@ function _displayFines() {
 
         let td7 = tr.insertCell(7);
         td7.appendChild(deleteBton);
-    })
+    }
 }
 
 // Para las busquedas y para mostrar vistas de cada entidad
@@ -1082,7 +1099,7 @@ function fineShowEdit(id) {
 
 // Enable Editform
 
-function enableEditCar(id){
+function enableEditCar(id) {
     var license = document.getElementById("licenseCar");
     var kms = document.getElementById("kmsCar");
     var color = document.getElementById("colorCar");
@@ -1102,7 +1119,7 @@ function enableEditCar(id){
     saveBton.hidden = false;
 }
 
-function enableEditMake(id){
+function enableEditMake(id) {
     var name = document.getElementById("nameMake");
     var horsePower = document.getElementById("horsepowerMake");
     var price = document.getElementById("priceMake");
@@ -1120,7 +1137,7 @@ function enableEditMake(id){
     saveBton.hidden = false;
 }
 
-function enableEditDriver(id){
+function enableEditDriver(id) {
     var name = document.getElementById("nameDriver");
     var dni = document.getElementById("dniDriver");
     var email = document.getElementById("emailaddrDriver");
@@ -1140,7 +1157,7 @@ function enableEditDriver(id){
     saveBton.hidden = false;
 }
 
-function enableEditOwner(id){
+function enableEditOwner(id) {
     var name = document.getElementById("nameOwner");
     var nif = document.getElementById("nifOwner");
     var phone = document.getElementById("phonenumberOwner");
@@ -1160,8 +1177,8 @@ function enableEditOwner(id){
     saveBton.hidden = false;
 }
 
-function enableEditFine(id){
-    var price = document.getElementById("priceFine");    
+function enableEditFine(id) {
+    var price = document.getElementById("priceFine");
     var payed = document.getElementById("payedFine");
     var description = document.getElementById("descriptionFine");
     var date = document.getElementById("dateFine");
@@ -1187,7 +1204,7 @@ function enableEditFine(id){
 function saveEditCar() {
     var editLicense = document.getElementById("licenseCar");
     var editKms = document.getElementById("kmsCar");
-    
+
     var editColorName = document.getElementById("colorCar").value.trim();
     var editOwnerName = document.getElementById("ownerCar").value.trim();
     var editMakeName = document.getElementById("makeCar").value.trim();
@@ -1221,7 +1238,7 @@ function saveEditMake() {
     var editPrice = document.getElementById("priceMake");
 
     var editFuelName = document.getElementById("fueltypeMake").value.trim();
-    editFuel = getSpecificFuel(editFuelName,"name")
+    editFuel = getSpecificFuel(editFuelName, "name")
 
 
     const make = {
@@ -1300,7 +1317,7 @@ function saveEditOwner() {
 }
 
 function saveEditFine() {
-    var editPrice = document.getElementById("priceFine");    
+    var editPrice = document.getElementById("priceFine");
     var editPayed = document.getElementById("payedFine");
     var editDescription = document.getElementById("descriptionFine");
     var editDate = document.getElementById("dateFine");
