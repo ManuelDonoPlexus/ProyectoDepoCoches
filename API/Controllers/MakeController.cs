@@ -27,7 +27,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<IEnumerable<Make>>> GetAllMakes()
         {
             var makes = Ok(await _makeRepo.GetMakes());
-            return makes;
+            return Ok(makes);
         }
 
         // GET: api/Make/(id)
@@ -37,7 +37,7 @@ namespace CarDepo.API.Controllers
             var make = await _makeRepo.GetMake(MakeId);
             if (make == null){return NotFound();}
 
-            return make;
+            return Ok(make);
         }
 
         // POST: api/Make

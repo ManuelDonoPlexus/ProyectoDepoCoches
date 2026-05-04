@@ -27,7 +27,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<IEnumerable<Color>>> GetAllColors()
         {
             var colors = Ok(await _colorRepo.GetColors());
-            return colors;
+            return Ok(colors);
         }
 
         // GET: api/Color/5
@@ -35,13 +35,8 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Color?>> GetSpecificColor(int ColorId)
         {
             var color = Ok(await _colorRepo.GetColor(ColorId));
-
-            if (color == null)
-            {
-                return NotFound();
-            }
-
-            return color;
+            if (color == null) { return NotFound(); }
+            return Ok(color);
         }
 
         // POST: api/Color

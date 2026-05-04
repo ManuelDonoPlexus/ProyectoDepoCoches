@@ -27,7 +27,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<IEnumerable<Car>>> GetAllCars()
         {
             var cars = Ok(await _carRepo.GetCars());
-            return cars;
+            return Ok(cars);
         }
 
         // GET: api/Car/5
@@ -36,7 +36,7 @@ namespace CarDepo.API.Controllers
         {
             var car = Ok(await _carRepo.GetCar(CarId));
             if (car == null) { return NotFound(); }
-            return car;
+            return Ok(car);
         }
 
         // POST: api/Car

@@ -27,7 +27,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<IEnumerable<CarDriver?>>> GetAllCarDrivers()
         {
             var cardrivers = Ok(await _cardriverRepo.GetCarDrivers());
-            return cardrivers;
+            return Ok(cardrivers);
         }
 
         // GET: api/CarDriver/5
@@ -36,7 +36,7 @@ namespace CarDepo.API.Controllers
         {
             var carDriver = await _cardriverRepo.GetCarDriver(CarDriverId);
             if (carDriver == null) { return NotFound(); }
-            return carDriver;
+            return Ok(carDriver);
         }
 
         // POST: api/CarDriver

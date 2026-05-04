@@ -62,7 +62,6 @@ public class MakeRepository : IMakeRepository
             result.Name = newMake.Name;
             result.Price = newMake.Price;
             result.FuelTypeId = newMake.FuelTypeId;
-            result.FuelType = newMake.FuelType;
             await _cardepocontext.SaveChangesAsync();
             return result;
         }

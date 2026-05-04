@@ -27,7 +27,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<IEnumerable<Fine>>> GetAllFines()
         {
             var fines = Ok(await _fineRepository.GetFines());
-            return fines;
+            return Ok(fines);
         }
 
         // GET: api/Fine/5
@@ -35,7 +35,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<Fine?>> GetSpecificFine(int FineId)
         {
             var fine = Ok(await _fineRepository.GetFine(FineId));
-            return fine;
+            return Ok(fine);
         }
 
         // POST: api/Fine

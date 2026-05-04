@@ -26,8 +26,8 @@ namespace CarDepo.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Owner>>> GetAllOwners()
         {
-            var owenrs = Ok(await _ownerRepo.GetOwners());
-            return owenrs;
+            var owners = Ok(await _ownerRepo.GetOwners());
+            return Ok(owners);
         }
 
         // GET: api/Owner/5
@@ -36,7 +36,7 @@ namespace CarDepo.API.Controllers
         {
             var owner = Ok(await _ownerRepo.GetOwner(OwnerId));
             if (owner == null) { return NotFound(); }
-            return owner;
+            return Ok(owner);
         }
 
         // POST: api/Owner

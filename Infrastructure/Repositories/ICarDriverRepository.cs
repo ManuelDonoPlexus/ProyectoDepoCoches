@@ -64,8 +64,6 @@ public class CarDriverRepository : ICarDriverRepository
             result.DateDrive = newCarDriver.DateDrive;
             result.CarCDId = newCarDriver.CarCDId;
             result.DriverCDId = newCarDriver.DriverCDId;
-            result.Car = newCarDriver.Car;
-            result.Driver = newCarDriver.Driver;
             
             await _cardepocontext.SaveChangesAsync();
             return result;

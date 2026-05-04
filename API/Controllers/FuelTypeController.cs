@@ -27,7 +27,7 @@ namespace CarDepo.API.Controllers
         public async Task<ActionResult<IEnumerable<FuelType>>> GetAllFuelTypes()
         {
             var fuels = Ok(await _fueltypeRepo.GetFuelTypes());
-            return fuels;
+            return Ok(fuels);
         }
 
         // GET: api/FuelType/5
@@ -36,7 +36,7 @@ namespace CarDepo.API.Controllers
         {
             var fuel = Ok(await _fueltypeRepo.GetFuelTypes());
             if (fuel == null) { return NotFound(); }
-            return fuel;
+            return Ok(fuel);
         }
 
         // POST: api/FuelType

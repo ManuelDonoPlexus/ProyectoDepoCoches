@@ -65,9 +65,6 @@ public class CarRepository : ICarRepository
             result.ColorId = newCar.ColorId;
             result.OwnerId = newCar.OwnerId;
             result.MakeId = newCar.MakeId;
-            result.Color = newCar.Color;
-            result.Owner = newCar.Owner;
-            result.Make = newCar.Make;
             
             await _cardepocontext.SaveChangesAsync();
             return result;
