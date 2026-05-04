@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 // Builder, encargada de especificar varios áspectos de la aplicación 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +35,23 @@ builder.Services.AddScoped<IFineRepository, FineRepository>();
 builder.Services.AddScoped<IFuelTypeRepository, FuelTypeRepository>();
 builder.Services.AddScoped<IMakeRepository, MakeRepository>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "cardepo.company",
+            ValidAudience = "cardepo.company",
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:key"]))
+        };
+    });
+
+
 
 // La aplicación construida con todos los parametros anteriores
 var app = builder.Build();

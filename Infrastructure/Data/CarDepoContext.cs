@@ -15,6 +15,7 @@ namespace CarDepo.Infrastructure.Data
         public DbSet<FuelType> FuelTypes { get; set; } = default!;
         public DbSet<Make> Makes { get; set; } = default!;
         public DbSet<Owner> Owners { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
 
         // Para especificar configuraciones especificas de la base de datos y sus entidades, siendo usado principalmente para definir las claves foraneas y el dataseeding
         protected override void OnModelCreating(ModelBuilder modelBuilder)
