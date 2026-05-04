@@ -41,7 +41,7 @@
 
                 <div id="carTable">
                     <p id="counterCar">0 items</p>
-                    <input type="text" id="carSearchbar" class="searchBar" onkeyup="searchCar()"
+                    <input type="text" id="carSearchbar" class="searchBar" onkeyup="search('carSearchbar', 'carsTBody', 'carLicense')"
                         placeholder="Buscar coche por matricula...">
                     <table>
                         <tr>
@@ -63,7 +63,7 @@
 
                 <div id="makeTable">
                     <p id="counterMake">0 items</p>
-                    <input type="text" id="makeSearchBar" class="searchBar" onkeyup="searchMake()"
+                    <input type="text" id="makeSearchBar" class="searchBar" onkeyup="search('makeSearchBar', 'makesTBody', 'makeName')"
                         placeholder="Buscar modelo por nombre...">
                     <table>
                         <tr>
@@ -84,7 +84,7 @@
 
                 <div id="ownerTable">
                     <p id="counterOwner">0 items</p>
-                    <input type="text" id="ownerSearchbar" class="searchBar" onkeyup="searchOwner()"
+                    <input type="text" id="ownerSearchbar" class="searchBar" onkeyup="search('ownerSearchbar', 'ownersTBody', 'ownerName')"
                         placeholder="Buscar propietario por nombre...">
                     <table>
                         <tr>
@@ -112,7 +112,7 @@
                 <div id="drivers">
                     <p><b>Lista de Conductores</b></p>
                     <p id="counterDriver">0 items</p>
-                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchDriver()"
+                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="search('driverSearchbar', 'driversTBody', 'driverName')"
                         placeholder="Buscar conductor por nombre...">
                     <table>
                         <tr>
@@ -130,7 +130,7 @@
                 <div id="cardrivers">
                     <p><b>Conductores asociados a vehiculos</b></p>
                     <p id="counterCarDriver">0 items</p>
-                    <input type="text" id="driverSearchbar" class="searchBar" onkeyup="searchCarDrivers()"
+                    <input type="text" id="cardriverSearchbar" class="searchBar" onkeyup="search('cardriverSearchbar', 'cardriversTBody', 'cardriverName')"
                         placeholder="Buscar conductor por nombre...">
                     <table>
                         <tr>
@@ -150,7 +150,7 @@
 
                 <div id="fineTable">
                     <p id="counterFine">0 items</p>
-                    <input type="text" id="fineSearchbar" class="searchBar" onkeyup="searchDriver()"
+                    <input type="text" id="fineSearchbar" class="searchBar" onkeyup="search('fineSearchbar','fineTBody','fineDate')"
                         placeholder="Buscar multa por fecha...">
                     <table>
                         <tr>

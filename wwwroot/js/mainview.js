@@ -79,6 +79,19 @@ function showDrivers(id) {
     currentdriverview = id;
 }
 
+// Para las busquedas y para mostrar vistas de cada entidad
+
+function search(searchbar, tableSearch, searchfield) {
+    const table = document.getElementById(tableSearch).getElementsByTagName("tr");
+    const filter = document.getElementById(searchbar).value.toUpperCase();
+
+    for (let i = 0; i < table.length; i++) {
+        const txt = table[i].getElementsByClassName(searchfield)[0];
+        if (txt.innerText.toUpperCase().indexOf(filter) > -1) { table[i].style.display = ""; }
+        else { table[i].style.display = "none"; }
+    }
+}
+
 // Para obtener los datos de ciertas entidades de la base de datos 
 
 async function getCars() {
@@ -311,7 +324,6 @@ function _fillFuelList() {
         let optionFuel = option.cloneNode(false);
         optionFuel.setAttribute("value", `${fuel.name}`)
         list.appendChild(optionFuel)
-        
     }
 }
 
@@ -652,83 +664,6 @@ function _displayFines() {
 
         let td7 = tr.insertCell(7);
         td7.appendChild(deleteBton);
-    }
-}
-
-// Para las busquedas y para mostrar vistas de cada entidad
-
-function searchCar() {
-    const searchbar = document.getElementById("carSearchbar");
-    const table = document.getElementById("carsTBody").getElementsByTagName("tr");
-    const filter = searchbar.value.toUpperCase()
-
-    for (let i = 0; i < table.length; i++) {
-        txt = table[i].getElementsByClassName("carLicense")[0];
-        if (txt.innerText.toUpperCase().indexOf(filter) > -1) {
-            table[i].style.display = "";
-        } else {
-            table[i].style.display = "none";
-        }
-    }
-}
-
-function searchMake() {
-    const searchbar = document.getElementById("makeSearchBar");
-    const table = document.getElementById("makesTBody").getElementsByTagName("tr");
-    const filter = searchbar.value.toUpperCase()
-
-    for (let i = 0; i < table.length; i++) {
-        txt = table[i].getElementsByClassName("makeName")[0];
-        if (txt.innerText.toUpperCase().indexOf(filter) > -1) {
-            table[i].style.display = "";
-        } else {
-            table[i].style.display = "none";
-        }
-    }
-}
-
-function searchOwner() {
-    const searchbar = document.getElementById("ownerSearchbar");
-    const table = document.getElementById("ownersTBody").getElementsByTagName("tr");
-    const filter = searchbar.value.toUpperCase()
-
-    for (let i = 0; i < table.length; i++) {
-        txt = table[i].getElementsByClassName("ownerName")[0];
-        if (txt.innerText.toUpperCase().indexOf(filter) > -1) {
-            table[i].style.display = "";
-        } else {
-            table[i].style.display = "none";
-        }
-    }
-}
-
-function searchCarDriver() {
-    const searchbar = document.getElementById("cardriverSearchbar");
-    const table = document.getElementById("cardriversTBody").getElementsByTagName("tr");
-    const filter = searchbar.value.toUpperCase()
-
-    for (let i = 0; i < table.length; i++) {
-        txt = table[i].getElementsByClassName("cardriverName")[0];
-        if (txt.innerText.toUpperCase().indexOf(filter) > -1) {
-            table[i].style.display = "";
-        } else {
-            table[i].style.display = "none";
-        }
-    }
-}
-
-function searchFine() {
-    const searchbar = document.getElementById("fineSearchbar");
-    const table = document.getElementById("fineTBody").getElementsByTagName("tr");
-    const filter = searchbar.value.toUpperCase()
-
-    for (let i = 0; i < table.length; i++) {
-        txt = table[i].getElementsByClassName("fineDate")[0];
-        if (txt.innerText.toUpperCase().indexOf(filter) > -1) {
-            table[i].style.display = "";
-        } else {
-            table[i].style.display = "none";
-        }
     }
 }
 
