@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarDepo.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class FuelTypeController : ControllerBase
     {
