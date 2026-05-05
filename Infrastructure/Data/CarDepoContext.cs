@@ -136,6 +136,10 @@ namespace CarDepo.Infrastructure.Data
                 new CarDriver { Id = 5, DateDrive = DateOnly.Parse("2022-03-22"), CarCDId = 3, DriverCDId = 1 },
                 new CarDriver { Id = 6, DateDrive = DateOnly.Parse("2021-02-17"), CarCDId = 3, DriverCDId = 6 }
             );
+
+            modelBuilder.Entity<User>().HasData(
+                new User { Id = 1, Name = "admin", Email = "admin@cardepo.company", Password = "Admin,8564." }
+            );
         }
     }
 }

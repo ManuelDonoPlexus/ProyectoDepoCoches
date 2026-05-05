@@ -40,6 +40,7 @@ function initialize() {
     document.getElementById("ownerCreate").style.display = "none";
     document.getElementById("driverCreate").style.display = "none";
     document.getElementById("fineCreate").style.display = "none";
+    document.getElementById("userAdd").style.display = "none";
 
     document.getElementById("drivers").style.display = "none";
     document.getElementById("cardrivers").style.display = "none";

@@ -25,6 +25,7 @@
                 <button onclick="showView('ownerCreate')">Crear propietario</button>
                 <button onclick="showView('driverCreate')">Crear conductor</button>
                 <button onclick="showView('fineCreate')">Crear multa</button>
+                <button onclick="showView('userAdd')">Registrar usuario</button>
             </div>
         </div>
 
@@ -230,6 +231,18 @@
                 </div>
                 <button class="saveBton" onclick="addFine()">Añadir multa</button>
                 <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
+            </div>
+
+            <div class="addView" id="userAdd">
+                <h2>Añadir multa a la base de datos</h2>
+                <div class="addform">
+                    <input id="add-user-name" type="text" placeholder="Nombre de usuario">
+                    <input id="add-user-email" type="email" placeholder="Dirección de correo">
+                    <input id="add-user-password-init" type="password" placeholder="Contraseña">
+                    <input id="add-user-password-conf" type="password" placeholder="Confirmar Contraseña">
+                </div>
+                <button class="saveBton" onclick="">Registrar usuario a la Base de Datos</button>
+                <button class="cancelBton" onclick="showView('welcomeview')">Cancelar</button>
             </div>
 
             <div class="detailView" id="carView">

@@ -10,6 +10,7 @@ using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.API.DTOs;
 using CarDepo.API.Utils;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace CarDepo.API.Controllers
@@ -27,8 +28,9 @@ namespace CarDepo.API.Controllers
             _authutils = utilities;
         }
 
-        [HttpPost]
+        [HttpPost("user")]
         [Route("register")]
+        [Authorize]
         public async Task<IActionResult> Register(UserDTO user)
         {
             var newUser = new User
@@ -43,7 +45,7 @@ namespace CarDepo.API.Controllers
             return Ok(newUser);
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         [Route("login")]
         public async Task<IActionResult> Login(LoginDTO login)
         {
