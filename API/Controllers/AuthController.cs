@@ -29,7 +29,7 @@ namespace CarDepo.API.Controllers
         }
 
         [HttpPost("user")]
-        [Route("register")]
+        [Route("api/[controller]/register")]
         [Authorize]
         public async Task<IActionResult> Register(UserDTO user)
         {
@@ -46,7 +46,7 @@ namespace CarDepo.API.Controllers
         }
 
         [HttpPost("login")]
-        [Route("login")]
+        [Route("api/[controller]/login")]
         public async Task<IActionResult> Login(LoginDTO login)
         {
             var foundUser = await _cardepocontext.Users
