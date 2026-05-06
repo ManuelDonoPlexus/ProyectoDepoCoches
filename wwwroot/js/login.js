@@ -2,28 +2,32 @@ const baseurl = "http://localhost:5206"
 const registermethod = "register" 
 const loginmethod = "login" 
 
-function login(){
-    const email = document.getElementById("login-email");
-    const password = document.getElementById("login-password");
+function login(email, password){
+    const newemail = document.getElementById(email);
+    const newpassword = document.getElementById(password);
 
     if(email.value.trim() == null && password.value.trim() == null){
         return;
     }
 
     const login = {
-        email: email.value.trim(),
-        password: password.value.trim()
+        email: newemail.value.trim(),
+        password: newpassword.value.trim()
+    }
+}
+
+function register(username, email, password){
+    const newname = document.getElementById(username)
+    const newemail = document.getElementById(email)
+    const newpass = document.getElementById(password)
+
+    if(newname.value.trim() == null && newemail.value.trim() == null && newpass.value.trim() == null){
+        return;
     }
 
-    fetch(baseurl + loginmethod, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(login)
-    })
-        .then(respone => respone.json())
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
+    const newuser = {
+        name: newname.value.trim(),
+        password: newpass.value.trim(),
+        email: newemail.value.trim()
+    }
 }
