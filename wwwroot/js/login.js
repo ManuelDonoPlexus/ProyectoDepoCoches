@@ -1,5 +1,5 @@
 const baseurl = "http://localhost:5206/api/Auth/";
-const registermethod = "user"; 
+const registermethod = "register"; 
 const loginmethod = "login";
 let token;
 
@@ -13,10 +13,11 @@ async function login(email, password){
     }
     
     fetch(baseurl + loginmethod, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(login)
     })
         .then(respone => respone.json())
+        .then((token) => (token = respone))
         .catch(error => console.error("Unable to login:", error))
 }
 
@@ -34,4 +35,16 @@ function register(username, email, password){
         password: newpass.value.trim(),
         email: newemail.value.trim()
     }
+
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer "+token )
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+    }
+
+    fetch(baseurl+registermethod, requestOptions)
+    .then(respone => respone.json())
 }

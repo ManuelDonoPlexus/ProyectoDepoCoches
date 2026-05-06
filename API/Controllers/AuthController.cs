@@ -20,7 +20,7 @@ namespace CarDepo.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly CarDepoContext _cardepocontext;
-        private readonly AuthUtilities _authutils;
+        public readonly AuthUtilities _authutils;
 
         public AuthController(CarDepoContext context, AuthUtilities utilities)
         {
@@ -28,8 +28,8 @@ namespace CarDepo.API.Controllers
             _authutils = utilities;
         }
 
-        [HttpPost("user")]
-        [Route("api/[controller]/register")]
+        [HttpPost]
+        [Route("register")]
         [Authorize]
         public async Task<IActionResult> Register(UserDTO user)
         {
@@ -45,8 +45,9 @@ namespace CarDepo.API.Controllers
             return Ok(newUser);
         }
 
-        [HttpPost("login")]
-        [Route("api/[controller]/login")]
+        [HttpPost]
+        [Route("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDTO login)
         {
             var foundUser = await _cardepocontext.Users
