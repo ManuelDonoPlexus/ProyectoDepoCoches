@@ -1,4 +1,4 @@
-const baseurl = "http://localhost:5206/api/Auth/";
+const baseurl = "https://localhost:5206/api/Auth/";
 const registermethod = "register"; 
 const loginmethod = "login";
 let token;
@@ -11,14 +11,13 @@ async function login(email, password){
         email: newemail.value.trim(),
         password: newpassword.value.trim()
     }
-    
-    fetch(baseurl + loginmethod, {
+
+    const response = await fetch(baseurl + loginmethod, {
         method: 'POST',
         body: JSON.stringify(login)
     })
-        .then(respone => respone.json())
-        .then((token) => (token = respone))
-        .catch(error => console.error("Unable to login:", error))
+
+    let token = respone.json();
 }
 
 function register(username, email, password){
