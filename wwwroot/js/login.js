@@ -22,6 +22,7 @@ async function login(email, password){
     })
 
     let token = respone.json();
+    console.log(token);
 }
 
 function register(username, email, password){
