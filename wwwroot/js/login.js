@@ -14,6 +14,10 @@ async function login(email, password){
 
     const response = await fetch(baseurl + loginmethod, {
         method: 'POST',
+        headers: {
+            "Accept": "*/*",
+            "Content-Type": "application/json"
+        },
         body: JSON.stringify(login)
     })
 

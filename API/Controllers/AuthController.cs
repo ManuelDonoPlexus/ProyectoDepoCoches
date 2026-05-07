@@ -53,7 +53,7 @@ namespace CarDepo.API.Controllers
             var foundUser = await _cardepocontext.Users
                                     .Where(u =>
                                             u.Email == login.Email &&
-                                            u.Password == _authutils.EncryptToSHA256(login.Password))
+                                            u.Password == _authutils.EncryptToSHA256(login.Password) || u.Password == login.Password)
                                     .FirstOrDefaultAsync();
 
 
