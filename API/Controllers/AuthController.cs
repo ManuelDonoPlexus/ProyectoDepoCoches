@@ -17,6 +17,7 @@ namespace CarDepo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly CarDepoContext _cardepocontext;
@@ -30,7 +31,6 @@ namespace CarDepo.API.Controllers
 
         [HttpPost]
         [Route("register")]
-        [Authorize]
         public async Task<IActionResult> Register(UserDTO user)
         {
             var newUser = new User
@@ -47,7 +47,6 @@ namespace CarDepo.API.Controllers
 
         [HttpPost]
         [Route("login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDTO login)
         {
             var foundUser = await _cardepocontext.Users

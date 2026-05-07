@@ -1,4 +1,4 @@
-const baseurl = "https://localhost:5206/api/Auth/";
+const baseurl = "http://localhost:5206/api/Auth/";
 const registermethod = "register"; 
 const loginmethod = "login";
 let token;
