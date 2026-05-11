@@ -827,35 +827,42 @@ function _displayFines() {
 
 // Para añadir nuevas entidades a la base de datos
 
-function addOwner() {
+function addCar() {
     try {
-        const addName = document.getElementById("add-owner-name");
-        const addNif = document.getElementById("add-owner-nif");
-        const addTel = document.getElementById("add-owner-tel");
-        const addDate = document.getElementById("add-owner-date");
-        const addEmail = document.getElementById("add-owner-email");
+        const addLicense = document.getElementById("add-car-license");
+        const addKms = document.getElementById("add-car-kms");
+        const addColorName = document.getElementById("add-car-color");
+        const addOwnerName = document.getElementById("add-car-owner");
+        const addMakeName = document.getElementById("add-car-make");
 
-        const newowner = {
-            name: addName.value.trim(),
-            nif: addNif.value.trim(),
-            phoneNumber: addTel.value.trim(),
-            dateEntry: addDate.value.trim(),
-            emailAddr: addEmail.value.trim()
+        const addColor = getSpecificColor(addColorName.value.trim(), "name");
+        const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
+        const addMake = getSpecificMake(addMakeName.value.trim(), "name");
+
+        const newcar = {
+            license: addLicense.value.trim(),
+            kms: addKms.value.trim(),
+            colorId: addColor.id,
+            ownerId: addOwner.id,
+            makeId: addMake.id
         }
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
             redirect: 'follow',
-            body: JSON.stringify(newowner)
+            body: JSON.stringify(newcar)
         }
 
-        fetch(baseurl + uriOwner, requestOptions)
+        fetch(baseurl + uriCar, requestOptions)
+        showView('carview')
     } catch (error) {
-        console.error('Unable to add owner: ', error)
+        console.error("Unable to add fine to database. ", error)
     }
 }
 
@@ -877,6 +884,8 @@ function addMake() {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'POST',
@@ -886,9 +895,44 @@ function addMake() {
         }
 
         fetch(baseurl + uriMake, requestOptions)
-
+        showView('makeview')
     } catch (error) {
         console.error("Unable to add make to database. ", error);
+    }
+}
+
+function addOwner() {
+    try {
+        const addName = document.getElementById("add-owner-name");
+        const addNif = document.getElementById("add-owner-nif");
+        const addTel = document.getElementById("add-owner-tel");
+        const addDate = document.getElementById("add-owner-date");
+        const addEmail = document.getElementById("add-owner-email");
+
+        const newowner = {
+            name: addName.value.trim(),
+            nif: addNif.value.trim(),
+            phoneNumber: addTel.value.trim(),
+            dateEntry: addDate.value.trim(),
+            emailAddr: addEmail.value.trim()
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newowner)
+        }
+
+        fetch(baseurl + uriOwner, requestOptions)
+        showView('ownerview')
+    } catch (error) {
+        console.error('Unable to add owner: ', error)
     }
 }
 
@@ -916,6 +960,8 @@ function addFine() {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'POST',
@@ -925,47 +971,11 @@ function addFine() {
         }
 
         fetch(baseurl + uriFine, requestOptions)
-
+        showView('fineview')
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 
-}
-
-function addCar() {
-    try {
-        const addLicense = document.getElementById("add-car-license");
-        const addKms = document.getElementById("add-car-kms");
-        const addColorName = document.getElementById("add-car-color");
-        const addOwnerName = document.getElementById("add-car-owner");
-        const addMakeName = document.getElementById("add-car-make");
-
-        const addColor = getSpecificColor(addColorName.value.trim(), "name");
-        const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
-        const addMake = getSpecificMake(addMakeName.value.trim(), "name");
-
-        const newcar = {
-            license: addLicense.value.trim(),
-            kms: addKms.value.trim(),
-            colorId: addColor.id,
-            ownerId: addOwner.id,
-            makeId: addMake.id
-        }
-
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            redirect: 'follow',
-            body: JSON.stringify(newcar)
-        }
-
-        fetch(baseurl + uriCar, requestOptions)
-    } catch (error) {
-        console.error("Unable to add fine to database. ", error)
-    }
 }
 
 function addDriver() {
@@ -988,6 +998,8 @@ function addDriver() {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'POST',
@@ -1012,6 +1024,8 @@ function deleteCar(id) {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'DELETE',
@@ -1032,46 +1046,8 @@ function deleteCarDrivers(id) {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
-
-        var requestOptions = {
-            method: 'DELETE',
-            headers: myHeaders,
-            redirect: 'follow',
-        }
-
-        fetch(toDelete, requestOptions)
-            .then(() => location.reload())
-    } catch (error) {
-        console.error("Unable to delete car from database. ", error)
-    }
-}
-
-function deleteDriver(id) {
-    try {
-        var toDelete = `${baseurl}${uriDriver}/${id}`;
-
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
-
-        var requestOptions = {
-            method: 'DELETE',
-            headers: myHeaders,
-            redirect: 'follow',
-        }
-
-        fetch(toDelete, requestOptions)
-            .then(() => location.reload())
-    } catch (error) {
-        console.error("Unable to delete car from database. ", error)
-    }
-}
-
-function deleteFine(id) {
-    try {
-        var toDelete = `${baseurl}${uriFine}/${id}`;
-
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'DELETE',
@@ -1092,6 +1068,8 @@ function deleteMake(id) {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'DELETE',
@@ -1112,6 +1090,52 @@ function deleteOwner(id) {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
+}
+
+function deleteDriver(id) {
+    try {
+        var toDelete = `${baseurl}${uriDriver}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
+}
+
+function deleteFine(id) {
+    try {
+        var toDelete = `${baseurl}${uriFine}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'DELETE',
@@ -1193,35 +1217,6 @@ function makeShowEdit(id) {
     saveBton.setAttribute("onclick", `saveEditMake(${id})`);
 }
 
-function driverShowEdit(id) {
-    let driver = getSpecificDriver(id, "id");
-    var name = document.getElementById("nameDriver");
-    var dni = document.getElementById("dniDriver");
-    var email = document.getElementById("emailaddrDriver");
-    var phone = document.getElementById("phonenumberDriver");
-    var owner = document.getElementById("ownerDriver");
-
-    name.value = driver.name;
-    name.disabled = true;
-    dni.value = driver.dni;
-    dni.disabled = true;
-    email.value = driver.emailAddr;
-    email.disabled = true;
-    phone.value = driver.phoneNumber;
-    phone.disabled = true;
-    owner.value = driver.owner.name;
-    owner.disabled = true;
-
-    let delBton = document.getElementById("deleteDriver");
-    delBton.setAttribute("onclick", `deleteDriver(${id})`);
-
-    let enableBton = document.getElementById("enableEditDriver");
-    enableBton.setAttribute("onclick", `enableEditDriver(${id})`);
-
-    let saveBton = document.getElementById("saveEditDriver");
-    saveBton.setAttribute("onclick", `saveEditDriver(${id})`);
-}
-
 function ownerShowEdit(id) {
     let owner = getSpecificOwner(id, "id");
     var name = document.getElementById("nameOwner");
@@ -1249,6 +1244,35 @@ function ownerShowEdit(id) {
 
     let saveBton = document.getElementById("saveEditOwner");
     saveBton.setAttribute("onclick", `saveEditOwner(${id})`);
+}
+
+function driverShowEdit(id) {
+    let driver = getSpecificDriver(id, "id");
+    var name = document.getElementById("nameDriver");
+    var dni = document.getElementById("dniDriver");
+    var email = document.getElementById("emailaddrDriver");
+    var phone = document.getElementById("phonenumberDriver");
+    var owner = document.getElementById("ownerDriver");
+
+    name.value = driver.name;
+    name.disabled = true;
+    dni.value = driver.dni;
+    dni.disabled = true;
+    email.value = driver.emailAddr;
+    email.disabled = true;
+    phone.value = driver.phoneNumber;
+    phone.disabled = true;
+    owner.value = driver.owner.name;
+    owner.disabled = true;
+
+    let delBton = document.getElementById("deleteDriver");
+    delBton.setAttribute("onclick", `deleteDriver(${id})`);
+
+    let enableBton = document.getElementById("enableEditDriver");
+    enableBton.setAttribute("onclick", `enableEditDriver(${id})`);
+
+    let saveBton = document.getElementById("saveEditDriver");
+    saveBton.setAttribute("onclick", `saveEditDriver(${id})`);
 }
 
 function fineShowEdit(id) {
@@ -1324,26 +1348,6 @@ function enableEditMake(id) {
     saveBton.hidden = false;
 }
 
-function enableEditDriver(id) {
-    var name = document.getElementById("nameDriver");
-    var dni = document.getElementById("dniDriver");
-    var email = document.getElementById("emailaddrDriver");
-    var phone = document.getElementById("phonenumberDriver");
-    var owner = document.getElementById("ownerDriver");
-
-    name.disabled = false;
-    dni.disabled = false;
-    email.disabled = false;
-    phone.disabled = false;
-    owner.disabled = false;
-
-    let enableBton = document.getElementById("enableEditDriver");
-    enableBton.hidden = true;
-
-    let saveBton = document.getElementById("saveEditDriver");
-    saveBton.hidden = false;
-}
-
 function enableEditOwner(id) {
     var name = document.getElementById("nameOwner");
     var nif = document.getElementById("nifOwner");
@@ -1361,6 +1365,26 @@ function enableEditOwner(id) {
     enableBton.hidden = true;
 
     let saveBton = document.getElementById("saveEditOwner");
+    saveBton.hidden = false;
+}
+
+function enableEditDriver(id) {
+    var name = document.getElementById("nameDriver");
+    var dni = document.getElementById("dniDriver");
+    var email = document.getElementById("emailaddrDriver");
+    var phone = document.getElementById("phonenumberDriver");
+    var owner = document.getElementById("ownerDriver");
+
+    name.disabled = false;
+    dni.disabled = false;
+    email.disabled = false;
+    phone.disabled = false;
+    owner.disabled = false;
+
+    let enableBton = document.getElementById("enableEditDriver");
+    enableBton.hidden = true;
+
+    let saveBton = document.getElementById("saveEditDriver");
     saveBton.hidden = false;
 }
 
@@ -1410,6 +1434,8 @@ function saveEditCar() {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'PUT',
@@ -1444,6 +1470,8 @@ function saveEditMake() {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'PUT',
@@ -1453,6 +1481,41 @@ function saveEditMake() {
         }
 
         fetch(baseurl + uriMake, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
+    }
+}
+
+function saveEditOwner() {
+    try {
+        var editName = document.getElementById("nameOwner");
+        var editNif = document.getElementById("nifOwner");
+        var editPhone = document.getElementById("phonenumberOwner");
+        var editDate = document.getElementById("datentryOwner");
+        var editEmail = document.getElementById("emailaddrOwner");
+
+        const newowner = {
+            name: editName.value.trim(),
+            nif: editNif.value.trim(),
+            phoneNumber: editPhone.value.trim(),
+            dateEntry: editDate.value.trim(),
+            emailAddr: editEmail.value.trim()
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newowner)
+        }
+
+        fetch(baseurl + uriOwner, requestOptions)
             .then(() => location.reload())
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
@@ -1479,6 +1542,8 @@ function saveEditDriver() {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'PUT',
@@ -1493,39 +1558,6 @@ function saveEditDriver() {
         console.error("Unable to add fine to database. ", error)
     }
 
-}
-
-function saveEditOwner() {
-    try {
-        var editName = document.getElementById("nameOwner");
-        var editNif = document.getElementById("nifOwner");
-        var editPhone = document.getElementById("phonenumberOwner");
-        var editDate = document.getElementById("datentryOwner");
-        var editEmail = document.getElementById("emailaddrOwner");
-
-        const newowner = {
-            name: editName.value.trim(),
-            nif: editNif.value.trim(),
-            phoneNumber: editPhone.value.trim(),
-            dateEntry: editDate.value.trim(),
-            emailAddr: editEmail.value.trim()
-        }
-
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
-
-        var requestOptions = {
-            method: 'PUT',
-            headers: myHeaders,
-            redirect: 'follow',
-            body: JSON.stringify(newowner)
-        }
-
-        fetch(baseurl + uriOwner, requestOptions)
-            .then(() => location.reload())
-    } catch (error) {
-        console.error("Unable to add fine to database. ", error)
-    }
 }
 
 function saveEditFine() {
@@ -1555,6 +1587,8 @@ function saveEditFine() {
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
 
         var requestOptions = {
             method: 'PUT',
