@@ -4,6 +4,7 @@ const loginmethod = "login";
 let token;
 
 async function login(email, password) {
+    event.preventDefault();
     const newemail = document.getElementById(email);
     const newpassword = document.getElementById(password);
 
@@ -22,11 +23,15 @@ async function login(email, password) {
             body: JSON.stringify(login)
         })
 
-        let token = respone.json();
-        console.log(token);
+        token = await response.text();
+        reportLogin();
     } catch (error) {
         throw error;
     }
+}
+
+function reportLogin(){
+    console.log(token);
 }
 
 function register(username, email, password) {
