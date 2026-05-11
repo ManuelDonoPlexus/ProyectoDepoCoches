@@ -7,6 +7,11 @@ const uriMake = "/api/Make"
 const uriOwner = "/api/Owner"
 const uriFine = "/api/Fine"
 const uriFuel = "/api/FuelType"
+
+const uriRegister = "/api/Auth/register";
+const uriLogin = "/api/Auth/login";
+let token;
+
 let cars = [];
 let colors = [];
 let drivers = [];
@@ -21,6 +26,8 @@ let currentdriverview = "";
 // Función para inicializar
 
 function initialize() {
+    token = getToken();
+    console.log(token)
     getCars();
     getCarDrivers();
     getColors();
@@ -93,11 +100,92 @@ function search(searchbar, tableSearch, searchfield) {
     }
 }
 
+// Para el login y el registro de usuario
+
+async function login(email, password) {
+    event.preventDefault();
+    const newemail = document.getElementById(email);
+    const newpassword = document.getElementById(password);
+
+    const login = {
+        email: newemail.value.trim(),
+        password: newpassword.value.trim()
+    }
+
+    try {
+        const response = await fetch(baseurl + uriLogin, {
+            method: 'POST',
+            headers: {
+                "Accept": "*/*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(login)
+        })
+
+        token = await response.text();
+        saveToken(token)
+        window.location.href = "mainview.html";
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function register(username, email, password) {
+    const newname = document.getElementById(username)
+    const newemail = document.getElementById(email)
+    const newpass = document.getElementById(password)
+
+    if (newname.value.trim() == null && newemail.value.trim() == null && newpass.value.trim() == null) {
+        return;
+    }
+
+    const newuser = {
+        name: newname.value.trim(),
+        password: newpass.value.trim(),
+        email: newemail.value.trim()
+    }
+
+    try {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        fetch(baseurl + uriRegister, requestOptions)
+            .then(respone => respone.json())
+    } catch (error) {
+        throw error;
+    }
+}
+
+function saveToken(token){
+    sessionStorage.setItem("token", token)
+}
+
+function getToken(){
+    return sessionStorage.getItem("token")
+}
+
+
 // Para obtener los datos de ciertas entidades de la base de datos 
 
 async function getCars() {
     try {
-        const response = await fetch(baseurl + uriCar).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriCar, requestOptions)
+            .then((response) => response.json());
         cars = await response.value;
         _fillCarList();
         _displayCount(cars.length, "counterCar")
@@ -109,7 +197,17 @@ async function getCars() {
 
 async function getCarDrivers() {
     try {
-        const response = await fetch(baseurl + uriCarDriver).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriCarDriver, requestOptions)
+            .then((response) => response.json());
         cardrivers = await response.value;
         _displayCount(cardrivers.length, "counterCarDriver");
         _displayCarDrivers();
@@ -120,7 +218,17 @@ async function getCarDrivers() {
 
 async function getColors() {
     try {
-        const response = await fetch(baseurl + uriColor).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriColor, requestOptions)
+            .then((response) => response.json());
         colors = await response.value;
         _fillColorList();
     } catch (error) {
@@ -130,7 +238,17 @@ async function getColors() {
 
 async function getDrivers() {
     try {
-        const response = await fetch(baseurl + uriDriver).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriDriver, requestOptions)
+            .then((response) => response.json());
         drivers = await response.value;
         _displayCount(drivers.length, "counterDriver");
         _fillDriverList();
@@ -142,7 +260,17 @@ async function getDrivers() {
 
 async function getFines() {
     try {
-        const response = await fetch(baseurl + uriFine).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriFine, requestOptions)
+            .then((response) => response.json());
         fines = await response.value;
         _displayCount(fines.length, "counterFine")
         _displayFines();
@@ -153,7 +281,17 @@ async function getFines() {
 
 async function getFuels() {
     try {
-        const response = await fetch(baseurl + uriFuel).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriFuel, requestOptions)
+            .then((response) => response.json());
         fuels = await response.value;
         _fillFuelList();
     } catch (error) {
@@ -163,7 +301,17 @@ async function getFuels() {
 
 async function getMakes() {
     try {
-        const response = await fetch(baseurl + uriMake).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriMake, requestOptions)
+            .then((response) => response.json());
         makes = await response.value;
         _fillMakeList();
         _displayCount(makes.length, "counterMake");
@@ -175,7 +323,17 @@ async function getMakes() {
 
 async function getOwners() {
     try {
-        const response = await fetch(baseurl + uriOwner).then((response) => response.json());
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        const response = await fetch(baseurl + uriOwner, requestOptions)
+            .then((response) => response.json());
         owners = await response.value;
         _fillOwnerList();
         _displayCount(owners.length, "counterOwner");
@@ -1287,3 +1445,6 @@ function saveEditFine() {
         .then(() => location.reload())
         .catch(error => console.error("Unable to add fine to database. ", error))
 }
+
+
+
