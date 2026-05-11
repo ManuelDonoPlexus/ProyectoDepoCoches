@@ -1,9 +1,9 @@
 const baseurl = "http://localhost:5206/api/Auth/";
-const registermethod = "register"; 
+const registermethod = "register";
 const loginmethod = "login";
 let token;
 
-async function login(email, password){
+async function login(email, password) {
     const newemail = document.getElementById(email);
     const newpassword = document.getElementById(password);
 
@@ -12,25 +12,29 @@ async function login(email, password){
         password: newpassword.value.trim()
     }
 
-    const response = await fetch(baseurl + loginmethod, {
-        method: 'POST',
-        headers: {
-            "Accept": "*/*",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(login)
-    })
+    try {
+        const response = await fetch(baseurl + loginmethod, {
+            method: 'POST',
+            headers: {
+                "Accept": "*/*",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(login)
+        })
 
-    let token = respone.json();
-    console.log(token);
+        let token = respone.json();
+        console.log(token);
+    } catch (error) {
+        throw error;
+    }
 }
 
-function register(username, email, password){
+function register(username, email, password) {
     const newname = document.getElementById(username)
     const newemail = document.getElementById(email)
     const newpass = document.getElementById(password)
 
-    if(newname.value.trim() == null && newemail.value.trim() == null && newpass.value.trim() == null){
+    if (newname.value.trim() == null && newemail.value.trim() == null && newpass.value.trim() == null) {
         return;
     }
 
@@ -41,7 +45,7 @@ function register(username, email, password){
     }
 
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer "+token )
+    myHeaders.append("Authorization", "Bearer " + token)
 
     var requestOptions = {
         method: 'POST',
@@ -49,6 +53,6 @@ function register(username, email, password){
         redirect: 'follow'
     }
 
-    fetch(baseurl+registermethod, requestOptions)
-    .then(respone => respone.json())
+    fetch(baseurl + registermethod, requestOptions)
+        .then(respone => respone.json())
 }
