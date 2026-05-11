@@ -39,8 +39,10 @@ public class AuthUtilities
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
         var jwtConfig = new JwtSecurityToken(
+            issuer: "cardepo.company",
+            audience: "cardepo.company",
             claims: userClaims,
-            expires: DateTime.Now.AddMinutes(30),
+            expires: DateTime.Now.AddHours(1),
             signingCredentials: credentials
         );
 

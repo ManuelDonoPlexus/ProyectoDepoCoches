@@ -27,7 +27,6 @@ let currentdriverview = "";
 
 function initialize() {
     token = getToken();
-    console.log(token)
     getCars();
     getCarDrivers();
     getColors();
@@ -131,28 +130,28 @@ async function login(email, password) {
 }
 
 async function register(username, email, password) {
-    const newname = document.getElementById(username)
-    const newemail = document.getElementById(email)
-    const newpass = document.getElementById(password)
-
-    if (newname.value.trim() == null && newemail.value.trim() == null && newpass.value.trim() == null) {
-        return;
-    }
-
-    const newuser = {
-        name: newname.value.trim(),
-        password: newpass.value.trim(),
-        email: newemail.value.trim()
-    }
-
     try {
+        const newname = document.getElementById(username)
+        const newemail = document.getElementById(email)
+        const newpass = document.getElementById(password)
+
+        if (newname.value.trim() == null && newemail.value.trim() == null && newpass.value.trim() == null) {
+            return;
+        }
+
+        const newuser = {
+            name: newname.value.trim(),
+            password: newpass.value.trim(),
+            email: newemail.value.trim()
+        }
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
-            redirect: 'follow'
+            redirect: 'follow',
+            body: JSON.stringify(newuser)
         }
 
         fetch(baseurl + uriRegister, requestOptions)
@@ -162,11 +161,11 @@ async function register(username, email, password) {
     }
 }
 
-function saveToken(token){
+function saveToken(token) {
     sessionStorage.setItem("token", token)
 }
 
-function getToken(){
+function getToken() {
     return sessionStorage.getItem("token")
 }
 
@@ -829,156 +828,178 @@ function _displayFines() {
 // Para añadir nuevas entidades a la base de datos
 
 function addOwner() {
-    const addName = document.getElementById("add-owner-name");
-    const addNif = document.getElementById("add-owner-nif");
-    const addTel = document.getElementById("add-owner-tel");
-    const addDate = document.getElementById("add-owner-date");
-    const addEmail = document.getElementById("add-owner-email");
+    try {
+        const addName = document.getElementById("add-owner-name");
+        const addNif = document.getElementById("add-owner-nif");
+        const addTel = document.getElementById("add-owner-tel");
+        const addDate = document.getElementById("add-owner-date");
+        const addEmail = document.getElementById("add-owner-email");
 
-    const owner = {
-        name: addName.value.trim(),
-        nif: addNif.value.trim(),
-        phoneNumber: addTel.value.trim(),
-        dateEntry: addDate.value.trim(),
-        emailAddr: addEmail.value.trim()
+        const newowner = {
+            name: addName.value.trim(),
+            nif: addNif.value.trim(),
+            phoneNumber: addTel.value.trim(),
+            dateEntry: addDate.value.trim(),
+            emailAddr: addEmail.value.trim()
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newowner)
+        }
+
+        fetch(baseurl + uriOwner, requestOptions)
+    } catch (error) {
+        console.error('Unable to add owner: ', error)
     }
-
-    fetch(baseurl + uriOwner, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(owner)
-    })
-        .then(response => response.json)
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add owner to database. ", error))
 }
 
 function addMake() {
-    const addName = document.getElementById("add-make-name");
-    const addHP = document.getElementById("add-make-horsepower");
-    const addPrice = document.getElementById("add-make-price");
-    const addFuelName = document.getElementById("add-make-fuel");
+    try {
+        const addName = document.getElementById("add-make-name");
+        const addHP = document.getElementById("add-make-horsepower");
+        const addPrice = document.getElementById("add-make-price");
+        const addFuelName = document.getElementById("add-make-fuel");
 
-    const addFuel = getSpecificFuel(addFuelName.value.trim(), "name")
+        const addFuel = getSpecificFuel(addFuelName.value.trim(), "name")
 
+        const newmake = {
+            name: addName.value.trim(),
+            horsePower: addHP.value.trim(),
+            price: addPrice.value.trim(),
+            fuelTypeId: addFuel.id
+        }
 
-    const make = {
-        name: addName.value.trim(),
-        horsePower: addHP.value.trim(),
-        price: addPrice.value.trim(),
-        fuelTypeId: addFuel.id
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newmake)
+        }
+
+        fetch(baseurl + uriMake, requestOptions)
+
+    } catch (error) {
+        console.error("Unable to add make to database. ", error);
     }
-
-    fetch(baseurl + uriMake, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(make)
-    })
-        .then(response => response.json)
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add make to database. ", error))
 }
 
 function addFine() {
-    const addPrice = document.getElementById("add-fine-price");
-    const addDescription = document.getElementById("add-fine-description");
-    const addDate = document.getElementById("add-fine-date")
+    try {
+        const addPrice = document.getElementById("add-fine-price");
+        const addDescription = document.getElementById("add-fine-description");
+        const addDate = document.getElementById("add-fine-date")
 
-    const addCarName = document.getElementById("add-fine-car");
-    const addOwnerName = document.getElementById("add-fine-owner")
+        const addCarName = document.getElementById("add-fine-car");
+        const addOwnerName = document.getElementById("add-fine-owner")
 
-    const addCar = getSpecificCar(addCarName.value.trim(), "license");
-    const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
+        const addCar = getSpecificCar(addCarName.value.trim(), "license");
+        const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
 
-    const fine = {
-        price: addPrice.value.trim(),
-        description: addDescription.value.trim(),
-        date: addDate.value.trim(),
-        payed: false,
-        ownerId: addOwner.id,
-        carId: addCar.id,
+        const newfine = {
+            price: addPrice.value.trim(),
+            description: addDescription.value.trim(),
+            date: addDate.value.trim(),
+            payed: false,
+            ownerId: addOwner.id,
+            carId: addCar.id,
 
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newfine)
+        }
+
+        fetch(baseurl + uriFine, requestOptions)
+
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-
-    fetch(baseurl + uriFine, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(fine)
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
 
 }
 
 function addCar() {
-    const addLicense = document.getElementById("add-car-license");
-    const addKms = document.getElementById("add-car-kms");
-    const addColorName = document.getElementById("add-car-color");
-    const addOwnerName = document.getElementById("add-car-owner");
-    const addMakeName = document.getElementById("add-car-make");
+    try {
+        const addLicense = document.getElementById("add-car-license");
+        const addKms = document.getElementById("add-car-kms");
+        const addColorName = document.getElementById("add-car-color");
+        const addOwnerName = document.getElementById("add-car-owner");
+        const addMakeName = document.getElementById("add-car-make");
 
-    const addColor = getSpecificColor(addColorName.value.trim(), "name");
-    const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
-    const addMake = getSpecificMake(addMakeName.value.trim(), "name");
+        const addColor = getSpecificColor(addColorName.value.trim(), "name");
+        const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
+        const addMake = getSpecificMake(addMakeName.value.trim(), "name");
 
-    const car = {
-        license: addLicense.value.trim(),
-        kms: addKms.value.trim(),
-        colorId: addColor.id,
-        ownerId: addOwner.id,
-        makeId: addMake.id
+        const newcar = {
+            license: addLicense.value.trim(),
+            kms: addKms.value.trim(),
+            colorId: addColor.id,
+            ownerId: addOwner.id,
+            makeId: addMake.id
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newcar)
+        }
+
+        fetch(baseurl + uriCar, requestOptions)
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-
-    fetch(baseurl + uriCar, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(car)
-    })
-        .then(respone => respone.json())
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
 }
 
 function addDriver() {
-    const addName = document.getElementById("add-driver-name");
-    const addDni = document.getElementById("add-driver-dni");
-    const addEmail = document.getElementById("add-driver-email");
-    const addTel = document.getElementById("add-driver-tel");
-    const addOwnerName = document.getElementById("add-driver-owner");
+    try {
+        const addName = document.getElementById("add-driver-name");
+        const addDni = document.getElementById("add-driver-dni");
+        const addEmail = document.getElementById("add-driver-email");
+        const addTel = document.getElementById("add-driver-tel");
+        const addOwnerName = document.getElementById("add-driver-owner");
 
-    const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
+        const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
 
-    const driver = {
-        name: addName.value.trim(),
-        dni: addDni.value.trim(),
-        emailAddr: addEmail.value.trim(),
-        phoneNumber: addTel.value.trim(),
-        ownerId: addOwner.id
+        const newdriver = {
+            name: addName.value.trim(),
+            dni: addDni.value.trim(),
+            emailAddr: addEmail.value.trim(),
+            phoneNumber: addTel.value.trim(),
+            ownerId: addOwner.id
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newdriver)
+        }
+
+        fetch(baseurl + uriDriver, requestOptions)
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-
-    fetch(baseurl + uriDriver, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(driver)
-    })
-        .then(respone => respone.json())
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
 }
 
 function addCarDriver() { }
@@ -986,51 +1007,123 @@ function addCarDriver() { }
 // Para borrar entidades de la base de datos
 
 function deleteCar(id) {
-    fetch(`${baseurl}${uriCar}/${id}`, {
-        method: `DELETE`
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to delete car from database. ", error))
+    try {
+        var toDelete = `${baseurl}${uriCar}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
 }
 
 function deleteCarDrivers(id) {
-    fetch(`${baseurl}${uriCarDriver}/${id}`, {
-        method: `DELETE`
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to delete car from database. ", error))
+    try {
+        var toDelete = `${baseurl}${uriCarDriver}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
 }
 
 function deleteDriver(id) {
-    fetch(`${baseurl}${uriDriver}/${id}`, {
-        method: `DELETE`
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to delete car from database. ", error))
+    try {
+        var toDelete = `${baseurl}${uriDriver}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
 }
 
 function deleteFine(id) {
-    fetch(`${baseurl}${uriFine}/${id}`, {
-        method: `DELETE`
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to delete car from database. ", error))
+    try {
+        var toDelete = `${baseurl}${uriFine}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
 }
 
 function deleteMake(id) {
-    fetch(`${baseurl}${uriMake}/${id}`, {
-        method: `DELETE`
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to delete car from database. ", error))
+    try {
+        var toDelete = `${baseurl}${uriMake}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
 }
 
 function deleteOwner(id) {
-    fetch(`${baseurl}${uriOwner}/${id}`, {
-        method: `DELETE`
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to delete car from database. ", error))
+    try {
+        var toDelete = `${baseurl}${uriOwner}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
 }
 
 // Show Editform
@@ -1296,154 +1389,185 @@ function enableEditFine(id) {
 // Save changes from Edit
 
 function saveEditCar() {
-    var editLicense = document.getElementById("licenseCar");
-    var editKms = document.getElementById("kmsCar");
+    try {
+        var editLicense = document.getElementById("licenseCar");
+        var editKms = document.getElementById("kmsCar");
 
-    var editColorName = document.getElementById("colorCar").value.trim();
-    var editOwnerName = document.getElementById("ownerCar").value.trim();
-    var editMakeName = document.getElementById("makeCar").value.trim();
-    editColor = getSpecificColor(editColorName, "name");
-    editOwner = getSpecificOwner(editOwnerName, "name");
-    editMake = getSpecificMake(editMakeName, "name");
+        var editColorName = document.getElementById("colorCar").value.trim();
+        var editOwnerName = document.getElementById("ownerCar").value.trim();
+        var editMakeName = document.getElementById("makeCar").value.trim();
+        editColor = getSpecificColor(editColorName, "name");
+        editOwner = getSpecificOwner(editOwnerName, "name");
+        editMake = getSpecificMake(editMakeName, "name");
 
-    const car = {
-        license: editLicense.value.trim(),
-        kms: editKms.value.trim(),
-        colorId: editColor.id,
-        ownerId: editOwner.id,
-        makeId: editMake.id
+        const newcar = {
+            license: editLicense.value.trim(),
+            kms: editKms.value.trim(),
+            colorId: editColor.id,
+            ownerId: editOwner.id,
+            makeId: editMake.id
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newcar)
+        }
+
+        fetch(baseurl + uriCar, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-    fetch(baseurl + uriCar, {
-        method: 'PUT',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(car)
-    })
-        .then(respone => respone.json())
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
 }
 
 function saveEditMake() {
-    var editName = document.getElementById("nameMake");
-    var editHorsePower = document.getElementById("horsepowerMake");
-    var editPrice = document.getElementById("priceMake");
+    try {
+        var editName = document.getElementById("nameMake");
+        var editHorsePower = document.getElementById("horsepowerMake");
+        var editPrice = document.getElementById("priceMake");
 
-    var editFuelName = document.getElementById("fueltypeMake").value.trim();
-    editFuel = getSpecificFuel(editFuelName, "name")
+        var editFuelName = document.getElementById("fueltypeMake").value.trim();
+        editFuel = getSpecificFuel(editFuelName, "name")
 
 
-    const make = {
-        name: editName.value.trim(),
-        horsePower: editHorsePower.value.trim(),
-        price: editPrice.value.trim(),
-        fuelTypeId: editFuel.id
+        const newmake = {
+            name: editName.value.trim(),
+            horsePower: editHorsePower.value.trim(),
+            price: editPrice.value.trim(),
+            fuelTypeId: editFuel.id
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newmake)
+        }
+
+        fetch(baseurl + uriMake, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-    fetch(baseurl + uriMake, {
-        method: 'PUT',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(make)
-    })
-        .then(response => response.json)
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add make to database. ", error))
 }
 
 function saveEditDriver() {
-    var editName = document.getElementById("nameDriver");
-    var editDni = document.getElementById("dniDriver");
-    var editEmail = document.getElementById("emailaddrDriver");
-    var editPhone = document.getElementById("phonenumberDriver");
+    try {
+        var editName = document.getElementById("nameDriver");
+        var editDni = document.getElementById("dniDriver");
+        var editEmail = document.getElementById("emailaddrDriver");
+        var editPhone = document.getElementById("phonenumberDriver");
 
-    var editOwnerName = document.getElementById("ownerDriver").value.trim();
-    editOwner = getSpecificOwner(editOwnerName)
+        var editOwnerName = document.getElementById("ownerDriver").value.trim();
+        editOwner = getSpecificOwner(editOwnerName)
 
-    const driver = {
-        name: editName.value.trim(),
-        dni: editDni.value.trim(),
-        emailAddr: editEmail.value.trim(),
-        phoneNumber: editPhone.value.trim(),
-        ownerId: editOwner.id
+        const newdriver = {
+            name: editName.value.trim(),
+            dni: editDni.value.trim(),
+            emailAddr: editEmail.value.trim(),
+            phoneNumber: editPhone.value.trim(),
+            ownerId: editOwner.id
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newdriver)
+        }
+
+        fetch(baseurl + uriDriver, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-    fetch(baseurl + uriDriver, {
-        method: 'PUT',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(driver)
-    })
-        .then(respone => respone.json())
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
+
 }
 
 function saveEditOwner() {
-    var editName = document.getElementById("nameOwner");
-    var editNif = document.getElementById("nifOwner");
-    var editPhone = document.getElementById("phonenumberOwner");
-    var editDate = document.getElementById("datentryOwner");
-    var editEmail = document.getElementById("emailaddrOwner");
+    try {
+        var editName = document.getElementById("nameOwner");
+        var editNif = document.getElementById("nifOwner");
+        var editPhone = document.getElementById("phonenumberOwner");
+        var editDate = document.getElementById("datentryOwner");
+        var editEmail = document.getElementById("emailaddrOwner");
 
-    const owner = {
-        name: editName.value.trim(),
-        nif: editNif.value.trim(),
-        phoneNumber: editPhone.value.trim(),
-        dateEntry: editDate.value.trim(),
-        emailAddr: editEmail.value.trim()
+        const newowner = {
+            name: editName.value.trim(),
+            nif: editNif.value.trim(),
+            phoneNumber: editPhone.value.trim(),
+            dateEntry: editDate.value.trim(),
+            emailAddr: editEmail.value.trim()
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newowner)
+        }
+
+        fetch(baseurl + uriOwner, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-    fetch(baseurl + uriOwner, {
-        method: 'PUT',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(owner)
-    })
-        .then(response => response.json)
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add owner to database. ", error))
 }
 
 function saveEditFine() {
-    var editPrice = document.getElementById("priceFine");
-    var editPayed = document.getElementById("payedFine");
-    var editDescription = document.getElementById("descriptionFine");
-    var editDate = document.getElementById("dateFine");
+    try {
+        var editPrice = document.getElementById("priceFine");
+        var editPayed = document.getElementById("payedFine");
+        var editDescription = document.getElementById("descriptionFine");
+        var editDate = document.getElementById("dateFine");
 
-    var editOwnerName = document.getElementById("ownerFine").value.trim();
-    var editCarName = document.getElementById("carFine").value.trim();
-    editOwner = getSpecificOwner(editOwnerName, "name");
-    editCar = getSpecificCar(editCarName, "name")
+        var editOwnerName = document.getElementById("ownerFine").value.trim();
+        var editCarName = document.getElementById("carFine").value.trim();
+        editOwner = getSpecificOwner(editOwnerName, "name");
+        editCar = getSpecificCar(editCarName, "name")
 
-    var payed;
-    if (editPayed.checked == true) { payed = true }
-    else { payed = false }
+        var payed;
+        if (editPayed.checked == true) { payed = true }
+        else { payed = false }
 
-    const fine = {
-        price: editPrice.value.trim(),
-        date: editDate.value.trim(),
-        description: editDescription.value.trim(),
-        payed: payed,
-        ownerId: editOwner.id,
-        carId: editCar.id,
+        const newfine = {
+            price: editPrice.value.trim(),
+            date: editDate.value.trim(),
+            description: editDescription.value.trim(),
+            payed: payed,
+            ownerId: editOwner.id,
+            carId: editCar.id,
+        }
 
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newfine)
+        }
+
+        fetch(baseurl + uriFine, requestOptions)
+            .then(() => location.reload())
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
     }
-    fetch(baseurl + uriFine, {
-        method: 'PUT',
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(fine)
-    })
-        .then(() => location.reload())
-        .catch(error => console.error("Unable to add fine to database. ", error))
 }
 
 
