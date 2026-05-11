@@ -1445,7 +1445,6 @@ function saveEditCar() {
         }
 
         fetch(baseurl + uriCar, requestOptions)
-            .then(() => location.reload())
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
