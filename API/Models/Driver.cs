@@ -7,6 +7,7 @@ public class Driver
 {
     [Key]
     public required int Id { get; set; }
+    
     public required string Name { get; set; }
     public required string Dni { get; set; }
     [DataType(DataType.EmailAddress)]

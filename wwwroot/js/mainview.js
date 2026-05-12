@@ -840,7 +840,6 @@ function addCar() {
         }
 
         fetch(baseurl + uriCar, requestOptions)
-        location.reload()
         showView('carview')
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
@@ -876,7 +875,6 @@ function addMake() {
         }
 
         fetch(baseurl + uriMake, requestOptions)
-        location.reload()
         showView('makeview')
     } catch (error) {
         console.error("Unable to add make to database. ", error);
@@ -912,7 +910,6 @@ function addOwner() {
         }
 
         fetch(baseurl + uriOwner, requestOptions)
-        location.reload()
         showView('ownerview')
     } catch (error) {
         console.error('Unable to add owner: ', error)
@@ -954,7 +951,6 @@ function addFine() {
         }
 
         fetch(baseurl + uriFine, requestOptions)
-        location.reload()
         showView('fineview')
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
@@ -971,6 +967,7 @@ function addDriver() {
         const addOwnerName = document.getElementById("add-driver-owner");
 
         const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
+        console.log(addOwner)
 
         const newdriver = {
             name: addName.value.trim(),
@@ -993,7 +990,6 @@ function addDriver() {
         }
 
         fetch(baseurl + uriDriver, requestOptions)
-        location.reload()
         showView('driverview')
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
@@ -1028,7 +1024,6 @@ function addCarDriver() {
         }
 
         fetch(baseurl + uriCarDriver, requestOptions)
-        location.reload()
         showView('driverview')
     } catch (error) {
         console.error("Unable to add car driver to database. ", error)

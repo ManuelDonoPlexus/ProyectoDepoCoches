@@ -38,7 +38,7 @@
             </div>
 
             <div id="carview">
-                <h2>Coches</h2>
+                <h1 class="title">Coches</h1>
 
                 <div id="carTable">
                     <p id="counterCar">0 items</p>
@@ -61,7 +61,7 @@
             </div>
 
             <div id="makeview">
-                <h2>Modelos</h2>
+                <h1 class="title">Modelos</h1>
 
                 <div id="makeTable">
                     <p id="counterMake">0 items</p>
@@ -83,7 +83,7 @@
             </div>
 
             <div id="ownerview">
-                <h2>Propietarios</h2>
+                <h1 class="title">Propietarios</h1>
 
                 <div id="ownerTable">
                     <p id="counterOwner">0 items</p>
@@ -106,7 +106,7 @@
             </div>
 
             <div id="driverview">
-                <h2>Conductores</h2>
+                <h1 class="title">Conductores</h1>
 
                 <button class="regularBton" onclick="showDrivers('drivers')">Mostrar todos los conductores de la base de
                     datos</button>
@@ -114,7 +114,7 @@
                     vehiculo</button>
 
                 <div id="drivers">
-                    <p><b>Lista de Conductores</b></p>
+                    <h2>Lista de Conductores</h2>
                     <p id="counterDriver">0 items</p>
                     <input type="text" id="driverSearchbar" class="searchBar"
                         onkeyup="search('driverSearchbar', 'driversTBody', 'driverName')"
@@ -133,7 +133,7 @@
                 </div>
 
                 <div id="cardrivers">
-                    <p><b>Conductores asociados a vehiculos</b></p>
+                    <h2>Conductores asociados a vehiculos</h2>
                     <p id="counterCarDriver">0 items</p>
                     <input type="text" id="cardriverSearchbar" class="searchBar"
                         onkeyup="search('cardriverSearchbar', 'cardriversTBody', 'cardriverName')"
@@ -152,7 +152,7 @@
             </div>
 
             <div id="fineview">
-                <h2>Multas</h2>
+                <h1 class="title">Multas</h1>
 
                 <div id="fineTable">
                     <p id="counterFine">0 items</p>
@@ -176,7 +176,7 @@
             </div>
 
             <div class="addView" id="carCreate">
-                <h2>Añadir coche a la base de datos</h2>
+                <h1 class="title">Añadir coche a la base de datos</h1>
                 <div class="addform">
                     <input id="add-car-license" type="text" placeholder="Matricula">
                     <input id="add-car-kms" type="number" placeholder="Kilometros">
@@ -189,7 +189,7 @@
             </div>
 
             <div class="addView" id="makeCreate">
-                <h2>Añadir modelo a la base de datos</h2>
+                <h1 class="title">Añadir modelo a la base de datos</h1>
                 <div class="addform">
                     <input id="add-make-name" type="text" placeholder="Nombre">
                     <input id="add-make-horsepower" type="number" placeholder="Poder de caballo">
@@ -214,6 +214,7 @@
             </div>
 
             <div class="addView" id="driverCreate">
+                <h1 class="title">Manejo de conductores</h1>
                 <button class="regularBton" onclick="showAddDriver('driveradd')">Añadir nuevo un conductor</button>
                 <button class="regularBton" onclick="showAddDriver('cardriveradd')">Asociar a un conductor a un vehiculo</button>
 
@@ -243,7 +244,7 @@
             </div>
 
             <div class="addView" id="fineCreate">
-                <h2>Añadir multa a la base de datos</h2>
+                <h1 class="title">Añadir multa a la base de datos</h1>
                 <div class="addform">
                     <input id="add-fine-price" type="number" step="0.01" placeholder="Precio">
                     <input id="add-fine-description" type="text" placeholder="Descripción">
@@ -256,7 +257,7 @@
             </div>
 
             <div class="addView" id="userAdd">
-                <h2>Añadir multa a la base de datos</h2>
+                <h1 class="title">Añadir multa a la base de datos</h1>
                 <div class="addform">
                     <input id="add-user-name" type="text" placeholder="Nombre de usuario">
                     <input id="add-user-email" type="email" placeholder="Dirección de correo">
@@ -268,7 +269,7 @@
             </div>
 
             <div class="detailView" id="cardetailView">
-                <h2>Editar coche</h2>
+                <h1 class="title">Editar coche</h1>
                 <div class="editform">
                     <input type="text" id="licenseCar" disabled="true">
                     <input type="text" id="kmsCar" disabled="true">
@@ -283,7 +284,7 @@
             </div>
 
             <div class="detailView" id="makedetailView">
-                <h2>Editar modelo</h2>
+                <h1 class="title">Editar modelo</h1>
                 <div class="editform">
                     <input type="text" id="nameMake" disabled="true">
                     <input type="number" id="horsepowerMake" disabled="true">
@@ -300,7 +301,7 @@
 
 
             <div class="detailView" id="driverdetailView">
-                <h2>Editar conductor</h2>
+                <h1 class="title">Editar conductor</h1>
                 <div class="editform">
                     <input type="text" id="nameDriver" disabled="true">
                     <input type="text" id="dniDriver" disabled="true">
@@ -314,18 +315,8 @@
                 <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
             </div>
 
-
-
-
-
-
-
-
-
-
-
             <div class="detailView" id="ownerdetailView">
-                <h2>Editar propietario</h2>
+                <h1 class="title">Editar propietario</h1>
                 <div class="editform">
                     <input type="text" id="nameOwner" disabled="true">
                     <input type="text" id="nifOwner" disabled="true">
@@ -340,7 +331,7 @@
             </div>
 
             <div class="detailView" id="finedetailView">
-                <h2>Editar multa</h2>
+                <h1 class="title">Editar multa</h1>
                 <div class="editform">
                     <input type="text" id="priceFine" disabled="true">
                     <input type="checkbox" id="payedFine" disabled="true">
