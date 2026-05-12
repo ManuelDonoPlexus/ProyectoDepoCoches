@@ -22,6 +22,7 @@ let fines = [];
 let fuels = [];
 let currentview = "welcomeview";
 let currentdriverview = "";
+let currentadddriver = "";
 
 // Función para inicializar
 
@@ -50,12 +51,14 @@ function initialize() {
 
     document.getElementById("drivers").style.display = "none";
     document.getElementById("cardrivers").style.display = "none";
+    document.getElementById("driveradd").style.display = "none";
+    document.getElementById("cardriveradd").style.display = "none";
 
-    document.getElementById("carView").style.display = "none";
-    document.getElementById("makeView").style.display = "none";
-    document.getElementById("ownerView").style.display = "none";
-    document.getElementById("driverView").style.display = "none";
-    document.getElementById("fineView").style.display = "none";
+    document.getElementById("cardetailView").style.display = "none";
+    document.getElementById("makedetailView").style.display = "none";
+    document.getElementById("ownerdetailView").style.display = "none";
+    document.getElementById("driverdetailView").style.display = "none";
+    document.getElementById("finedetailView").style.display = "none";
 
 }
 
@@ -84,6 +87,13 @@ function showDrivers(id) {
 
     document.getElementById(id).style.display = "initial";
     currentdriverview = id;
+}
+
+function showAddDriver(id) {
+    if (document.getElementById(currentadddriver) != null) { document.getElementById(currentadddriver).style.display = "none" }
+
+    document.getElementById(id).style.display = "initial";
+    currentadddriver = id;
 }
 
 // Para las busquedas y para mostrar vistas de cada entidad
@@ -124,38 +134,6 @@ async function login(email, password) {
         token = await response.text();
         saveToken(token)
         window.location.href = "mainview.html";
-    } catch (error) {
-        throw error;
-    }
-}
-
-async function register(username, email, password) {
-    try {
-        const newname = document.getElementById(username)
-        const newemail = document.getElementById(email)
-        const newpass = document.getElementById(password)
-
-        if (newname.value.trim() == null && newemail.value.trim() == null && newpass.value.trim() == null) {
-            return;
-        }
-
-        const newuser = {
-            name: newname.value.trim(),
-            password: newpass.value.trim(),
-            email: newemail.value.trim()
-        }
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
-
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            redirect: 'follow',
-            body: JSON.stringify(newuser)
-        }
-
-        fetch(baseurl + uriRegister, requestOptions)
-            .then(respone => respone.json())
     } catch (error) {
         throw error;
     }
@@ -346,6 +324,8 @@ async function getOwners() {
 
 function getSpecificCar(search, filter) {
     let result;
+
+    console.log(search+' '+filter)
     for (let i = 0; i < cars.length; i++) {
         const car = cars[i];
         if (filter == "license") {
@@ -360,7 +340,7 @@ function getSpecificCar(search, filter) {
 function getSpecificDriver(search, filter) {
     let result;
     for (let i = 0; i < drivers.length; i++) {
-        const driver = driver[i];
+        const driver = drivers[i];
         if (filter == "id") {
             if (driver.id == search) { result = driver; }
         } else if (filter == "name") {
@@ -521,7 +501,7 @@ function _displayCars() {
         const car = cars[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('carView',${car.id})`);
+        detailsBton.setAttribute("onclick", `showEditForm('cardetailView',${car.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -575,7 +555,7 @@ function _displayDrivers() {
         const driver = drivers[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('driverView',${driver.id})`);
+        detailsBton.setAttribute("onclick", `showEditForm('driverdetailView',${driver.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -629,7 +609,7 @@ function _displayCarDrivers() {
         const driver = cardrivers[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('driverView',${driver.id})`);
+        detailsBton.setAttribute("onclick", `showEditForm('driverdetailView',${driver.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -673,7 +653,7 @@ function _displayMakes() {
         const make = makes[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('makeView',${make.id})`);
+        detailsBton.setAttribute("onclick", `showEditForm('makedetailView',${make.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -722,7 +702,7 @@ function _displayOwners() {
         const owner = owners[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('ownerView',${owner.id})`);
+        detailsBton.setAttribute("onclick", `showEditForm('ownerdetailView',${owner.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -776,7 +756,7 @@ function _displayFines() {
         const fine = fines[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('fineView',${fine.id})`);
+        detailsBton.setAttribute("onclick", `showEditForm('finedetailView',${fine.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
@@ -860,6 +840,7 @@ function addCar() {
         }
 
         fetch(baseurl + uriCar, requestOptions)
+        location.reload()
         showView('carview')
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
@@ -895,6 +876,7 @@ function addMake() {
         }
 
         fetch(baseurl + uriMake, requestOptions)
+        location.reload()
         showView('makeview')
     } catch (error) {
         console.error("Unable to add make to database. ", error);
@@ -930,6 +912,7 @@ function addOwner() {
         }
 
         fetch(baseurl + uriOwner, requestOptions)
+        location.reload()
         showView('ownerview')
     } catch (error) {
         console.error('Unable to add owner: ', error)
@@ -971,6 +954,7 @@ function addFine() {
         }
 
         fetch(baseurl + uriFine, requestOptions)
+        location.reload()
         showView('fineview')
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
@@ -1009,12 +993,87 @@ function addDriver() {
         }
 
         fetch(baseurl + uriDriver, requestOptions)
+        location.reload()
+        showView('driverview')
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 }
 
-function addCarDriver() { }
+function addCarDriver() {
+    try {
+        const addCDDate = document.getElementById("add-cardriver-date");
+        const addCDCar = document.getElementById("add-cardriver-car");
+        const addCDDriver = document.getElementById("add-cardriver-driver");
+
+        const CDCar = getSpecificCar(addCDCar.value.trim(), "license")
+        const CDDriver = getSpecificDriver(addCDDriver.value.trim(), "name")
+
+        const newCarDriver = {
+            dateDrive: addCDDate.value.trim(),
+            car: CDCar.id,
+            driver: CDDriver.id
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newCarDriver)
+        }
+
+        fetch(baseurl + uriCarDriver, requestOptions)
+        location.reload()
+        showView('driverview')
+    } catch (error) {
+        console.error("Unable to add car driver to database. ", error)
+    }
+}
+
+function registerUser(username, email, password) {
+    try {
+        const newname = document.getElementById("add-user-name")
+        const newemail = document.getElementById("add-user-email")
+        const newpassinit = document.getElementById("add-user-password-init")
+        const newpassconf = document.getElementById("add-user-password-conf")
+
+        if (newname.value.trim() == null && newemail.value.trim() == null && newpassinit.value.trim() == null) {
+            return;
+        }
+
+        if (newpassinit.value.trim() != newpassconf.value.trim()) {
+            return;
+        }
+
+        const newuser = {
+            name: newname.value.trim(),
+            password: newpass.value.trim(),
+            email: newemail.value.trim()
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newuser)
+        }
+
+        fetch(baseurl + uriRegister, requestOptions)
+            .then(respone => respone.json())
+    } catch (error) {
+        throw error;
+    }
+}
 
 // Para borrar entidades de la base de datos
 
@@ -1155,11 +1214,11 @@ function deleteFine(id) {
 function showEditForm(nameView, idEntity) {
     showView(nameView);
 
-    if (nameView == "carView") { carShowEdit(idEntity) }
-    if (nameView == "driverView") { driverShowEdit(idEntity) }
-    if (nameView == "makeView") { makeShowEdit(idEntity) }
-    if (nameView == "ownerView") { ownerShowEdit(idEntity) }
-    if (nameView == "fineView") { fineShowEdit(idEntity) }
+    if (nameView == "cardetailView") { carShowEdit(idEntity) }
+    if (nameView == "driverdetailView") { driverShowEdit(idEntity) }
+    if (nameView == "makedetailView") { makeShowEdit(idEntity) }
+    if (nameView == "ownerdetailView") { ownerShowEdit(idEntity) }
+    if (nameView == "finedetailView") { fineShowEdit(idEntity) }
 }
 
 function carShowEdit(id) {
@@ -1602,6 +1661,3 @@ function saveEditFine() {
         console.error("Unable to add fine to database. ", error)
     }
 }
-
-
-
