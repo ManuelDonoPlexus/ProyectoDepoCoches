@@ -11,6 +11,7 @@ const uriFuel = "/api/FuelType"
 const uriRegister = "/api/Auth/register";
 const uriLogin = "/api/Auth/login";
 let token;
+let usr;
 
 let cars = [];
 let colors = [];
@@ -28,6 +29,9 @@ let currentadddriver = "";
 
 function initialize() {
     token = getToken();
+    usr = getUsr();
+    usrname = usr.split('@')[0] 
+    document.getElementById("welcome-msg").innerText = "Bienvenido \n" + usrname;
     getCars();
     getCarDrivers();
     getColors();
@@ -131,7 +135,8 @@ async function login(email, password) {
         })
 
         token = await response.text();
-        saveToken(token)
+        saveToken(token, newemail.value.trim())
+        usr
         window.location.href = "mainview.html";
     } catch (error) {
         throw error;
@@ -140,15 +145,21 @@ async function login(email, password) {
 
 function logout(){
     token = "";
+    usr = "";
     window.location.href = "index.html";
 }
 
-function saveToken(token) {
+function saveToken(token, usr) {
     sessionStorage.setItem("token", token)
+    sessionStorage.setItem("usr", usr)
 }
 
 function getToken() {
     return sessionStorage.getItem("token")
+}
+
+function getUsr() {
+    return sessionStorage.getItem("usr")
 }
 
 // Para obtener los datos de ciertas entidades de la base de datos 
