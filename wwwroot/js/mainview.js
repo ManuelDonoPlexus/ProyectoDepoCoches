@@ -138,6 +138,11 @@ async function login(email, password) {
     }
 }
 
+function logout(){
+    token = "";
+    window.location.href = "index.html";
+}
+
 function saveToken(token) {
     sessionStorage.setItem("token", token)
 }
