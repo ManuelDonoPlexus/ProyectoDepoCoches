@@ -46,13 +46,12 @@ function initialize() {
     document.getElementById("makeCreate").style.display = "none";
     document.getElementById("ownerCreate").style.display = "none";
     document.getElementById("driverCreate").style.display = "none";
+    document.getElementById("cardriverCreate").style.display = "none";
     document.getElementById("fineCreate").style.display = "none";
     document.getElementById("userAdd").style.display = "none";
 
     document.getElementById("drivers").style.display = "none";
     document.getElementById("cardrivers").style.display = "none";
-    document.getElementById("driveradd").style.display = "none";
-    document.getElementById("cardriveradd").style.display = "none";
 
     document.getElementById("cardetailView").style.display = "none";
     document.getElementById("makedetailView").style.display = "none";
@@ -146,7 +145,6 @@ function saveToken(token) {
 function getToken() {
     return sessionStorage.getItem("token")
 }
-
 
 // Para obtener los datos de ciertas entidades de la base de datos 
 
@@ -1047,7 +1045,7 @@ function registerUser(username, email, password) {
 
         const newuser = {
             name: newname.value.trim(),
-            password: newpass.value.trim(),
+            password: newpassinit.value.trim(),
             email: newemail.value.trim()
         }
 

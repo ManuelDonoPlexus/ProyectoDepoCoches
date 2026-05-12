@@ -1,53 +1,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
-    padding: 0;
+    display: flex;
+    height: 100vh;
+    flex-flow: row;
     margin: 0;
+    background-color: aqua;
 }
 
-.content {
-    display: flex;
-    flex-direction: row;
-    align-items: top;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
+/* Barra lateral */
 
 .sidebar {
-    margin: 2%;
-    width: 13%;
-}
-
-.sidebar div{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-flow: column;
     align-items: center;
-    background-color: #cfcfcf;
-    height: 55%;
-    border-radius: 20px;
-    margin-bottom: 7%;
+    position: relative;
+    justify-content: center;
+    width: 20%;
+    background-color: black;
 }
 
-.sidebar div button{
+.logout{
+    display: flex;
+    width: 60%;
+    padding: 14px;
+    border-radius: 16px;
     font-family: 'Oswald', sans-serif;
-    color: white;
-    background-color: black;
+    color: black;
+    background-color: white;
     border: none;
-    width: 70%;
-    margin: 5%;
-    padding-top: 4%;
-    padding-bottom: 4%;
-    border-radius: 20px;
-    font-size: 16px;
+    font-size: 20px;
     transition: 500ms;
 }
 
-.sidebar div button:hover{
+.logout:hover{
+    color: black;
+    background-color: red;
+}
+
+.logout img{
+    margin-right: 4px;
+    width: 20%;
+    padding: 0;
+    border: none;
+}
+
+.operations {
+    display: grid;
+    grid-template-columns: 1;
+    width: 100%;
+    background-color: black;
+    margin-bottom: 100%;
+}
+
+.operations button{
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 0;
+    font-family: 'Oswald', sans-serif;
+    color: white;
+    background-color: transparent;
+    border: none;
+    height: 40px;
+    font-size: 20px;
+    transition: 500ms;
+}
+
+.operations button:hover{
     color: black;
     background-color: white;
 }
+
+/* Vista principal */
 
 .mainview{
     background-color: #cfcfcf;
@@ -57,42 +82,14 @@ body {
     justify-content: space-between;
     font-family: "Oswald", sans-serif;
     height: 100%;
-    width: 80%;
-    margin: 2%;
-    padding-bottom: 40px;
-    border-radius: 10px;
+    width: 100%;
 }
 
-.mainview table {
-    font-family: "Oswald", sans-serif;
-    text-align: center;
-    border-collapse: separate;
-    border: solid black 1px;
-    border-spacing: 0;
-    border-radius: 10px;
-    margin-top: 2%;
-    overflow: hidden;
-}
-
-.mainview th {
-    color: white;
-    background-color: #898989;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.mainview td {
-    background-color: white;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.mainview #welcomeview{
-    padding-top: 10px;
+#welcomeview{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .addform{
@@ -128,6 +125,12 @@ body {
 }
 
 
+
+
+
+
+
+
 /* Estilos de clases: botones, textos, etc */
 
 .title{
@@ -138,6 +141,39 @@ body {
 .subtitle{
     font-weight: lighter;
     font-size: 20px;
+}
+
+.datatable{
+    width: 100%;
+    font-family: "Oswald", sans-serif;
+    text-align: center;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.datatable th{
+    overflow-x: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 0px;
+    background-color: aqua;
+}
+
+.datatable td{
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: white;
+    border-bottom: 2px solid rgb(204, 204, 204);
+}
+
+.searchBar{
+    font-family: 'Oswald', sans-serif;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 16px;
 }
 
 .regularBton{
@@ -156,6 +192,24 @@ body {
     color: white;
     background-color: blue;
     border-color: blue;
+}
+
+.addBton{
+    font-family: 'Oswald', sans-serif;
+    margin-top: 4%;
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border-color: transparent;
+    transition-duration: 0.4s;
+}
+
+.addBton:hover{
+    color: white;
+    background-color: greenyellow;
+    border-color: greenyellow;
 }
 
 .detailsBton{
@@ -246,16 +300,4 @@ body {
     color: white;
     background-color: green;
     border-color: green;
-}
-
-.searchBar{
-    font-family: 'Oswald', sans-serif;
-    width: 40%;
-    border-radius: 10px;
-    font-size: 16px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
-
 }
