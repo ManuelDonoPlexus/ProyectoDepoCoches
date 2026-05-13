@@ -28,7 +28,7 @@ let currentadddriver = "";
 let from = 0;
 let pages = 0;
 let tablecontent = [];
-let pagelimit = 5;
+let pagelimit = 6;
 
 // Función para inicializar
 
