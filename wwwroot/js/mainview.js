@@ -25,20 +25,18 @@ let currentview = "welcomeview";
 let currentdriverview = "";
 let currentadddriver = "";
 
+let from = 0;
+let pages = 0;
+let tablecontent = [];
+let pagelimit = 5;
+
 // Función para inicializar
 
 function initialize() {
     token = getToken();
     usr = getUsr();
-    usrname = usr.split('@')[0] 
-    document.getElementById("welcome-msg").innerText = "Bienvenido \n" + usrname;
-    getCars();
-    getCarDrivers();
-    getColors();
-    getDrivers();
-    getFines();
-    getFuels();
-    getMakes();
+    usrname = usr.split('@')[0]
+    document.getElementById("welcome-msg").innerText = "Cuenta activa: " + usrname;
     getOwners();
     document.getElementById("carview").style.display = "none";
     document.getElementById("makeview").style.display = "none";
@@ -62,7 +60,14 @@ function initialize() {
     document.getElementById("ownerdetailView").style.display = "none";
     document.getElementById("driverdetailView").style.display = "none";
     document.getElementById("finedetailView").style.display = "none";
-
+    getColors();
+    getFuels();
+    displayTable("carsTBody")
+    displayTable("cardriversTBody")
+    displayTable("driversTBody")
+    displayTable("makesTBody")
+    displayTable("ownersTBody")
+    displayTable("finesTBody")
 }
 
 // Para mostrar un recuento de una entidad
@@ -143,7 +148,7 @@ async function login(email, password) {
     }
 }
 
-function logout(){
+function logout() {
     token = "";
     usr = "";
     window.location.href = "index.html";
@@ -166,6 +171,7 @@ function getUsr() {
 
 async function getCars() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -180,7 +186,7 @@ async function getCars() {
         cars = await response.value;
         _fillCarList();
         _displayCount(cars.length, "counterCar")
-        _displayCars();
+        return (cars)
     } catch (error) {
         console.error('Unable to get cars: ', error);
     }
@@ -188,6 +194,7 @@ async function getCars() {
 
 async function getCarDrivers() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -201,7 +208,6 @@ async function getCarDrivers() {
             .then((response) => response.json());
         cardrivers = await response.value;
         _displayCount(cardrivers.length, "counterCarDriver");
-        _displayCarDrivers();
     } catch (error) {
         console.error('Unable to get drivers: ', error);
     }
@@ -209,6 +215,7 @@ async function getCarDrivers() {
 
 async function getColors() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -229,6 +236,7 @@ async function getColors() {
 
 async function getDrivers() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -243,7 +251,6 @@ async function getDrivers() {
         drivers = await response.value;
         _displayCount(drivers.length, "counterDriver");
         _fillDriverList();
-        _displayDrivers();
     } catch (error) {
         console.error('Unable to get drivers: ', error);
     }
@@ -251,6 +258,7 @@ async function getDrivers() {
 
 async function getFines() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -264,7 +272,6 @@ async function getFines() {
             .then((response) => response.json());
         fines = await response.value;
         _displayCount(fines.length, "counterFine")
-        _displayFines();
     } catch (error) {
         console.error('Unable to get drivers: ', error);
     }
@@ -272,6 +279,7 @@ async function getFines() {
 
 async function getFuels() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -292,6 +300,7 @@ async function getFuels() {
 
 async function getMakes() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -306,7 +315,6 @@ async function getMakes() {
         makes = await response.value;
         _fillMakeList();
         _displayCount(makes.length, "counterMake");
-        _displayMakes();
     } catch (error) {
         console.error('Unable to get makes: ', error);
     }
@@ -314,6 +322,7 @@ async function getMakes() {
 
 async function getOwners() {
     try {
+        cars = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -328,7 +337,6 @@ async function getOwners() {
         owners = await response.value;
         _fillOwnerList();
         _displayCount(owners.length, "counterOwner");
-        _displayOwners();
     } catch (error) {
         console.error('Unable to get owners: ', error)
     }
@@ -339,7 +347,7 @@ async function getOwners() {
 function getSpecificCar(search, filter) {
     let result;
 
-    console.log(search+' '+filter)
+    console.log(search + ' ' + filter)
     for (let i = 0; i < cars.length; i++) {
         const car = cars[i];
         if (filter == "license") {
@@ -505,14 +513,112 @@ function _fillOwnerList() {
 
 // Mostrar todos los datos
 
-function _displayCars() {
+async function displayTable(tableid) {
+
+    switch (tableid) {
+        case "carsTBody":
+            await getCars()
+            pages = cars.length / pagelimit;
+            tablecontent = cars.slice(from, pagelimit);
+            loadCarTableContent(tablecontent);
+            loadPages("cars", "carTablepages", pages);
+            break
+        case "driversTBody":
+            await getDrivers();
+            pages = drivers.length / pagelimit;
+            tablecontent = drivers.slice(from, pagelimit);
+            loadDriverTableContent(tablecontent);
+            loadPages("drivers", "driverTablepages", pages);
+            break
+        case "cardriversTBody":
+            await getCarDrivers();
+            pages = cardrivers.length / pagelimit;
+            tablecontent = cardrivers.slice(from, pagelimit);
+            loadCarDriverTableContent(tablecontent);
+            loadPages("cardrivers", "cardriverTablepages", pages);
+            break
+        case "ownersTBody":
+            await getOwners();
+            pages = owners.length / pagelimit;
+            tablecontent = owners.slice(from, pagelimit);
+            loadOwnerTableContent(tablecontent);
+            loadPages("owners", "ownerTablepages", pages);
+            break
+        case "makesTBody":
+            await getMakes();
+            pages = makes.length / pagelimit;
+            tablecontent = makes.slice(from, pagelimit);
+            loadMakesTableContent(tablecontent);
+            loadPages("makes", "makeTablepages", pages);
+            break
+        case "finesTBody":
+            await getFines();
+            pages = fines.length / pagelimit;
+            tablecontent = fines.slice(from, pagelimit);
+            loadFinesTableContent(tablecontent);
+            loadPages("fines", "fineTablepages", pages);
+            break
+        default:
+            console.log("not in switch")
+    }
+}
+
+function loadPages(tablename, tableid, pages) {
+    let tablepages = document.getElementById(tableid)
+    tablepages.innerHTML = "";
+
+    for (let i = 0; i < pages; i++) {
+        const element = document.createElement("li");
+        const bton = `<button class="page-bton" onclick="nextPage(${tablename},${i})">${i + 1}</button>`
+        element.innerHTML = bton;
+        tablepages.appendChild(element);
+    }
+}
+
+function nextPage(infotable, page) {
+    let activePage = page + 1
+    let from = pagelimit * page
+    let info = [];
+
+
+
+    if (from <= infotable.length) {
+        let tablecontent = infotable.slice(from, pagelimit * activePage)
+        console.log(tablecontent)
+
+        switch (infotable) {
+            case cars:
+                loadCarTableContent(tablecontent)
+                break;
+            case drivers:
+                loadDriverTableContent(tablecontent)
+                break;
+            case cardrivers:
+                loadCarDriverTableContent(tablecontent)
+                break;
+            case owners:
+                loadOwnerTableContent(tablecontent)
+                break;
+            case makes:
+                loadMakesTableContent(tablecontent)
+                break;
+            case fines:
+                loadFinesTableContent(tablecontent)
+                break;
+            default:
+                break;
+        }        
+    }
+}
+
+function loadCarTableContent(tablecontent) {
     const tBody = document.getElementById("carsTBody");
-    tBody.innerHTML;
+    tBody.innerHTML = '';
 
     const bton = document.createElement("button");
 
-    for (let i = 0; i < cars.length; i++) {
-        const car = cars[i];
+    for (let i = 0; i < tablecontent.length; i++) {
+        const car = tablecontent[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('cardetailView',${car.id})`);
@@ -559,14 +665,14 @@ function _displayCars() {
     }
 }
 
-function _displayDrivers() {
+function loadDriverTableContent(tablecontent) {
     const tBody = document.getElementById("driversTBody");
-    tBody.innerHTML;
+    tBody.innerHTML = '';
 
     const bton = document.createElement("button");
 
-    for (let i = 0; i < drivers.length; i++) {
-        const driver = drivers[i];
+    for (let i = 0; i < tablecontent.length; i++) {
+        const driver = tablecontent[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('driverdetailView',${driver.id})`);
@@ -613,14 +719,14 @@ function _displayDrivers() {
     }
 }
 
-function _displayCarDrivers() {
+function loadCarDriverTableContent(tablecontent) {
     const tBody = document.getElementById("cardriversTBody");
-    tBody.innerHTML;
+    tBody.innerHTML = '';
 
     const bton = document.createElement("button");
 
-    for (let i = 0; i < cardrivers.length; i++) {
-        const driver = cardrivers[i];
+    for (let i = 0; i < tablecontent.length; i++) {
+        const driver = tablecontent[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('driverdetailView',${driver.id})`);
@@ -657,63 +763,14 @@ function _displayCarDrivers() {
     }
 }
 
-function _displayMakes() {
-    const tBody = document.getElementById("makesTBody");
-    tBody.innerHTML;
-
-    const bton = document.createElement("button");
-
-    for (let i = 0; i < makes.length; i++) {
-        const make = makes[i];
-        let detailsBton = bton.cloneNode(false);
-        detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('makedetailView',${make.id})`);
-        detailsBton.setAttribute("class", "detailsBton");
-
-        let deleteBton = bton.cloneNode(false);
-        deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteMake(${make.id})`);
-        deleteBton.setAttribute("class", "deleteBton");
-
-        let tr = tBody.insertRow();
-        tr.setAttribute("class", "makeRow")
-
-        let td0 = tr.insertCell(0);
-        td0.setAttribute("class", "makeName");
-        let txtNode0 = document.createTextNode(make.name);
-        td0.appendChild(txtNode0)
-
-        let td1 = tr.insertCell(1);
-        td1.setAttribute("class", "makeHorsePower");
-        let txtNode1 = document.createTextNode(make.horsePower);
-        td1.appendChild(txtNode1);
-
-        let td2 = tr.insertCell(2);
-        td2.setAttribute("class", "makePrice");
-        let txtNode2 = document.createTextNode(make.price);
-        td2.appendChild(txtNode2);
-
-        let td3 = tr.insertCell(3);
-        td3.setAttribute("class", "makeFuelType")
-        let txtNode3 = document.createTextNode(make.fuelType.name)
-        td3.appendChild(txtNode3)
-
-        let td4 = tr.insertCell(4);
-        td4.appendChild(detailsBton);
-
-        let td5 = tr.insertCell(5);
-        td5.appendChild(deleteBton);
-    }
-}
-
-function _displayOwners() {
+function loadOwnerTableContent(tablecontent) {
     const tBody = document.getElementById("ownersTBody");
-    tBody.innerHTML;
+    tBody.innerHTML = '';
 
     const bton = document.createElement("button");
 
-    for (let i = 0; i < owners.length; i++) {
-        const owner = owners[i];
+    for (let i = 0; i < tablecontent.length; i++) {
+        const owner = tablecontent[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('ownerdetailView',${owner.id})`);
@@ -760,14 +817,63 @@ function _displayOwners() {
     }
 }
 
-function _displayFines() {
-    const tBody = document.getElementById("finesTBody");
-    tBody.innerHTML;
+function loadMakesTableContent(tablecontent) {
+    const tBody = document.getElementById("makesTBody");
+    tBody.innerHTML = '';
 
     const bton = document.createElement("button");
 
-    for (let i = 0; i < fines.length; i++) {
-        const fine = fines[i];
+    for (let i = 0; i < tablecontent.length; i++) {
+        const make = tablecontent[i];
+        let detailsBton = bton.cloneNode(false);
+        detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('makedetailView',${make.id})`);
+        detailsBton.setAttribute("class", "detailsBton");
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteMake(${make.id})`);
+        deleteBton.setAttribute("class", "deleteBton");
+
+        let tr = tBody.insertRow();
+        tr.setAttribute("class", "makeRow")
+
+        let td0 = tr.insertCell(0);
+        td0.setAttribute("class", "makeName");
+        let txtNode0 = document.createTextNode(make.name);
+        td0.appendChild(txtNode0)
+
+        let td1 = tr.insertCell(1);
+        td1.setAttribute("class", "makeHorsePower");
+        let txtNode1 = document.createTextNode(make.horsePower);
+        td1.appendChild(txtNode1);
+
+        let td2 = tr.insertCell(2);
+        td2.setAttribute("class", "makePrice");
+        let txtNode2 = document.createTextNode(make.price);
+        td2.appendChild(txtNode2);
+
+        let td3 = tr.insertCell(3);
+        td3.setAttribute("class", "makeFuelType")
+        let txtNode3 = document.createTextNode(make.fuelType.name)
+        td3.appendChild(txtNode3)
+
+        let td4 = tr.insertCell(4);
+        td4.appendChild(detailsBton);
+
+        let td5 = tr.insertCell(5);
+        td5.appendChild(deleteBton);
+    }
+}
+
+function loadFinesTableContent(tablecontent) {
+    const tBody = document.getElementById("finesTBody");
+    tBody.innerHTML = '';
+
+    const bton = document.createElement("button");
+
+    for (let i = 0; i < tablecontent.length; i++) {
+        const fine = tablecontent[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
         detailsBton.setAttribute("onclick", `showEditForm('finedetailView',${fine.id})`);

@@ -12,7 +12,6 @@
 <body>
 
     <div class="sidebar">
-        <div><p id="welcome-msg">Mensaje de bienvenida</p></div>
         <div class="operations">
             <button onclick="showView('carview')">Mostrar coches</button>
             <button onclick="showView('makeview')">Mostrar modelos</button>
@@ -20,6 +19,9 @@
             <button onclick="showView('driverview')">Mostrar conductores</button>
             <button onclick="showView('fineview')">Mostrar multas</button>
             <button onclick="showView('userAdd')">Registrar usuario</button>
+        </div>
+        <div class="welcome-msg-container">
+            <p id="welcome-msg">Mensaje de bienvenida</p>
         </div>
         <button class="logout" onclick="logout()"><img src="img/exit.png" alt=""> Cerrar sesión</button>
     </div>
@@ -34,14 +36,17 @@
 
         <div id="carview">
             <h1 class="title">Coches</h1>
-            <button class="addBton" onclick="showView('carCreate')">Crear coche</button>
-
-            <div id="carTable">
-                <p id="counterCar">0 items</p>
+            <div class="view-info">
+                <p class="counter-text" id="counterCar">0 items</p>
                 <input type="text" id="carSearchbar" class="searchBar"
                     onkeyup="search('carSearchbar', 'carsTBody', 'carLicense')"
                     placeholder="Buscar coche por matricula...">
+                <button class="addBton" onclick="showView('carCreate')">Crear coche</button>
+            </div>
+
+            <div id="carTable">
                 <table class="datatable">
+                    <div class="page-container" id="carTablepages"></div>
                     <tr>
                         <th>Matricula</th>
                         <th>Kilometros</th>
@@ -58,13 +63,16 @@
 
         <div id="makeview">
             <h1 class="title">Modelos</h1>
-            <button class="addBton" onclick="showView('makeCreate')">Crear modelo</button>
-
-            <div id="makeTable">
-                <p id="counterMake">0 items</p>
+            <div class="view-info">
+                <p class="counter-text" id="counterMake">0 items</p>
                 <input type="text" id="makeSearchBar" class="searchBar"
                     onkeyup="search('makeSearchBar', 'makesTBody', 'makeName')"
                     placeholder="Buscar modelo por nombre...">
+                <button class="addBton" onclick="showView('makeCreate')">Crear modelo</button>
+            </div>
+
+            <div id="makeTable">
+                <div class="page-container" id="makeTablepages"></div>
                 <table class="datatable">
                     <tr>
                         <th>Nombre</th>
@@ -81,14 +89,17 @@
 
         <div id="ownerview">
             <h1 class="title">Propietarios</h1>
-            <button class="addBton" onclick="showView('ownerCreate')">Crear propietario</button>
-
-            <div id="ownerTable">
-                <p id="counterOwner">0 items</p>
+            <div class="view-info">
+                <p class="counter-text" id="counterOwner">0 items</p>
                 <input type="text" id="ownerSearchbar" class="searchBar"
                     onkeyup="search('ownerSearchbar', 'ownersTBody', 'ownerName')"
                     placeholder="Buscar propietario por nombre...">
+                <button class="addBton" onclick="showView('ownerCreate')">Crear propietario</button>
+            </div>
+
+            <div id="ownerTable">
                 <table class="datatable">
+                    <div class="page-container" id="ownerTablepages"></div>
                     <tr>
                         <th>Nombre</th>
                         <th>NIF</th>
@@ -113,12 +124,15 @@
 
             <div id="drivers">
                 <h2>Lista de Conductores</h2>
-                <button class="addBton" onclick="showView('driverCreate')">Crear conductor</button>
-                <p id="counterDriver">0 items</p>
-                <input type="text" id="driverSearchbar" class="searchBar"
-                    onkeyup="search('driverSearchbar', 'driversTBody', 'driverName')"
-                    placeholder="Buscar conductor por nombre...">
+                <div class="view-info">
+                    <p class="counter-text" id="counterDriver">0 items</p>
+                    <input type="text" id="driverSearchbar" class="searchBar"
+                        onkeyup="search('driverSearchbar', 'driversTBody', 'driverName')"
+                        placeholder="Buscar conductor por nombre...">
+                    <button class="addBton" onclick="showView('driverCreate')">Crear conductor</button>
+                </div>
                 <table class="datatable">
+                    <div class="page-container" id="driverTablepages"></div>
                     <tr>
                         <th>Nombre</th>
                         <th>DNI</th>
@@ -133,12 +147,15 @@
 
             <div id="cardrivers">
                 <h2>Conductores asociados a vehiculos</h2>
-                <button class="addBton" onclick="showView('cardriverCreate')">Crear conductor</button>
-                <p id="counterCarDriver">0 items</p>
-                <input type="text" id="cardriverSearchbar" class="searchBar"
-                    onkeyup="search('cardriverSearchbar', 'cardriversTBody', 'cardriverName')"
-                    placeholder="Buscar conductor por nombre...">
+                <div class="view-info">
+                    <p class="counter-text" id="counterCarDriver">0 items</p>
+                    <input type="text" id="cardriverSearchbar" class="searchBar"
+                        onkeyup="search('cardriverSearchbar', 'cardriversTBody', 'cardriverName')"
+                        placeholder="Buscar conductor por nombre...">
+                    <button class="addBton" onclick="showView('cardriverCreate')">Crear conductor</button>
+                </div>
                 <table class="datatable">
+                    <div class="page-container" id="cardriverTablepages"></div>
                     <tr>
                         <th>Nombre del conductor</th>
                         <th>Fecha de conducción</th>
@@ -153,13 +170,17 @@
 
         <div id="fineview">
             <h1 class="title">Multas</h1>
-            <button class="addBton" onclick="showView('fineCreate')">Crear multa</button>
 
             <div id="fineTable">
-                <p id="counterFine">0 items</p>
-                <input type="text" id="fineSearchbar" class="searchBar"
-                    onkeyup="search('fineSearchbar','fineTBody','fineDate')" placeholder="Buscar multa por fecha...">
+                <div class="view-info">
+                    <p class="counter-text" id="counterFine">0 items</p>
+                    <input type="text" id="fineSearchbar" class="searchBar"
+                        onkeyup="search('fineSearchbar','fineTBody','fineDate')"
+                        placeholder="Buscar multa por fecha...">
+                    <button class="addBton" onclick="showView('fineCreate')">Crear multa</button>
+                </div>
                 <table class="datatable">
+                    <div class="page-container" id="fineTablepages"></div>
                     <tr>
                         <th>Fecha</th>
                         <th>Importe</th>
@@ -184,8 +205,10 @@
                 <input id="add-car-owner" list="ownerList" placeholder="Propietario asociado">
                 <input id="add-car-make" list="makeList" placeholder="Modelo asociado">
             </div>
-            <button class="saveBton" onclick="addCar()">Añadir coche</button>
-            <button class="cancelBton" onclick="showView('carview')">Cancelar</button>
+            <div>
+                <button class="saveBton" onclick="addCar()">Añadir coche</button>
+                <button class="cancelBton" onclick="showView('carview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="addView" id="makeCreate">
@@ -196,8 +219,10 @@
                 <input id="add-make-price" type="number" step="0.01" placeholder="Precio">
                 <input id="add-make-fuel" list="fuelList" placeholder="Combustible">
             </div>
-            <button class="saveBton" onclick="addMake()">Añadir modelo</button>
-            <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
+            <div>
+                <button class="saveBton" onclick="addMake()">Añadir modelo</button>
+                <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="addView" id="ownerCreate">
@@ -209,8 +234,10 @@
                 <input id="add-owner-date" type="date" placeholder="Fecha de entrada">
                 <input id="add-owner-email" type="email" placeholder="Dirección de correo">
             </div>
-            <button class="saveBton" onclick="addOwner()">Añadir propietario</button>
-            <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
+            <div>
+                <button class="saveBton" onclick="addOwner()">Añadir propietario</button>
+                <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="addView" id="driverCreate">
@@ -223,8 +250,10 @@
                     <input id="add-driver-tel" type="tel" placeholder="Telefono">
                     <input id="add-driver-owner" list="ownerList" placeholder="Propietario asociado">
                 </div>
-                <button class="saveBton" onclick="addDriver()">Añadir conductor</button>
-                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+                <div>
+                    <button class="saveBton" onclick="addDriver()">Añadir conductor</button>
+                    <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+                </div>
             </div>
         </div>
 
@@ -237,8 +266,10 @@
                     <input id="add-cardriver-car" list="carList" placeholder="Vehiculo asociado">
                     <input id="add-cardriver-driver" list="driverList" placeholder="Conductor asociado">
                 </div>
-                <button class="saveBton" onclick="addCarDriver()">Añadir conductor</button>
-                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+                <div>
+                    <button class="saveBton" onclick="addCarDriver()">Añadir conductor</button>
+                    <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+                </div>
             </div>
         </div>
 
@@ -251,8 +282,10 @@
                 <input id="add-fine-car" list="carList" placeholder="Vehiculo asociado">
                 <input id="add-fine-owner" list="ownerList" placeholder="Propietario asociado">
             </div>
-            <button class="saveBton" onclick="addFine()">Añadir multa</button>
-            <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
+            <div>
+                <button class="saveBton" onclick="addFine()">Añadir multa</button>
+                <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="addView" id="userAdd">
@@ -263,8 +296,10 @@
                 <input id="add-user-password-init" type="text" placeholder="Contraseña">
                 <input id="add-user-password-conf" type="text" placeholder="Confirmar Contraseña">
             </div>
-            <button class="saveBton" onclick="registerUser()">Registrar usuario a la Base de Datos</button>
-            <button class="cancelBton" onclick="showView('welcomeview')">Cancelar</button>
+            <div>
+                <button class="saveBton" onclick="registerUser()">Registrar usuario a la Base de Datos</button>
+                <button class="cancelBton" onclick="showView('welcomeview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="detailView" id="cardetailView">
@@ -306,7 +341,7 @@
                 <input list="driverList" id="ownerDriver" disabled="true">
             </div>
             <button class="deleteBton" id="deleteDriver">Borrar</button>
-            <button class="enableeditBton" id="enableEditDriver">Editar</button>
+            <button class="enableditBton" id="enableEditDriver">Editar</button>
             <button class="saveBton" id="saveEditDriver" hidden>Guardar Cambios</button>
             <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
         </div>
@@ -321,7 +356,7 @@
                 <input type="email" id="emailaddrOwner" disabled="true">
             </div>
             <button class="deleteBton" id="deleteOwner">Borrar</button>
-            <button class="enableeditBton" id="enableEditOwner">Editar</button>
+            <button class="enableditBton" id="enableEditOwner">Editar</button>
             <button class="saveBton" id="saveOwner" onclick="" hidden>Guardar Cambios</button>
             <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
         </div>
@@ -337,7 +372,7 @@
                 <input list="carList" id="carFine" disabled="true">
             </div>
             <button class="deleteBton" id="deleteFine">Borrar</button>
-            <button class="enableeditBton" id="enableEditFine">Editar</button>
+            <button class="enableditBton" id="enableEditFine">Editar</button>
             <button class="saveBton" id="saveEditFine" hidden>Guardar Cambios</button>
             <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
         </div>
