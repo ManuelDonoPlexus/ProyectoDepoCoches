@@ -22,7 +22,7 @@ let owners = [];
 let fines = [];
 let fuels = [];
 let currentview = "welcomeview";
-let currentdriverview = "";
+let currentdriverview = "drivers";
 let currentadddriver = "";
 
 let from = 0;
@@ -36,8 +36,8 @@ function initialize() {
     token = getToken();
     usr = getUsr();
     usrname = usr.split('@')[0]
+    currentdriverview = "drivers";
     document.getElementById("welcome-msg").innerText = "Cuenta activa: " + usrname;
-    getOwners();
     document.getElementById("carview").style.display = "none";
     document.getElementById("makeview").style.display = "none";
     document.getElementById("ownerview").style.display = "none";
@@ -95,6 +95,8 @@ function showDrivers(id) {
 
     document.getElementById(id).style.display = "initial";
     currentdriverview = id;
+
+    console.log(currentdriverview)
 }
 
 function showAddDriver(id) {
@@ -123,6 +125,7 @@ async function login(email, password) {
     event.preventDefault();
     const newemail = document.getElementById(email);
     const newpassword = document.getElementById(password);
+    const errormsg = document.getElementById("error-msg");
 
     const login = {
         email: newemail.value.trim(),
@@ -139,10 +142,15 @@ async function login(email, password) {
             body: JSON.stringify(login)
         })
 
-        token = await response.text();
-        saveToken(token, newemail.value.trim())
-        usr
-        window.location.href = "mainview.html";
+        if ((response.ok)) {
+            token = await response.text();
+            saveToken(token, newemail.value.trim())
+            console.log(token)
+            window.location.href = "mainview.html";
+        } else {
+            errormsg.style.visibility = "visible"
+            console.log("not okay")
+        }
     } catch (error) {
         throw error;
     }
@@ -607,7 +615,7 @@ function nextPage(infotable, page) {
                 break;
             default:
                 break;
-        }        
+        }
     }
 }
 
