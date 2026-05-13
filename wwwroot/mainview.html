@@ -117,13 +117,14 @@
         <div id="driverview">
             <h1 class="title">Conductores</h1>
 
-            <button class="regularBton" onclick="showDrivers('drivers')">Mostrar todos los conductores de la base de
-                datos</button>
-            <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar a los conductores asociados a un
-                vehiculo</button>
+            <div class="button-shows">
+                <button class="regularBton" onclick="showDrivers('drivers')">Mostrar todos los conductores de la base de
+                    datos</button>
+                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar a los conductores asociados a un
+                    vehiculo</button>
+            </div>
 
             <div id="drivers">
-                <h2>Lista de Conductores</h2>
                 <div class="view-info">
                     <p class="counter-text" id="counterDriver">0 items</p>
                     <input type="text" id="driverSearchbar" class="searchBar"
@@ -146,7 +147,6 @@
             </div>
 
             <div id="cardrivers">
-                <h2>Conductores asociados a vehiculos</h2>
                 <div class="view-info">
                     <p class="counter-text" id="counterCarDriver">0 items</p>
                     <input type="text" id="cardriverSearchbar" class="searchBar"

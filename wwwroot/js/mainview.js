@@ -7,9 +7,9 @@ const uriMake = "/api/Make"
 const uriOwner = "/api/Owner"
 const uriFine = "/api/Fine"
 const uriFuel = "/api/FuelType"
-
 const uriRegister = "/api/Auth/register";
 const uriLogin = "/api/Auth/login";
+
 let token;
 let usr;
 

@@ -103,11 +103,21 @@ body {
     margin-bottom: 10px;
 }
 
+.button-shows {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 #welcomeview {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding-top: 20%;
 }
 
 .page-container {
@@ -205,7 +215,7 @@ body {
 
 .searchBar {
     font-family: 'Oswald', sans-serif;
-    width: 60%;
+    width: 40%;
     border: 2px solid rgb(204, 204, 204);
     padding-top: 10px;
     padding-bottom: 10px;
