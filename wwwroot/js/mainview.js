@@ -95,8 +95,6 @@ function showDrivers(id) {
 
     document.getElementById(id).style.display = "initial";
     currentdriverview = id;
-
-    console.log(currentdriverview)
 }
 
 function showAddDriver(id) {
@@ -145,11 +143,9 @@ async function login(email, password) {
         if ((response.ok)) {
             token = await response.text();
             saveToken(token, newemail.value.trim())
-            console.log(token)
             window.location.href = "mainview.html";
         } else {
             errormsg.style.visibility = "visible"
-            console.log("not okay")
         }
     } catch (error) {
         throw error;
@@ -355,7 +351,6 @@ async function getOwners() {
 function getSpecificCar(search, filter) {
     let result;
 
-    console.log(search + ' ' + filter)
     for (let i = 0; i < cars.length; i++) {
         const car = cars[i];
         if (filter == "license") {
@@ -567,7 +562,7 @@ async function displayTable(tableid) {
             loadPages("fines", "fineTablepages", pages);
             break
         default:
-            console.log("not in switch")
+            break
     }
 }
 
@@ -588,11 +583,8 @@ function nextPage(infotable, page) {
     let from = pagelimit * page
     let info = [];
 
-
-
     if (from <= infotable.length) {
         let tablecontent = infotable.slice(from, pagelimit * activePage)
-        console.log(tablecontent)
 
         switch (infotable) {
             case cars:
@@ -724,6 +716,65 @@ function loadDriverTableContent(tablecontent) {
 
         let td6 = tr.insertCell(6);
         td6.appendChild(deleteBton);
+    }
+}
+
+function loadFinesTableContent(tablecontent) {
+    const tBody = document.getElementById("finesTBody");
+    tBody.innerHTML = '';
+
+    const bton = document.createElement("button");
+
+    for (let i = 0; i < tablecontent.length; i++) {
+        const fine = tablecontent[i];
+        let detailsBton = bton.cloneNode(false);
+        detailsBton.innerText = "Detalles";
+        detailsBton.setAttribute("onclick", `showEditForm('finedetailView',${fine.id})`);
+        detailsBton.setAttribute("class", "detailsBton");
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteFine(${fine.id})`);
+        deleteBton.setAttribute("class", "deleteBton");
+
+        let tr = tBody.insertRow();
+        tr.setAttribute("class", "fine");
+
+        let td0 = tr.insertCell(0);
+        td0.setAttribute("class", "fineDate");
+        let txtNode0 = document.createTextNode(fine.date);
+        td0.appendChild(txtNode0);
+
+        let td1 = tr.insertCell(1);
+        td1.setAttribute("class", "fineImport");
+        let txtNode1 = document.createTextNode(fine.price);
+        td1.appendChild(txtNode1);
+
+        let td2 = tr.insertCell(2);
+        td2.setAttribute("class", "fineDescription");
+        let txtNode2 = document.createTextNode(fine.description);
+        td2.appendChild(txtNode2);
+
+        let td3 = tr.insertCell(3);
+        td3.setAttribute("class", "finePayed");
+        let txtNode3 = document.createTextNode(fine.payed);
+        td3.appendChild(txtNode3);
+
+        let td4 = tr.insertCell(4);
+        td4.setAttribute("class", "fineOwnerAssociate");
+        let txtNode4 = document.createTextNode(fine.owner.name);
+        td4.appendChild(txtNode4);
+
+        let td5 = tr.insertCell(5);
+        td5.setAttribute("class", "fineCarAssociate");
+        let txtNode5 = document.createTextNode(fine.car.license);
+        td5.appendChild(txtNode5);
+
+        let td6 = tr.insertCell(6);
+        td6.appendChild(detailsBton);
+
+        let td7 = tr.insertCell(7);
+        td7.appendChild(deleteBton);
     }
 }
 
@@ -874,65 +925,6 @@ function loadMakesTableContent(tablecontent) {
     }
 }
 
-function loadFinesTableContent(tablecontent) {
-    const tBody = document.getElementById("finesTBody");
-    tBody.innerHTML = '';
-
-    const bton = document.createElement("button");
-
-    for (let i = 0; i < tablecontent.length; i++) {
-        const fine = tablecontent[i];
-        let detailsBton = bton.cloneNode(false);
-        detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('finedetailView',${fine.id})`);
-        detailsBton.setAttribute("class", "detailsBton");
-
-        let deleteBton = bton.cloneNode(false);
-        deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteFine(${fine.id})`);
-        deleteBton.setAttribute("class", "deleteBton");
-
-        let tr = tBody.insertRow();
-        tr.setAttribute("class", "fine");
-
-        let td0 = tr.insertCell(0);
-        td0.setAttribute("class", "fineDate");
-        let txtNode0 = document.createTextNode(fine.date);
-        td0.appendChild(txtNode0);
-
-        let td1 = tr.insertCell(1);
-        td1.setAttribute("class", "fineImport");
-        let txtNode1 = document.createTextNode(fine.price);
-        td1.appendChild(txtNode1);
-
-        let td2 = tr.insertCell(2);
-        td2.setAttribute("class", "fineDescription");
-        let txtNode2 = document.createTextNode(fine.description);
-        td2.appendChild(txtNode2);
-
-        let td3 = tr.insertCell(3);
-        td3.setAttribute("class", "finePayed");
-        let txtNode3 = document.createTextNode(fine.payed);
-        td3.appendChild(txtNode3);
-
-        let td4 = tr.insertCell(4);
-        td4.setAttribute("class", "fineOwnerAssociate");
-        let txtNode4 = document.createTextNode(fine.owner.name);
-        td4.appendChild(txtNode4);
-
-        let td5 = tr.insertCell(5);
-        td5.setAttribute("class", "fineCarAssociate");
-        let txtNode5 = document.createTextNode(fine.car.license);
-        td5.appendChild(txtNode5);
-
-        let td6 = tr.insertCell(6);
-        td6.appendChild(detailsBton);
-
-        let td7 = tr.insertCell(7);
-        td7.appendChild(deleteBton);
-    }
-}
-
 // Para añadir nuevas entidades a la base de datos
 
 function addCar() {
@@ -968,26 +960,26 @@ function addCar() {
         }
 
         fetch(baseurl + uriCar, requestOptions)
-        showView('carview')
+            .then(() => displayTable('carsTBody'))
+            .then(() => showView('carview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 }
 
-function addMake() {
+function addCarDriver() {
     try {
-        const addName = document.getElementById("add-make-name");
-        const addHP = document.getElementById("add-make-horsepower");
-        const addPrice = document.getElementById("add-make-price");
-        const addFuelName = document.getElementById("add-make-fuel");
+        const addCDDate = document.getElementById("add-cardriver-date");
+        const addCDCar = document.getElementById("add-cardriver-car");
+        const addCDDriver = document.getElementById("add-cardriver-driver");
 
-        const addFuel = getSpecificFuel(addFuelName.value.trim(), "name")
+        const CDCar = getSpecificCar(addCDCar.value.trim(), "license")
+        const CDDriver = getSpecificDriver(addCDDriver.value.trim(), "name")
 
-        const newmake = {
-            name: addName.value.trim(),
-            horsePower: addHP.value.trim(),
-            price: addPrice.value.trim(),
-            fuelTypeId: addFuel.id
+        const newCarDriver = {
+            dateDrive: addCDDate.value.trim(),
+            car: CDCar.id,
+            driver: CDDriver.id
         }
 
         var myHeaders = new Headers();
@@ -999,30 +991,33 @@ function addMake() {
             method: 'POST',
             headers: myHeaders,
             redirect: 'follow',
-            body: JSON.stringify(newmake)
+            body: JSON.stringify(newCarDriver)
         }
 
-        fetch(baseurl + uriMake, requestOptions)
-        showView('makeview')
+        fetch(baseurl + uriCarDriver, requestOptions)
+            .then(() => displayTable('driversTBody'))
+            .then(() => showView('driverview'))
     } catch (error) {
-        console.error("Unable to add make to database. ", error);
+        console.error("Unable to add car driver to database. ", error)
     }
 }
 
-function addOwner() {
+function addDriver() {
     try {
-        const addName = document.getElementById("add-owner-name");
-        const addNif = document.getElementById("add-owner-nif");
-        const addTel = document.getElementById("add-owner-tel");
-        const addDate = document.getElementById("add-owner-date");
-        const addEmail = document.getElementById("add-owner-email");
+        const addName = document.getElementById("add-driver-name");
+        const addDni = document.getElementById("add-driver-dni");
+        const addEmail = document.getElementById("add-driver-email");
+        const addTel = document.getElementById("add-driver-tel");
+        const addOwnerName = document.getElementById("add-driver-owner");
 
-        const newowner = {
+        const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
+
+        const newdriver = {
             name: addName.value.trim(),
-            nif: addNif.value.trim(),
+            dni: addDni.value.trim(),
+            emailAddr: addEmail.value.trim(),
             phoneNumber: addTel.value.trim(),
-            dateEntry: addDate.value.trim(),
-            emailAddr: addEmail.value.trim()
+            ownerId: addOwner.id
         }
 
         var myHeaders = new Headers();
@@ -1034,13 +1029,14 @@ function addOwner() {
             method: 'POST',
             headers: myHeaders,
             redirect: 'follow',
-            body: JSON.stringify(newowner)
+            body: JSON.stringify(newdriver)
         }
 
-        fetch(baseurl + uriOwner, requestOptions)
-        showView('ownerview')
+        fetch(baseurl + uriDriver, requestOptions)
+            .then(() => displayTable('driversTBody'))
+            .then(() => showView('driverview'))
     } catch (error) {
-        console.error('Unable to add owner: ', error)
+        console.error("Unable to add fine to database. ", error)
     }
 }
 
@@ -1079,30 +1075,28 @@ function addFine() {
         }
 
         fetch(baseurl + uriFine, requestOptions)
-        showView('fineview')
+            .then(() => displayTable('finesTBody'))
+            .then(() => showView('fineview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 
 }
 
-function addDriver() {
+function addMake() {
     try {
-        const addName = document.getElementById("add-driver-name");
-        const addDni = document.getElementById("add-driver-dni");
-        const addEmail = document.getElementById("add-driver-email");
-        const addTel = document.getElementById("add-driver-tel");
-        const addOwnerName = document.getElementById("add-driver-owner");
+        const addName = document.getElementById("add-make-name");
+        const addHP = document.getElementById("add-make-horsepower");
+        const addPrice = document.getElementById("add-make-price");
+        const addFuelName = document.getElementById("add-make-fuel");
 
-        const addOwner = getSpecificOwner(addOwnerName.value.trim(), "name");
-        console.log(addOwner)
+        const addFuel = getSpecificFuel(addFuelName.value.trim(), "name")
 
-        const newdriver = {
+        const newmake = {
             name: addName.value.trim(),
-            dni: addDni.value.trim(),
-            emailAddr: addEmail.value.trim(),
-            phoneNumber: addTel.value.trim(),
-            ownerId: addOwner.id
+            horsePower: addHP.value.trim(),
+            price: addPrice.value.trim(),
+            fuelTypeId: addFuel.id
         }
 
         var myHeaders = new Headers();
@@ -1114,29 +1108,31 @@ function addDriver() {
             method: 'POST',
             headers: myHeaders,
             redirect: 'follow',
-            body: JSON.stringify(newdriver)
+            body: JSON.stringify(newmake)
         }
 
-        fetch(baseurl + uriDriver, requestOptions)
-        showView('driverview')
+        fetch(baseurl + uriMake, requestOptions)
+            .then(() => displayTable('makesTBody'))
+            .then(() => showView('makeview'))
     } catch (error) {
-        console.error("Unable to add fine to database. ", error)
+        console.error("Unable to add make to database. ", error);
     }
 }
 
-function addCarDriver() {
+function addOwner() {
     try {
-        const addCDDate = document.getElementById("add-cardriver-date");
-        const addCDCar = document.getElementById("add-cardriver-car");
-        const addCDDriver = document.getElementById("add-cardriver-driver");
+        const addName = document.getElementById("add-owner-name");
+        const addNif = document.getElementById("add-owner-nif");
+        const addTel = document.getElementById("add-owner-tel");
+        const addDate = document.getElementById("add-owner-date");
+        const addEmail = document.getElementById("add-owner-email");
 
-        const CDCar = getSpecificCar(addCDCar.value.trim(), "license")
-        const CDDriver = getSpecificDriver(addCDDriver.value.trim(), "name")
-
-        const newCarDriver = {
-            dateDrive: addCDDate.value.trim(),
-            car: CDCar.id,
-            driver: CDDriver.id
+        const newowner = {
+            name: addName.value.trim(),
+            nif: addNif.value.trim(),
+            phoneNumber: addTel.value.trim(),
+            dateEntry: addDate.value.trim(),
+            emailAddr: addEmail.value.trim()
         }
 
         var myHeaders = new Headers();
@@ -1148,13 +1144,14 @@ function addCarDriver() {
             method: 'POST',
             headers: myHeaders,
             redirect: 'follow',
-            body: JSON.stringify(newCarDriver)
+            body: JSON.stringify(newowner)
         }
 
-        fetch(baseurl + uriCarDriver, requestOptions)
-        showView('driverview')
+        fetch(baseurl + uriOwner, requestOptions)
+            .then(() => displayTable('ownersTBody'))
+            .then(() => showView('ownerview'))
     } catch (error) {
-        console.error("Unable to add car driver to database. ", error)
+        console.error('Unable to add owner: ', error)
     }
 }
 
@@ -1216,7 +1213,8 @@ function deleteCar(id) {
         }
 
         fetch(toDelete, requestOptions)
-            .then(() => location.reload())
+            .then(() => displayTable('carsTBody'))
+            .then(() => showView('carview'))
     } catch (error) {
         console.error("Unable to delete car from database. ", error)
     }
@@ -1225,6 +1223,52 @@ function deleteCar(id) {
 function deleteCarDrivers(id) {
     try {
         var toDelete = `${baseurl}${uriCarDriver}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => displayTable('driversTBody'))
+            .then(() => showView('driverview'))
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
+}
+
+function deleteDriver(id) {
+    try {
+        var toDelete = `${baseurl}${uriDriver}/${id}`;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'DELETE',
+            headers: myHeaders,
+            redirect: 'follow',
+        }
+
+        fetch(toDelete, requestOptions)
+            .then(() => displayTable('driversTBody'))
+            .then(() => showView('driverview'))
+    } catch (error) {
+        console.error("Unable to delete car from database. ", error)
+    }
+}
+
+function deleteFine(id) {
+    try {
+        var toDelete = `${baseurl}${uriFine}/${id}`;
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -1260,7 +1304,8 @@ function deleteMake(id) {
         }
 
         fetch(toDelete, requestOptions)
-            .then(() => location.reload())
+            .then(() => displayTable('makesTBody'))
+            .then(() => showView('makeview'))
     } catch (error) {
         console.error("Unable to delete car from database. ", error)
     }
@@ -1269,50 +1314,6 @@ function deleteMake(id) {
 function deleteOwner(id) {
     try {
         var toDelete = `${baseurl}${uriOwner}/${id}`;
-
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
-        myHeaders.append("Accept", "application/json")
-        myHeaders.append("Content-Type", "application/json")
-
-        var requestOptions = {
-            method: 'DELETE',
-            headers: myHeaders,
-            redirect: 'follow',
-        }
-
-        fetch(toDelete, requestOptions)
-            .then(() => location.reload())
-    } catch (error) {
-        console.error("Unable to delete car from database. ", error)
-    }
-}
-
-function deleteDriver(id) {
-    try {
-        var toDelete = `${baseurl}${uriDriver}/${id}`;
-
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
-        myHeaders.append("Accept", "application/json")
-        myHeaders.append("Content-Type", "application/json")
-
-        var requestOptions = {
-            method: 'DELETE',
-            headers: myHeaders,
-            redirect: 'follow',
-        }
-
-        fetch(toDelete, requestOptions)
-            .then(() => location.reload())
-    } catch (error) {
-        console.error("Unable to delete car from database. ", error)
-    }
-}
-
-function deleteFine(id) {
-    try {
-        var toDelete = `${baseurl}${uriFine}/${id}`;
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -1371,61 +1372,6 @@ function carShowEdit(id) {
 
     let saveBton = document.getElementById("saveEditCar");
     saveBton.setAttribute("onclick", `saveEditCar(${id})`);
-}
-
-function makeShowEdit(id) {
-    let make = getSpecificMake(id, "id");
-    var name = document.getElementById("nameMake");
-    var horsePower = document.getElementById("horsepowerMake");
-    var price = document.getElementById("priceMake");
-    var fuel = document.getElementById("fueltypeMake");
-
-    name.value = make.name;
-    name.disabled = true;
-    horsePower.value = make.horsePower;
-    horsePower.disabled = true;
-    price.value = make.price;
-    price.disabled = true;
-    fuel.value = make.fuelType.name;
-    fuel.disabled = true;
-
-    let delBton = document.getElementById("deleteEditMake");
-    delBton.setAttribute("onclick", `deleteMake(${id})`);
-
-    let enableBton = document.getElementById("enableEditMake");
-    enableBton.setAttribute("onclick", `enableEditMake(${id})`);
-
-    let saveBton = document.getElementById("saveEditMake");
-    saveBton.setAttribute("onclick", `saveEditMake(${id})`);
-}
-
-function ownerShowEdit(id) {
-    let owner = getSpecificOwner(id, "id");
-    var name = document.getElementById("nameOwner");
-    var nif = document.getElementById("nifOwner");
-    var phone = document.getElementById("phonenumberOwner");
-    var date = document.getElementById("datentryOwner");
-    var email = document.getElementById("emailaddrOwner");
-
-    name.value = owner.name;
-    name.disabled = true;
-    nif.value = owner.nif;
-    nif.disabled = true;
-    phone.value = owner.phoneNumber;
-    phone.disabled = true;
-    date.value = owner.dateEntry;
-    date.disabled = true;
-    email.value = owner.emailAddr;
-    email.disabled = true;
-
-    let delBton = document.getElementById("deleteOwner");
-    delBton.setAttribute("onclick", `deleteOwner(${id})`);
-
-    let enableBton = document.getElementById("enableEditOwner");
-    enableBton.setAttribute("onclick", `enableEditOwner(${id})`);
-
-    let saveBton = document.getElementById("saveEditOwner");
-    saveBton.setAttribute("onclick", `saveEditOwner(${id})`);
 }
 
 function driverShowEdit(id) {
@@ -1488,6 +1434,61 @@ function fineShowEdit(id) {
 
     let saveBton = document.getElementById("saveEditFine");
     saveBton.setAttribute("onclick", `saveEditFine(${id})`);
+}
+
+function makeShowEdit(id) {
+    let make = getSpecificMake(id, "id");
+    var name = document.getElementById("nameMake");
+    var horsePower = document.getElementById("horsepowerMake");
+    var price = document.getElementById("priceMake");
+    var fuel = document.getElementById("fueltypeMake");
+
+    name.value = make.name;
+    name.disabled = true;
+    horsePower.value = make.horsePower;
+    horsePower.disabled = true;
+    price.value = make.price;
+    price.disabled = true;
+    fuel.value = make.fuelType.name;
+    fuel.disabled = true;
+
+    let delBton = document.getElementById("deleteEditMake");
+    delBton.setAttribute("onclick", `deleteMake(${id})`);
+
+    let enableBton = document.getElementById("enableEditMake");
+    enableBton.setAttribute("onclick", `enableEditMake(${id})`);
+
+    let saveBton = document.getElementById("saveEditMake");
+    saveBton.setAttribute("onclick", `saveEditMake(${id})`);
+}
+
+function ownerShowEdit(id) {
+    let owner = getSpecificOwner(id, "id");
+    var name = document.getElementById("nameOwner");
+    var nif = document.getElementById("nifOwner");
+    var phone = document.getElementById("phonenumberOwner");
+    var date = document.getElementById("datentryOwner");
+    var email = document.getElementById("emailaddrOwner");
+
+    name.value = owner.name;
+    name.disabled = true;
+    nif.value = owner.nif;
+    nif.disabled = true;
+    phone.value = owner.phoneNumber;
+    phone.disabled = true;
+    date.value = owner.dateEntry;
+    date.disabled = true;
+    email.value = owner.emailAddr;
+    email.disabled = true;
+
+    let delBton = document.getElementById("deleteOwner");
+    delBton.setAttribute("onclick", `deleteOwner(${id})`);
+
+    let enableBton = document.getElementById("enableEditOwner");
+    enableBton.setAttribute("onclick", `enableEditOwner(${id})`);
+
+    let saveBton = document.getElementById("saveEditOwner");
+    saveBton.setAttribute("onclick", `saveEditOwner(${id})`);
 }
 
 // Enable Editform
