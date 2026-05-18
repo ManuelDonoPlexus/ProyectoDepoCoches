@@ -284,21 +284,20 @@
         </div>
 
         <div class="addView" id="userAdd">
-            <h1 class="title">Añadir multa a la base de datos</h1>
+            <h1 class="title">Registrar usuario en la base de datos</h1>
             <div class="addform">
                 <input id="add-user-name" type="text" placeholder="Nombre de usuario">
                 <input id="add-user-email" type="email" placeholder="Dirección de correo">
                 <input id="add-user-password-init" type="text" placeholder="Contraseña">
                 <input id="add-user-password-conf" type="text" placeholder="Confirmar Contraseña">
             </div>
-            <div class="view-info">
-                <button class="saveBton" onclick="registerUser()">Registrar usuario a la Base de Datos</button>
-                <button class="cancelBton" onclick="showView('welcomeview')">Cancelar</button>
+            <div class="registerBtoncontainer">
+                <button class="registerBton" onclick="registerUser()">Registrar usuario a la Base de Datos</button>
             </div>
         </div>
 
         <div class="detailView" id="cardetailView">
-            <h1 class="title">Editar coche</h1>
+            <h1 class="title">Editar coche de la Base de datos</h1>
             <div class="editform">
                 <input type="text" id="licenseCar" disabled="true">
                 <input type="text" id="kmsCar" disabled="true">
@@ -315,7 +314,7 @@
         </div>
 
         <div class="detailView" id="makedetailView">
-            <h1 class="title">Editar modelo</h1>
+            <h1 class="title">Editar modelo de la Base de datos</h1>
             <div class="editform">
                 <input type="text" id="nameMake" disabled="true">
                 <input type="number" id="horsepowerMake" disabled="true">
@@ -331,7 +330,7 @@
         </div>
 
         <div class="detailView" id="driverdetailView">
-            <h1 class="title">Editar conductor</h1>
+            <h1 class="title">Editar conductor de la Base de datos</h1>
             <div class="editform">
                 <input type="text" id="nameDriver" disabled="true">
                 <input type="text" id="dniDriver" disabled="true">
@@ -348,7 +347,7 @@
         </div>
 
         <div class="detailView" id="ownerdetailView">
-            <h1 class="title">Editar propietario</h1>
+            <h1 class="title">Editar propietario de la Base de datos</h1>
             <div class="editform">
                 <input type="text" id="nameOwner" disabled="true">
                 <input type="text" id="nifOwner" disabled="true">
@@ -365,7 +364,7 @@
         </div>
 
         <div class="detailView" id="finedetailView">
-            <h1 class="title">Editar multa</h1>
+            <h1 class="title">Editar multa de la Base de datos</h1>
             <div class="editform">
                 <input type="text" id="priceFine" disabled="true">
                 <input type="checkbox" id="payedFine" disabled="true">

@@ -94,15 +94,6 @@ body {
     width: 100%;
 }
 
-.view-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 .button-shows {
     display: flex;
     flex-direction: row;
@@ -130,6 +121,26 @@ body {
 
 .page-container li {
     list-style-type: none;
+}
+
+.view-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.view-info button{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.addform {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .addform {
@@ -162,11 +173,12 @@ body {
     background-color: transparent;
     width: 80%;
     margin: 1%;
-    padding: 5%;
+    padding: 2%;
     border-radius: 16px;
     border: 2px solid rgb(204, 204, 204);
     font-family: "Oswald", sans-serif;
 }
+
 
 /* Estilos de clases: botones, textos, etc */
 
@@ -236,6 +248,8 @@ body {
     border-radius: 16px;
     font-size: 16px;
     transition-duration: 0.4s;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 .regularBton {
@@ -315,6 +329,7 @@ body {
 
 .editDeleteBton {
     font-family: 'Oswald', sans-serif;
+    width: 25%;
     border-radius: 16px;
     font-size: 16px;
     padding: 10px;
@@ -359,6 +374,7 @@ body {
 
 .enableditBton {
     font-family: 'Oswald', sans-serif;
+    width: 25%;
     border-radius: 16px;
     font-size: 16px;
     padding: 10px;
@@ -376,6 +392,7 @@ body {
 
 .cancelBton {
     font-family: 'Oswald', sans-serif;
+    width: 25%;
     border-radius: 16px;
     font-size: 16px;
     padding: 10px;
@@ -393,6 +410,7 @@ body {
 
 .saveBton {
     font-family: 'Oswald', sans-serif;
+    width: 25%;
     border-radius: 16px;
     font-size: 16px;
     padding: 10px;
@@ -403,6 +421,31 @@ body {
 }
 
 .saveBton:hover {
+    color: white;
+    background-color: green;
+    border-color: green;
+}
+
+.registerBtoncontainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.registerBton{
+    font-family: 'Oswald', sans-serif;
+    width: 85%;
+    border-radius: 16px;
+    font-size: 16px;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border: 1px solid black;
+    transition-duration: 0.4s;
+}
+
+.registerBton:hover {
     color: white;
     background-color: green;
     border-color: green;

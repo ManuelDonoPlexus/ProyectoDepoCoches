@@ -1633,6 +1633,7 @@ function enableEditFine(id) {
 
 function saveEditCar() {
     try {
+        event.preventDefault();
         var editLicense = document.getElementById("licenseCar");
         var editKms = document.getElementById("kmsCar");
 
@@ -1671,6 +1672,7 @@ function saveEditCar() {
 
 function saveEditMake() {
     try {
+        event.preventDefault();
         var editName = document.getElementById("nameMake");
         var editHorsePower = document.getElementById("horsepowerMake");
         var editPrice = document.getElementById("priceMake");
@@ -1699,7 +1701,6 @@ function saveEditMake() {
         }
 
         fetch(baseurl + uriMake, requestOptions)
-            .then(() => location.reload())
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
@@ -1707,6 +1708,7 @@ function saveEditMake() {
 
 function saveEditOwner() {
     try {
+        event.preventDefault();
         var editName = document.getElementById("nameOwner");
         var editNif = document.getElementById("nifOwner");
         var editPhone = document.getElementById("phonenumberOwner");
@@ -1734,7 +1736,6 @@ function saveEditOwner() {
         }
 
         fetch(baseurl + uriOwner, requestOptions)
-            .then(() => location.reload())
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
@@ -1742,6 +1743,7 @@ function saveEditOwner() {
 
 function saveEditDriver() {
     try {
+        event.preventDefault();
         var editName = document.getElementById("nameDriver");
         var editDni = document.getElementById("dniDriver");
         var editEmail = document.getElementById("emailaddrDriver");
@@ -1771,7 +1773,6 @@ function saveEditDriver() {
         }
 
         fetch(baseurl + uriDriver, requestOptions)
-            .then(() => location.reload())
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
@@ -1780,6 +1781,7 @@ function saveEditDriver() {
 
 function saveEditFine() {
     try {
+        event.preventDefault();
         var editPrice = document.getElementById("priceFine");
         var editPayed = document.getElementById("payedFine");
         var editDescription = document.getElementById("descriptionFine");
@@ -1816,7 +1818,6 @@ function saveEditFine() {
         }
 
         fetch(baseurl + uriFine, requestOptions)
-            .then(() => location.reload())
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
