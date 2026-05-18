@@ -205,7 +205,7 @@
                 <input id="add-car-owner" list="ownerList" placeholder="Propietario asociado">
                 <input id="add-car-make" list="makeList" placeholder="Modelo asociado">
             </div>
-            <div>
+            <div class="view-info">
                 <button class="saveBton" onclick="addCar()">Añadir coche</button>
                 <button class="cancelBton" onclick="showView('carview')">Cancelar</button>
             </div>
@@ -219,7 +219,7 @@
                 <input id="add-make-price" type="number" step="0.01" placeholder="Precio">
                 <input id="add-make-fuel" list="fuelList" placeholder="Combustible">
             </div>
-            <div>
+            <div class="view-info">
                 <button class="saveBton" onclick="addMake()">Añadir modelo</button>
                 <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
             </div>
@@ -234,7 +234,7 @@
                 <input id="add-owner-date" type="date" placeholder="Fecha de entrada">
                 <input id="add-owner-email" type="email" placeholder="Dirección de correo">
             </div>
-            <div>
+            <div class="view-info">
                 <button class="saveBton" onclick="addOwner()">Añadir propietario</button>
                 <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
             </div>
@@ -250,7 +250,7 @@
                     <input id="add-driver-tel" type="tel" placeholder="Telefono">
                     <input id="add-driver-owner" list="ownerList" placeholder="Propietario asociado">
                 </div>
-                <div>
+                <div class="view-info">
                     <button class="saveBton" onclick="addDriver()">Añadir conductor</button>
                     <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
                 </div>
@@ -266,7 +266,7 @@
                     <input id="add-cardriver-car" list="carList" placeholder="Vehiculo asociado">
                     <input id="add-cardriver-driver" list="driverList" placeholder="Conductor asociado">
                 </div>
-                <div>
+                <div class="view-info">
                     <button class="saveBton" onclick="addCarDriver()">Añadir conductor</button>
                     <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
                 </div>
@@ -282,7 +282,7 @@
                 <input id="add-fine-car" list="carList" placeholder="Vehiculo asociado">
                 <input id="add-fine-owner" list="ownerList" placeholder="Propietario asociado">
             </div>
-            <div>
+            <div class="view-info">
                 <button class="saveBton" onclick="addFine()">Añadir multa</button>
                 <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
             </div>
@@ -296,7 +296,7 @@
                 <input id="add-user-password-init" type="text" placeholder="Contraseña">
                 <input id="add-user-password-conf" type="text" placeholder="Confirmar Contraseña">
             </div>
-            <div>
+            <div class="view-info">
                 <button class="saveBton" onclick="registerUser()">Registrar usuario a la Base de Datos</button>
                 <button class="cancelBton" onclick="showView('welcomeview')">Cancelar</button>
             </div>
@@ -311,10 +311,12 @@
                 <input list="ownerList" id="ownerCar" disabled="true">
                 <input list="makeList" id="makeCar" disabled="true">
             </div>
-            <button class="editDeleteBton" id="deleteEditCar">Borrar</button>
-            <button class="enableditBton" id="enableEditCar">Editar</button>
-            <button class="saveBton" id="saveEditCar" hidden>Guardar Cambios</button>
-            <button class="cancelBton" onclick="showView('carview')">Cancelar</button>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteEditCar">Borrar</button>
+                <button class="enableditBton" id="enableEditCar">Editar</button>
+                <button class="saveBton" id="saveEditCar" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('carview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="detailView" id="makedetailView">
@@ -325,10 +327,12 @@
                 <input type="number" step="0.01" id="priceMake" disabled="true">
                 <input list="fuelList" id="fueltypeMake" disabled="true">
             </div>
-            <button class="editDeleteBton" id="deleteEditMake">Borrar</button>
-            <button class="enableditBton" id="enableEditMake">Editar</button>
-            <button class="saveBton" id="saveEditMake" hidden>Guardar Cambios</button>
-            <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteEditMake">Borrar</button>
+                <button class="enableditBton" id="enableEditMake">Editar</button>
+                <button class="saveBton" id="saveEditMake" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="detailView" id="driverdetailView">
@@ -340,10 +344,12 @@
                 <input type="tel" id="phonenumberDriver" disabled="true">
                 <input list="driverList" id="ownerDriver" disabled="true">
             </div>
-            <button class="editDeleteBton" id="deleteDriver">Borrar</button>
-            <button class="enableditBton" id="enableEditDriver">Editar</button>
-            <button class="saveBton" id="saveEditDriver" hidden>Guardar Cambios</button>
-            <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteDriver">Borrar</button>
+                <button class="enableditBton" id="enableEditDriver">Editar</button>
+                <button class="saveBton" id="saveEditDriver" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="detailView" id="ownerdetailView">
@@ -355,10 +361,12 @@
                 <input type="date" id="datentryOwner" disabled="true">
                 <input type="email" id="emailaddrOwner" disabled="true">
             </div>
-            <button class="editDeleteBton" id="deleteOwner">Borrar</button>
-            <button class="enableditBton" id="enableEditOwner">Editar</button>
-            <button class="saveBton" id="saveOwner" onclick="" hidden>Guardar Cambios</button>
-            <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteOwner">Borrar</button>
+                <button class="enableditBton" id="enableEditOwner">Editar</button>
+                <button class="saveBton" id="saveOwner" onclick="" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
+            </div>
         </div>
 
         <div class="detailView" id="finedetailView">
@@ -371,10 +379,12 @@
                 <input list="ownerList" id="ownerFine" disabled="true">
                 <input list="carList" id="carFine" disabled="true">
             </div>
-            <button class="editDeleteBton" id="deleteFine">Borrar</button>
-            <button class="enableditBton" id="enableEditFine">Editar</button>
-            <button class="saveBton" id="saveEditFine" hidden>Guardar Cambios</button>
-            <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteFine">Borrar</button>
+                <button class="enableditBton" id="enableEditFine">Editar</button>
+                <button class="saveBton" id="saveEditFine" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
+            </div>
         </div>
 
     </div>

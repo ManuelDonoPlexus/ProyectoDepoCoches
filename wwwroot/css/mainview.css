@@ -162,9 +162,9 @@ body {
     padding: 2%;
     margin-top: 4%;
     border-radius: 16px;
+    border: 2px solid rgb(204, 204, 204);
     font-family: "Oswald", sans-serif;
 }
-
 
 /* Estilos de clases: botones, textos, etc */
 
@@ -199,7 +199,7 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     color: white;
-    border:  2px solid blue;
+    border: 2px solid blue;
     background-color: blue;
 }
 
@@ -357,7 +357,6 @@ body {
 
 .enableditBton {
     font-family: 'Oswald', sans-serif;
-    margin-top: 4%;
     border-radius: 16px;
     font-size: 16px;
     padding: 10px;
@@ -369,13 +368,12 @@ body {
 
 .enableditBton:hover {
     color: white;
-    background-color: blue;
-    border-color: blue;
+    background-color: green;
+    border-color: green;
 }
 
 .cancelBton {
     font-family: 'Oswald', sans-serif;
-    margin-top: 4%;
     border-radius: 16px;
     font-size: 16px;
     padding: 10px;
@@ -387,19 +385,18 @@ body {
 
 .cancelBton:hover {
     color: white;
-    background-color: red;
-    border-color: red;
+    background-color: blue;
+    border-color: blue;
 }
 
 .saveBton {
     font-family: 'Oswald', sans-serif;
-    margin-top: 4%;
     border-radius: 16px;
     font-size: 16px;
     padding: 10px;
     color: white;
     background-color: black;
-    border-color: black;
+    border: 1px solid black;
     transition-duration: 0.4s;
 }
 

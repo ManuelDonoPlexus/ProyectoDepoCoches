@@ -947,11 +947,11 @@ function addCar() {
             makeId: addMake.id
         }
 
-        addLicense.text = "";
-        addKms.text = "";
-        addColorName.text = "";
-        addOwnerName.text = "";
-        addMakeName.text = "";
+        addLicense.value = "";
+        addKms.value = "";
+        addColorName.value = "";
+        addOwnerName.value = "";
+        addMakeName.value = "";
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -988,9 +988,9 @@ function addCarDriver() {
             driver: CDDriver.id
         }
 
-        addCDDate.text = "";
-        addCDCar.text = "";
-        addCDDriver.text = "";
+        addCDDate.value = "";
+        addCDCar.value = "";
+        addCDDriver.value = "";
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -1030,11 +1030,11 @@ function addDriver() {
             ownerId: addOwner.id
         }
 
-        addName.text = "";
-        addDni.text = "";
-        addEmail.text = "";
-        addTel.text = "";
-        addOwnerName.text = "";
+        addName.value = "";
+        addDni.value = "";
+        addEmail.value = "";
+        addTel.value = "";
+        addOwnerName.value = "";
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -1076,11 +1076,11 @@ function addFine() {
             carId: addCar.id,
         }
 
-        addPrice.text = "";
-        addDescription.text = "";
-        addDate.text = "";
-        addCarName.text = "";
-        addOwnerName.text = "";
+        addPrice.value = "";
+        addDescription.value = "";
+        addDate.value = "";
+        addCarName.value = "";
+        addOwnerName.value = "";
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -1119,10 +1119,10 @@ function addMake() {
             fuelTypeId: addFuel.id
         }
 
-        addName.text = "";
-        addHP.text = "";
-        addPrice.text = "";
-        addFuelName.text = "";
+        addName.value = "";
+        addHP.value = "";
+        addPrice.value = "";
+        addFuelName.value = "";
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -1160,11 +1160,11 @@ function addOwner() {
             emailAddr: addEmail.value.trim()
         }
 
-        addName.text = "";
-        addNif.text = "";
-        addTel.text = "";
-        addDate.text = "";
-        addEmail.text = "";
+        addName.value = "";
+        addNif.value = "";
+        addTel.value = "";
+        addDate.value = "";
+        addEmail.value = "";
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
@@ -1207,10 +1207,10 @@ function registerUser(username, email, password) {
             email: newemail.value.trim()
         }
 
-        newname.text = "";
-        newemail.text = "";
-        newpassinit.text = "";
-        newpassconf.text = "";
+        newname.value = "";
+        newemail.value = "";
+        newpassinit.value = "";
+        newpassconf.value = "";
 
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
