@@ -19,6 +19,7 @@
             <button onclick="showView('driverview')">Mostrar conductores</button>
             <button onclick="showView('fineview')">Mostrar multas</button>
             <button onclick="showView('userAdd')">Registrar usuario</button>
+            <button onclick="showView('stadistics')">Estadisticas</button>
         </div>
         <div class="welcome-msg-container">
             <p id="welcome-msg">Mensaje de bienvenida</p>
@@ -28,13 +29,13 @@
 
     <div class="mainview">
 
-        <div id="welcomeview">
+        <div class="tableView" id="welcomeview">
             <h1 class="title">Bienvenido al deposito</h1>
             <p class="subtitle">Esta página es destinada para los administradores de nuestro sistema. Desde esta,
                 podras manejar los coches, modelos, propietarios, conductores y multas de nuestra base de datos.</p>
         </div>
 
-        <div id="carview">
+        <div class="tableView" id="carview">
             <h1 class="title">Coches</h1>
             <div class="view-info">
                 <p class="counter-text" id="counterCar">0 items</p>
@@ -61,7 +62,7 @@
 
         </div>
 
-        <div id="makeview">
+        <div class="tableView" id="makeview">
             <h1 class="title">Modelos</h1>
             <div class="view-info">
                 <p class="counter-text" id="counterMake">0 items</p>
@@ -87,7 +88,7 @@
 
         </div>
 
-        <div id="ownerview">
+        <div class="tableView" id="ownerview">
             <h1 class="title">Propietarios</h1>
             <div class="view-info">
                 <p class="counter-text" id="counterOwner">0 items</p>
@@ -114,14 +115,12 @@
 
         </div>
 
-        <div id="driverview">
+        <div class="tableView" id="driverview">
             <h1 class="title">Conductores</h1>
 
             <div class="button-shows">
-                <button class="regularBton" onclick="showDrivers('drivers')">Mostrar todos los conductores de la base de
-                    datos</button>
-                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar a los conductores asociados a un
-                    vehiculo</button>
+                <button class="regularBton" onclick="showDrivers('drivers')">Mostrar los conductores</button>
+                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar los conductores asociados a vehiculos</button>
             </div>
 
             <div id="drivers">
@@ -168,7 +167,7 @@
 
         </div>
 
-        <div id="fineview">
+        <div class="tableView" id="fineview">
             <h1 class="title">Multas</h1>
 
             <div id="fineTable">
@@ -380,6 +379,8 @@
                 <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
             </div>
         </div>
+
+        <div class="tableView" id="stadisticsView"></div>
 
     </div>
 
