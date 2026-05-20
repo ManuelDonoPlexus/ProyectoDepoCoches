@@ -19,7 +19,7 @@
             <button onclick="showView('driverview')">Mostrar conductores</button>
             <button onclick="showView('fineview')">Mostrar multas</button>
             <button onclick="showView('userAdd')">Registrar usuario</button>
-            <button onclick="showView('stadistics')">Estadisticas</button>
+            <button onclick="showView('stadisticsview')">Estadisticas</button>
         </div>
         <div class="welcome-msg-container">
             <p id="welcome-msg">Mensaje de bienvenida</p>
@@ -120,7 +120,8 @@
 
             <div class="button-shows">
                 <button class="regularBton" onclick="showDrivers('drivers')">Mostrar los conductores</button>
-                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar los conductores asociados a vehiculos</button>
+                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar los conductores asociados a
+                    vehiculos</button>
             </div>
 
             <div id="drivers">
@@ -380,7 +381,32 @@
             </div>
         </div>
 
-        <div class="tableView" id="stadisticsView"></div>
+        <div class="stadisticsview" id="stadisticsview">
+            <h1 class="title">Estadisticas</h1>
+            <div class="stadistics-container">
+                <div class="stadistic-container" >
+                    <p>Recuento de coches por colores</p>
+                    <div id="color-count"></div>
+                </div>
+                <div class="stadistic-container">
+                    <p>Recuento de coches por modelo</p>
+                    <div id="make-count"></div>
+                </div>
+                <div class="stadistic-container">
+                    <p>Recuento de coches por propietario</p>
+                    <div id="owner-count"></div>
+                </div>
+                <div class="stadistic-container">
+                    <p>Recuento de conductores por modelo</p>
+                    <div id="cardriver-count"></div>
+                </div>
+                <div class="stadistic-container">
+                    <p>Número de colores</p>
+                    <p id="avg-prices"></p>
+                    <p id="avg-kms"></p>
+                </div>
+            </div>
+        </div>
 
     </div>
 

@@ -1,3 +1,5 @@
+// URLs
+
 const baseurl = "http://localhost:5206"
 const uriCar = "/api/Car"
 const uriColor = "/api/Color"
@@ -9,9 +11,14 @@ const uriFine = "/api/Fine"
 const uriFuel = "/api/FuelType"
 const uriRegister = "/api/Auth/register";
 const uriLogin = "/api/Auth/login";
+const uriStatistics = "/api/Stadistics/"
+
+// Datos de usuario
 
 let token;
 let usr;
+
+// Arrays de información
 
 let cars = [];
 let colors = [];
@@ -21,9 +28,23 @@ let makes = [];
 let owners = [];
 let fines = [];
 let fuels = [];
+
+// Estadisticas
+
+let colorcount = [];
+let makecount = [];
+let ownercount = [];
+let cardrivercount = [];
+let avgprice = 0.0; 
+let avgkms = 0.0;
+
+// Vistas
+
 let currentview = "welcomeview";
 let currentdriverview = "drivers";
 let currentadddriver = "";
+
+// Paginación
 
 let from = 0;
 let pages = 0;
@@ -43,6 +64,7 @@ function initialize() {
     document.getElementById("ownerview").style.display = "none";
     document.getElementById("driverview").style.display = "none";
     document.getElementById("fineview").style.display = "none";
+    document.getElementById("stadisticsview").style.display = "none";
 
     document.getElementById("carCreate").style.display = "none";
     document.getElementById("makeCreate").style.display = "none";
@@ -60,8 +82,10 @@ function initialize() {
     document.getElementById("ownerdetailView").style.display = "none";
     document.getElementById("driverdetailView").style.display = "none";
     document.getElementById("finedetailView").style.display = "none";
+
     getColors();
     getFuels();
+    getStatistics();
     displayTable("carsTBody")
     displayTable("cardriversTBody")
     displayTable("driversTBody")
@@ -198,7 +222,7 @@ async function getCars() {
 
 async function getCarDrivers() {
     try {
-        cars = [];
+        cardrivers = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -219,7 +243,7 @@ async function getCarDrivers() {
 
 async function getColors() {
     try {
-        cars = [];
+        colors = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -240,7 +264,7 @@ async function getColors() {
 
 async function getDrivers() {
     try {
-        cars = [];
+        drivers = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -262,7 +286,7 @@ async function getDrivers() {
 
 async function getFines() {
     try {
-        cars = [];
+        fines = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -283,7 +307,7 @@ async function getFines() {
 
 async function getFuels() {
     try {
-        cars = [];
+        fuels = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -304,7 +328,7 @@ async function getFuels() {
 
 async function getMakes() {
     try {
-        cars = [];
+        makes = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -326,7 +350,7 @@ async function getMakes() {
 
 async function getOwners() {
     try {
-        cars = [];
+        owners = [];
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + token)
 
@@ -343,6 +367,53 @@ async function getOwners() {
         _displayCount(owners.length, "counterOwner");
     } catch (error) {
         console.error('Unable to get owners: ', error)
+    }
+}
+
+async function getStatistics() {
+    try {
+        colorcount = [];
+        makecount = [];
+        ownercount = [];
+        cardrivercount = [];
+        fuelcount = [];
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        }
+
+        let responseColorCount = await fetch(baseurl + uriStatistics + "carcolorcount", requestOptions)
+            .then((response) => response.json())
+        colorcount  = await responseColorCount;
+
+        let responseMakeCount = await fetch(baseurl + uriStatistics + "carmakecount", requestOptions)
+            .then((response) => response.json());
+        makecount  = await responseMakeCount;
+
+        let responseOwnerCount = await fetch(baseurl + uriStatistics + "carownercount", requestOptions)
+            .then((response) => response.json());
+        ownercount  = await responseOwnerCount;
+
+        let responseCarDriverCount = await fetch(baseurl + uriStatistics + "cdcarcount", requestOptions)
+            .then((response) => response.json());
+        cardrivercount  = await responseCarDriverCount;
+
+        let averageprice = await fetch(baseurl + uriStatistics + "averageprice", requestOptions)
+            .then((response) => response.json());
+        avgprice  = await averageprice;
+
+        let averagekms = await fetch(baseurl + uriStatistics + "averagekms", requestOptions)
+            .then((response) => response.json());
+        avgkms  = await averagekms;
+
+        _fillStatistics();
+    } catch (error) {
+        console.error('Unable to get stadistics: ', error)
     }
 }
 
@@ -512,6 +583,52 @@ function _fillOwnerList() {
         optionOwner.setAttribute("value", `${owner.name}`);
         list.appendChild(optionOwner);
     }
+}
+
+function _fillStatistics(){
+    const colorlist = document.getElementById("color-count")
+    const modellist = document.getElementById("make-count");
+    const ownerlist = document.getElementById("owner-count");
+    const cardriverlist = document.getElementById("cardriver-count")
+    const avgpricestext = document.getElementById("avg-prices")
+    const avgkmstext = document.getElementById("avg-kms")
+    
+    const p = document.createElement("p");
+
+    for (let i = 0; i < colorcount.length; i++) {
+        const element = colorcount[i];
+        let ptext = p.cloneNode(false);
+        let color = getSpecificColor(element.key,'id');
+        ptext.innerText = color.name + ": " + element.value;
+        colorlist.appendChild(ptext);
+    }
+
+    for (let i = 0; i < makecount.length; i++) {
+        const element = makecount[i];
+        let ptext = p.cloneNode(false);
+        let make = getSpecificMake(element.key,'id');
+        ptext.innerText = make.name + ": " + element.value;
+        modellist.appendChild(ptext);
+    }
+
+    for (let i = 0; i < ownercount.length; i++) {
+        const element = ownercount[i];
+        let ptext = p.cloneNode(false);
+        let owner = getSpecificOwner(element.key,'id');
+        ptext.innerText = owner.name + ": " + element.value;
+        ownerlist.appendChild(ptext);        
+    }
+
+    for (let i = 0; i < cardrivercount.length; i++) {
+        const element = cardrivercount[i];
+        let ptext = p.cloneNode(false);
+        let car = getSpecificCar(element.key,'id');
+        ptext.innerText = car.license + ": " + element.value;
+        cardriverlist.appendChild(ptext);        
+    }
+
+    avgpricestext.innerText = "Precio promedio: "+avgprice.toFixed(2);
+    avgkmstext.innerText = "Kilometros promedios: "+avgkms.toFixed(2);
 }
 
 // Mostrar todos los datos

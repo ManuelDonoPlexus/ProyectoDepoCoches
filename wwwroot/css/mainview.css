@@ -143,6 +143,23 @@ body {
     margin-right: 5%;
 }
 
+.stadisticsview{
+    width: 80%;
+    margin-top: 5%;
+}
+
+.stadistic-container{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.stadistics-container{
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: center;
+}
+
 .addView{
     width: 80%;
     margin-top: 8%;
