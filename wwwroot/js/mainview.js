@@ -35,7 +35,7 @@ let colorcount = [];
 let makecount = [];
 let ownercount = [];
 let cardrivercount = [];
-let avgprice = 0.0; 
+let avgprice = 0.0;
 let avgkms = 0.0;
 
 // Vistas
@@ -389,29 +389,30 @@ async function getStatistics() {
 
         let responseColorCount = await fetch(baseurl + uriStatistics + "carcolorcount", requestOptions)
             .then((response) => response.json())
-        colorcount  = await responseColorCount;
+        colorcount = await responseColorCount;
 
         let responseMakeCount = await fetch(baseurl + uriStatistics + "carmakecount", requestOptions)
             .then((response) => response.json());
-        makecount  = await responseMakeCount;
+        makecount = await responseMakeCount;
 
         let responseOwnerCount = await fetch(baseurl + uriStatistics + "carownercount", requestOptions)
             .then((response) => response.json());
-        ownercount  = await responseOwnerCount;
+        ownercount = await responseOwnerCount;
 
         let responseCarDriverCount = await fetch(baseurl + uriStatistics + "cdcarcount", requestOptions)
             .then((response) => response.json());
-        cardrivercount  = await responseCarDriverCount;
+        cardrivercount = await responseCarDriverCount;
 
         let averageprice = await fetch(baseurl + uriStatistics + "averageprice", requestOptions)
             .then((response) => response.json());
-        avgprice  = await averageprice;
+        avgprice = await averageprice;
 
         let averagekms = await fetch(baseurl + uriStatistics + "averagekms", requestOptions)
             .then((response) => response.json());
-        avgkms  = await averagekms;
+        avgkms = await averagekms;
 
         _fillStatistics();
+        chartify()
     } catch (error) {
         console.error('Unable to get stadistics: ', error)
     }
@@ -585,50 +586,85 @@ function _fillOwnerList() {
     }
 }
 
-function _fillStatistics(){
-    const colorlist = document.getElementById("color-count")
-    const modellist = document.getElementById("make-count");
-    const ownerlist = document.getElementById("owner-count");
-    const cardriverlist = document.getElementById("cardriver-count")
+function _fillStatistics() {
+    const colorX = [];
+    const colorY = [];
+
+    const makeX = [];
+    const makeY = [];
+
+    const ownerX = [];
+    const ownerY = [];
+
+    const cardriverX = [];
+    const cardriverY = [];
+
     const avgpricestext = document.getElementById("avg-prices")
     const avgkmstext = document.getElementById("avg-kms")
-    
+
     const p = document.createElement("p");
 
     for (let i = 0; i < colorcount.length; i++) {
         const element = colorcount[i];
-        let ptext = p.cloneNode(false);
-        let color = getSpecificColor(element.key,'id');
-        ptext.innerText = color.name + ": " + element.value;
-        colorlist.appendChild(ptext);
+        let color = getSpecificColor(element.key, 'id');
+        colorY.push(element.value)
+        colorX.push(color.name)
     }
+
+    chartify(colorX, colorY, "color-chart", "Recuento de coches por colores")
 
     for (let i = 0; i < makecount.length; i++) {
         const element = makecount[i];
-        let ptext = p.cloneNode(false);
-        let make = getSpecificMake(element.key,'id');
-        ptext.innerText = make.name + ": " + element.value;
-        modellist.appendChild(ptext);
+        let make = getSpecificMake(element.key, 'id');
+        makeY.push(element.value)
+        makeX.push(make.name)
     }
 
     for (let i = 0; i < ownercount.length; i++) {
         const element = ownercount[i];
-        let ptext = p.cloneNode(false);
-        let owner = getSpecificOwner(element.key,'id');
-        ptext.innerText = owner.name + ": " + element.value;
-        ownerlist.appendChild(ptext);        
+        let owner = getSpecificOwner(element.key, 'id');
+        colorY.push(element.value)
+        colorX.push(owner.name)
     }
 
     for (let i = 0; i < cardrivercount.length; i++) {
         const element = cardrivercount[i];
-        let ptext = p.cloneNode(false);
-        let car = getSpecificCar(element.key,'id');
-        ptext.innerText = car.license + ": " + element.value;
-        cardriverlist.appendChild(ptext);        
+        let car = getSpecificCar(element.key, 'id');
+        cardriverX.push(element.value)
+        cardriverY.push(car.license)
     }
 
-    avgpricestext.innerText = "Precio promedio: "+avgprice.toFixed(2);
-    avgkmstext.innerText = "Kilometros promedios: "+avgkms.toFixed(2);
+    avgpricestext.innerText = "Precio promedio: " + avgprice.toFixed(2);
+    avgkmstext.innerText = "Kilometros promedios: " + avgkms.toFixed(2);
+}
+
+async function chartify(labelsX, dataY, canvas, msg) {
+    try {
+        const Chart = await import("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js");
+        const ctx = document.getElementById(canvas);
+
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labelsX,
+                datasets: [{
+                    data: dataY
+                }],
+                options: {
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: msg,
+                            font: { size: 16 }
+                        }
+                    }
+                }
+            }
+        })
+    } catch (error) {
+        console.log("Ha ocurido un error: " + error)
+    }
 }
 
 // Mostrar todos los datos

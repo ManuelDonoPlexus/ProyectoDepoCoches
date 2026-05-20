@@ -148,16 +148,19 @@ body {
     margin-top: 5%;
 }
 
+.stadistics-container{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto;
+}
+
 .stadistic-container{
     margin-left: 2%;
     margin-right: 2%;
 }
 
-.stadistics-container{
-    display: flex;
-    flex-direction: row;
-    align-items: top;
-    justify-content: center;
+.stadistic-chart{
+    border: 2px black solid;
 }
 
 .addView{
