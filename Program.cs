@@ -20,8 +20,8 @@ builder.Services.AddScoped<IFineRepository, FineRepository>();
 builder.Services.AddScoped<IFuelTypeRepository, FuelTypeRepository>();
 builder.Services.AddScoped<IMakeRepository, MakeRepository>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
+builder.Services.AddScoped<IStadisticsRepository, StadisticsRepository>();
 builder.Services.AddScoped<AuthUtilities>();
-builder.Services.AddScoped<StadisticUtilities>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

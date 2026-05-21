@@ -21,53 +21,53 @@ namespace CarDepo.API.Controllers
     [AllowAnonymous]
     public class StadisticsController
     {
-        public StadisticUtilities _stadisticUtilities;
+        private readonly IStadisticsRepository _stadisticsRepo;
 
-        public StadisticsController(StadisticUtilities stadisticUtilities)
+        public StadisticsController(IStadisticsRepository stadisticsRepo)
         {
-            _stadisticUtilities = stadisticUtilities;
+            _stadisticsRepo = stadisticsRepo;
         }
 
         [HttpGet]
         [Route("averagekms")]
-        public async Task<Decimal> GetCarKms()
+        public async Task<Double> GetCarKms()
         {
-            return await _stadisticUtilities.GetAveragePrice();
+            return await _stadisticsRepo.GetCarKms();
         }
 
         [HttpGet]
         [Route("colorcount")]
         public async Task<IEnumerable> GetColorCount()
         {
-            return await _stadisticUtilities.GetCarColorCount();
+            return await _stadisticsRepo.GetCarColorCount();
         }
 
         [HttpGet]
         [Route("makecount")]
         public async Task<IEnumerable> GetMakeCount()
         {
-            return await _stadisticUtilities.GetCarMakeCount();
+            return await _stadisticsRepo.GetCarMakeCount();
         }
 
         [HttpGet]
         [Route("ownercount")]
         public async Task<IEnumerable> GetOwnerCount()
         {
-            return await _stadisticUtilities.GetCarOwnerCount();
+            return await _stadisticsRepo.GetCarOwnerCount();
         }
 
         [HttpGet]
         [Route("cdcarcount")]
         public async Task<IEnumerable> GetAssociatedCarCount()
         {
-            return await _stadisticUtilities.GetCarDriverAssociatedCarCount();
+            return await _stadisticsRepo.GetCarDriverAssociatedCarCount();
         }
 
         [HttpGet]
         [Route("averageprice")]
         public async Task<Decimal> GetAveragePrice()
         {
-            return await _stadisticUtilities.GetAveragePrice();
+            return await _stadisticsRepo.GetAveragePrice();
         }
     }
 }
