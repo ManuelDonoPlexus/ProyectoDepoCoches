@@ -599,9 +599,6 @@ function _fillStatistics() {
     const cardriverX = [];
     const cardriverY = [];
 
-    const avgpricestext = document.getElementById("avg-prices")
-    const avgkmstext = document.getElementById("avg-kms")
-
     for (let i = 0; i < colorcount.length; i++) {
         const element = colorcount[i];
         let color = getSpecificColor(element.key, 'id');
@@ -656,7 +653,13 @@ async function chartify(labelsX, dataY, chart, msg) {
             autosize: false,
             width: 400,
             height: 300,
-            automargin: true
+            margin: {
+                l: 100,
+                r: 100,
+                t: 0,
+                r: 0,
+                p: 4
+            }
         };
 
         Plotly.newPlot(chart, data, layout);
