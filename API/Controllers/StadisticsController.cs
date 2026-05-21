@@ -28,8 +28,6 @@ namespace CarDepo.API.Controllers
             _stadisticUtilities = stadisticUtilities;
         }
 
-        // Estadisticas de coches
-
         [HttpGet]
         [Route("averagekms")]
         public async Task<Decimal> GetCarKms()
@@ -58,16 +56,12 @@ namespace CarDepo.API.Controllers
             return await _stadisticUtilities.GetCarOwnerCount();
         }
 
-        // Estadisticas de conductores
-
         [HttpGet]
         [Route("cdcarcount")]
         public async Task<IEnumerable> GetAssociatedCarCount()
         {
             return await _stadisticUtilities.GetCarDriverAssociatedCarCount();
         }
-
-        // Estadisticas de marcas
 
         [HttpGet]
         [Route("averageprice")]

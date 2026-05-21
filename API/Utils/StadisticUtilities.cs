@@ -56,8 +56,6 @@ public class StadisticUtilities
             return drivers.CountBy(d => d.CarCDId);
         }
 
-        // Estadisticas de marcas
-
         public async Task<Decimal> GetAveragePrice()
         {
             IEnumerable<Make> makes = await _makerepo.GetMakes();
