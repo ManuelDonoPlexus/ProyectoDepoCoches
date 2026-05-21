@@ -144,23 +144,15 @@ body {
 }
 
 .stadisticsview{
-    width: 80%;
-    margin-top: 5%;
+    width: 100%;
+    height: 100%;
 }
 
 .stadistics-container{
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto;
     grid-template-rows: auto auto;
-}
-
-.stadistic-container{
-    margin-left: 2%;
-    margin-right: 2%;
-}
-
-.stadistic-chart{
-    border: 2px black solid;
+    margin-left: 12%;
 }
 
 .addView{

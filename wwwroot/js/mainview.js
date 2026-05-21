@@ -602,8 +602,6 @@ function _fillStatistics() {
     const avgpricestext = document.getElementById("avg-prices")
     const avgkmstext = document.getElementById("avg-kms")
 
-    const p = document.createElement("p");
-
     for (let i = 0; i < colorcount.length; i++) {
         const element = colorcount[i];
         let color = getSpecificColor(element.key, 'id');
@@ -620,48 +618,48 @@ function _fillStatistics() {
         makeX.push(make.name)
     }
 
+    chartify(makeX, makeY, "make-chart", "Recuento de coches por modelo")
+
     for (let i = 0; i < ownercount.length; i++) {
         const element = ownercount[i];
         let owner = getSpecificOwner(element.key, 'id');
-        colorY.push(element.value)
-        colorX.push(owner.name)
+        ownerX.push(owner.name)
+        ownerY.push(element.value)
     }
+
+    chartify(ownerX, ownerY, "owner-chart", "Recuento de coches por propietario")
 
     for (let i = 0; i < cardrivercount.length; i++) {
         const element = cardrivercount[i];
         let car = getSpecificCar(element.key, 'id');
-        cardriverX.push(element.value)
-        cardriverY.push(car.license)
+        cardriverX.push(car.license);
+        cardriverY.push(element.value);
     }
 
-    avgpricestext.innerText = "Precio promedio: " + avgprice.toFixed(2);
-    avgkmstext.innerText = "Kilometros promedios: " + avgkms.toFixed(2);
+    chartify(cardriverX, cardriverY, "cardriver-chart", "Recuento de conductores por modelo")
+
+    //avgpricestext.innerText = "Precio promedio: " + avgprice.toFixed(2);
+    //avgkmstext.innerText = "Kilometros promedios: " + avgkms.toFixed(2);
 }
 
-async function chartify(labelsX, dataY, canvas, msg) {
+async function chartify(labelsX, dataY, chart, msg) {
     try {
-        const Chart = await import("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js");
-        const ctx = document.getElementById(canvas);
-
-        new Chart(ctx, {
+        const data = [{
+            x: labelsX,
+            y: dataY,
             type: "bar",
-            data: {
-                labels: labelsX,
-                datasets: [{
-                    data: dataY
-                }],
-                options: {
-                    plugins: {
-                        legend: { display: false },
-                        title: {
-                            display: true,
-                            text: msg,
-                            font: { size: 16 }
-                        }
-                    }
-                }
-            }
-        })
+            orientation: "v",
+            marker: { color: "rgba(0,0,255,0.5)" }
+        }];
+        const layout = {
+            title: msg,
+            autosize: false,
+            width: 400,
+            height: 300,
+            automargin: true
+        };
+
+        Plotly.newPlot(chart, data, layout);
     } catch (error) {
         console.log("Ha ocurido un error: " + error)
     }
