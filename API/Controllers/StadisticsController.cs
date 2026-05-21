@@ -21,63 +21,50 @@ namespace CarDepo.API.Controllers
     [AllowAnonymous]
     public class StadisticsController
     {
-        public readonly AuthUtilities _authutils;
-        public readonly ICarRepository _carrepo;
-        public readonly IMakeRepository _makerepo;
-        public readonly IDriverRepository _driverrepo;
-        public readonly ICarDriverRepository _cardriverrepo;
+        public StadisticUtilities _stadisticUtilities;
 
-        public StadisticsController(AuthUtilities utilities, ICarRepository carrepo, IMakeRepository makerepo, IDriverRepository driverepo, ICarDriverRepository cardriverrepo)
+        public StadisticsController(StadisticUtilities stadisticUtilities)
         {
-            _authutils = utilities;
-            _carrepo = carrepo;
-            _makerepo = makerepo;
-            _driverrepo = driverepo;
-            _cardriverrepo = cardriverrepo;
+            _stadisticUtilities = stadisticUtilities;
         }
 
         // Estadisticas de coches
 
         [HttpGet]
         [Route("averagekms")]
-        public async Task<Double> GetCarKms()
+        public async Task<Decimal> GetCarKms()
         {
-            IEnumerable<Car> cars = await _carrepo.GetCars();
-            return cars.Average(c => c.Kms);
+            return await _stadisticUtilities.GetAveragePrice();
         }
 
         [HttpGet]
-        [Route("carcolorcount")]
-        public async Task<IEnumerable> GetCarColorCount()
+        [Route("colorcount")]
+        public async Task<IEnumerable> GetColorCount()
         {
-            IEnumerable<Car> cars = await _carrepo.GetCars();
-            return cars.CountBy(c => c.ColorId);
+            return await _stadisticUtilities.GetCarColorCount();
         }
 
         [HttpGet]
-        [Route("carmakecount")]
-        public async Task<IEnumerable> GetCarMakeCount()
+        [Route("makecount")]
+        public async Task<IEnumerable> GetMakeCount()
         {
-            IEnumerable<Car> cars = await _carrepo.GetCars();
-            return cars.CountBy(c => c.MakeId);
+            return await _stadisticUtilities.GetCarMakeCount();
         }
 
         [HttpGet]
-        [Route("carownercount")]
-        public async Task<IEnumerable> GetCarOwnerCount()
+        [Route("ownercount")]
+        public async Task<IEnumerable> GetOwnerCount()
         {
-            IEnumerable<Car> cars = await _carrepo.GetCars();
-            return cars.CountBy(c => c.OwnerId);
+            return await _stadisticUtilities.GetCarOwnerCount();
         }
 
         // Estadisticas de conductores
 
         [HttpGet]
         [Route("cdcarcount")]
-        public async Task<IEnumerable> GetCarDriverAssociatedCarCount()
+        public async Task<IEnumerable> GetAssociatedCarCount()
         {
-            IEnumerable<CarDriver> drivers = await _cardriverrepo.GetCarDrivers();
-            return drivers.CountBy(d => d.CarCDId);
+            return await _stadisticUtilities.GetCarDriverAssociatedCarCount();
         }
 
         // Estadisticas de marcas
@@ -86,8 +73,7 @@ namespace CarDepo.API.Controllers
         [Route("averageprice")]
         public async Task<Decimal> GetAveragePrice()
         {
-            IEnumerable<Make> makes = await _makerepo.GetMakes();
-            return makes.Average(m => m.Price);
+            return await _stadisticUtilities.GetAveragePrice();
         }
     }
 }

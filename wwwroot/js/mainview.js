@@ -387,15 +387,15 @@ async function getStatistics() {
             redirect: 'follow'
         }
 
-        let responseColorCount = await fetch(baseurl + uriStatistics + "carcolorcount", requestOptions)
+        let responseColorCount = await fetch(baseurl + uriStatistics + "colorcount", requestOptions)
             .then((response) => response.json())
         colorcount = await responseColorCount;
 
-        let responseMakeCount = await fetch(baseurl + uriStatistics + "carmakecount", requestOptions)
+        let responseMakeCount = await fetch(baseurl + uriStatistics + "makecount", requestOptions)
             .then((response) => response.json());
         makecount = await responseMakeCount;
 
-        let responseOwnerCount = await fetch(baseurl + uriStatistics + "carownercount", requestOptions)
+        let responseOwnerCount = await fetch(baseurl + uriStatistics + "ownercount", requestOptions)
             .then((response) => response.json());
         ownercount = await responseOwnerCount;
 
