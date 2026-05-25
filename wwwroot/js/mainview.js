@@ -65,6 +65,7 @@ function initialize() {
     document.getElementById("driverview").style.display = "none";
     document.getElementById("fineview").style.display = "none";
     document.getElementById("stadisticsview").style.display = "none";
+    document.getElementById("deleteconfirm").style.display = "none";
 
     document.getElementById("carCreate").style.display = "none";
     document.getElementById("makeCreate").style.display = "none";
@@ -434,6 +435,20 @@ function getSpecificCar(search, filter) {
     return result;
 }
 
+function getSpecificCarDriver(search, filter) {
+    let result;
+
+    for (let i = 0; i < cardrivers.length; i++) {
+        const cardriver = cardrivers[i];
+        if (filter == "name") {
+            if (cardriver.name == search) { result = cardriver; }
+        } else if (filter == "id") {
+            if (cardriver.id == search) { result = cardriver; }
+        }
+    }
+    return result;
+}
+
 function getSpecificDriver(search, filter) {
     let result;
     for (let i = 0; i < drivers.length; i++) {
@@ -780,7 +795,7 @@ function loadCarTableContent(tablecontent) {
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteCar(${car.id})`);
+        deleteBton.setAttribute("onclick", `showDeleteConfirm(${car.id}, 'car')`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -834,7 +849,7 @@ function loadDriverTableContent(tablecontent) {
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteDriver(${driver.id})`);
+        deleteBton.setAttribute("onclick", `showDeleteConfirm(${driver.id}, 'driver')`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -888,7 +903,7 @@ function loadFinesTableContent(tablecontent) {
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteFine(${fine.id})`);
+        deleteBton.setAttribute("onclick", `showDeleteConfirm(${fine.id}, 'fine')`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -947,7 +962,7 @@ function loadCarDriverTableContent(tablecontent) {
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteDriver(${driver.id})`);
+        deleteBton.setAttribute("onclick", `showDeleteConfirm(${driver.id}, 'driver')`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -991,7 +1006,7 @@ function loadOwnerTableContent(tablecontent) {
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteOwner(${owner.id})`);
+        deleteBton.setAttribute("onclick", `showDeleteConfirm(${owner.id}, 'owner')`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -1045,7 +1060,7 @@ function loadMakesTableContent(tablecontent) {
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `deleteMake(${make.id})`);
+        deleteBton.setAttribute("onclick", `showDeleteConfirm(${make.id}, 'make')`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -1386,6 +1401,127 @@ function registerUser(username, email, password) {
 }
 
 // Para borrar entidades de la base de datos
+
+function showDeleteConfirm(id, classname){
+    showView("deleteconfirm");
+    deletetitle = document.getElementById("delete-title");
+    deletebtons = document.getElementById("delete-btons");
+    const bton = document.createElement("button");
+
+    if (classname == "car") {
+        deletebtons.innerHTML = '';
+        let car = getSpecificCar(id, "id");
+        deletetitle.innerText = "¿Borrar "+ car.license +"?";
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteCar(${id})`);
+        deleteBton.setAttribute("class", "viewDeleteBton");
+
+        let cancelBton = bton.cloneNode(false);
+        cancelBton.innerText = "Cancelar";
+        cancelBton.setAttribute("onclick", `showView('carview')`);
+        cancelBton.setAttribute("class", "cancelDeleteBton");
+        
+        deletebtons.appendChild(cancelBton);
+        deletebtons.appendChild(deleteBton);
+    }
+    
+    if (classname == "cardriver") {
+        deletebtons.innerHTML = '';
+        let cardriver = getSpecificCarDriver(id, "id")
+        deletetitle.innerText = "¿Borrar a "+ cardriver.name +"?"
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteDriver(${id})`);
+        deleteBton.setAttribute("class", "viewDeleteBton");
+
+        let cancelBton = bton.cloneNode(false);
+        cancelBton.innerText = "Cancelar";
+        cancelBton.setAttribute("onclick", `showView('cardriverview')`);
+        cancelBton.setAttribute("class", "cancelDeleteBton");
+        
+        deletebtons.appendChild(cancelBton);
+        deletebtons.appendChild(deleteBton);
+    }
+    
+    if (classname == "driver") {
+        deletebtons.innerHTML = '';
+        let driver = getSpecificDriver(id, "id")
+        deletetitle.innerText = "¿Borrar a "+ driver.name +"?"
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteDriver(${id})`);
+        deleteBton.setAttribute("class", "viewDeleteBton");
+
+        let cancelBton = bton.cloneNode(false);
+        cancelBton.innerText = "Cancelar";
+        cancelBton.setAttribute("onclick", `showView('driverview')`);
+        cancelBton.setAttribute("class", "cancelDeleteBton");
+        
+        deletebtons.appendChild(cancelBton);
+        deletebtons.appendChild(deleteBton);
+    }
+    
+    if (classname == "fine") {
+        deletebtons.innerHTML = '';
+        let fine = getSpecificFine(id, "id")
+        deletetitle.innerText = "¿Borrar la multa del día "+ fine.date +"?"
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteFine(${id})`);
+        deleteBton.setAttribute("class", "viewDeleteBton");
+
+        let cancelBton = bton.cloneNode(false);
+        cancelBton.innerText = "Cancelar";
+        cancelBton.setAttribute("onclick", `showView('fineview')`);
+        cancelBton.setAttribute("class", "cancelDeleteBton");
+        
+        deletebtons.appendChild(cancelBton);
+        deletebtons.appendChild(deleteBton);   
+    }
+
+    if (classname == "make") {
+        deletebtons.innerHTML = '';
+        let make = getSpecificMake(id, "id")
+        deletetitle.innerText = "¿Borrar a "+ make.name +"?"
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteMake(${id})`);
+        deleteBton.setAttribute("class", "viewDeleteBton");
+
+        let cancelBton = bton.cloneNode(false);
+        cancelBton.innerText = "Cancelar";
+        cancelBton.setAttribute("onclick", `showView('makeview')`);
+        cancelBton.setAttribute("class", "cancelDeleteBton");
+        
+        deletebtons.appendChild(cancelBton);
+        deletebtons.appendChild(deleteBton);
+    }
+
+    if (classname == "owner") {
+        deletebtons.innerHTML = '';
+        let owner = getSpecificOwner(id, "id")
+        deletetitle.innerText = "¿Borrar a "+ owner.name +"?"
+
+        let deleteBton = bton.cloneNode(false);
+        deleteBton.innerText = "Borrar";
+        deleteBton.setAttribute("onclick", `deleteOwner(${id})`);
+        deleteBton.setAttribute("class", "viewDeleteBton");
+
+        let cancelBton = bton.cloneNode(false);
+        cancelBton.innerText = "Cancelar";
+        cancelBton.setAttribute("onclick", `showView('ownerview')`);
+        cancelBton.setAttribute("class", "cancelDeleteBton");
+        
+        deletebtons.appendChild(cancelBton);
+        deletebtons.appendChild(deleteBton);
+    }
+}
 
 function deleteCar(id) {
     try {
