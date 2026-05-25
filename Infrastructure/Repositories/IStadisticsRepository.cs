@@ -72,7 +72,7 @@ public class StadisticsRepository : IStadisticsRepository
             .Include(car => car.Make)
             .Include(car => car.Owner)
             .AsNoTracking()
-            .ToListAsync(); ;
+            .ToListAsync();
         return cars.CountBy(c => c.MakeId);
     }
 
@@ -83,7 +83,7 @@ public class StadisticsRepository : IStadisticsRepository
             .Include(car => car.Make)
             .Include(car => car.Owner)
             .AsNoTracking()
-            .ToListAsync(); ;
+            .ToListAsync();
         return cars.CountBy(c => c.OwnerId);
     }
 }
