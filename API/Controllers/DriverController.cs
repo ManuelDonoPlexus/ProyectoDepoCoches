@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class DriverController : ControllerBase
     {
-        private readonly IDriverRepository _driverRepo;
+        private readonly DriverService _driverService;
 
-        public DriverController(IDriverRepository driverRepo)
+        public DriverController(DriverService driverService)
         {
-            _driverRepo = driverRepo;
+            _driverService = driverService;
         }
 
         // GET: api/Driver
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Driver>>> GetAllDrivers()
         {
-            var drivers = Ok(await _driverRepo.GetDrivers());
+            var drivers = Ok(await _driverService.GetDrivers());
             return Ok(drivers);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{DriverId}")]
         public async Task<ActionResult<Driver?>> GetSpecificDriver(int DriverId)
         {
-            var driver = Ok(await _driverRepo.GetDriver(DriverId));
+            var driver = Ok(await _driverService.GetDriver(DriverId));
 
             if (driver == null) { return NotFound(); }
             return Ok(driver);
@@ -46,7 +47,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Driver?>> CreateDriver(Driver? driver)
         {
-            Driver? newdriver = await _driverRepo.InsertDriver(driver);
+            Driver? newdriver = await _driverService.InsertDriver(driver);
             if (newdriver != null) { return await GetSpecificDriver(newdriver.Id); }
             else { return BadRequest(); }
         }
@@ -55,7 +56,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{DriverId}")]
         public async Task<IActionResult> ModifyDriver(int DriverId, Driver newDriver)
         {
-            Driver? result = await _driverRepo.UpdateDriver(DriverId, newDriver);
+            Driver? result = await _driverService.UpdateDriver(DriverId, newDriver);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -64,9 +65,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{DriverId}")]
         public async Task<IActionResult> DeleteDriver(int DriverId)
         {
-            var driver = await _driverRepo.GetDriver(DriverId);
+            var driver = await _driverService.GetDriver(DriverId);
             if (driver == null) { return NotFound(); }
-            await _driverRepo.GetDriver(DriverId);
+            await _driverService.GetDriver(DriverId);
             return NoContent();
         }
 

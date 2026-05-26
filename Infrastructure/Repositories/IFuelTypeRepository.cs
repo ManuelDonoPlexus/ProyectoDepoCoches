@@ -8,7 +8,7 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IFuelTypeRepository
 {
-    Task<FuelType?> InsertFuelType(FuelType? FuelType);
+    Task<FuelType?> InsertFuelType(FuelType? newFuelType);
     Task<FuelType?> GetFuelType(int FuelTypeId);
     Task<IEnumerable<FuelType>> GetFuelTypes();
     Task DeleteFuelType(int FuelTypeId);
@@ -40,11 +40,11 @@ public class FuelTypeRepository : IFuelTypeRepository
                 .FirstOrDefaultAsync(f => f.Id == FuelTypeId);
     }
 
-    public async Task<FuelType?> InsertFuelType(FuelType? FuelType)
+    public async Task<FuelType?> InsertFuelType(FuelType? newFuelType)
     {
-        if (FuelType != null)
+        if (newFuelType != null)
         {
-            EntityEntry<FuelType> fuelType = _cardepocontext.FuelTypes.Add(FuelType);
+            EntityEntry<FuelType> fuelType = _cardepocontext.FuelTypes.Add(newFuelType);
             await _cardepocontext.SaveChangesAsync();
             return fuelType.Entity;
         }

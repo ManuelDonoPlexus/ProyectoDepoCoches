@@ -2029,7 +2029,7 @@ function saveEditMake(id) {
         var editHorsePower = document.getElementById("horsepowerMake");
         var editPrice = document.getElementById("priceMake");
         var editFuelName = document.getElementById("fueltypeMake").value.trim();
-        editFuel = getSpecificFuel(editFuelName, "name")
+        var editFuel = getSpecificFuel(editFuelName, "name")
 
 
         const newmake = {
@@ -2105,7 +2105,7 @@ function saveEditDriver(id) {
         var editPhone = document.getElementById("phonenumberDriver");
 
         var editOwnerName = document.getElementById("ownerDriver").value.trim();
-        editOwner = getSpecificOwner(editOwnerName)
+        var editOwner = getSpecificOwner(editOwnerName, "name")
 
         const newdriver = {
             name: editName.value.trim(),

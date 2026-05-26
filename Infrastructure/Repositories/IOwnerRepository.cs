@@ -8,7 +8,7 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IOwnerRepository
 {
-    Task<Owner?> InsertOwner(Owner? Owner);
+    Task<Owner?> InsertOwner(Owner? newOwner);
     Task<Owner?> GetOwner(int OwnerId);
     Task<IEnumerable<Owner>> GetOwners();
     Task DeleteOwner(int OwnerId);
@@ -40,11 +40,11 @@ public class OwnerRepository : IOwnerRepository
                 .FirstOrDefaultAsync(m => m.Id == OwnerId);
     }
 
-    public async Task<Owner?> InsertOwner(Owner? Owner)
+    public async Task<Owner?> InsertOwner(Owner? newOwner)
     {
-        if (Owner != null)
+        if (newOwner != null)
         {
-            EntityEntry<Owner> owner = _cardepocontext.Owners.Add(Owner);
+            EntityEntry<Owner> owner = _cardepocontext.Owners.Add(newOwner);
             await _cardepocontext.SaveChangesAsync();
             return owner.Entity;
         }

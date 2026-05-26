@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class ColorController : ControllerBase
     {
-        private readonly IColorRepository _colorRepo;
+        private readonly ColorService _colorSevice;
 
-        public ColorController(IColorRepository colorRepo)
+        public ColorController(ColorService colorService)
         {
-            _colorRepo = colorRepo;
+            _colorSevice = colorService;
         }
 
         // GET: api/Color
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Color>>> GetAllColors()
         {
-            var colors = Ok(await _colorRepo.GetColors());
+            var colors = Ok(await _colorSevice.GetColors());
             return Ok(colors);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{ColorId}")]
         public async Task<ActionResult<Color?>> GetSpecificColor(int ColorId)
         {
-            var color = Ok(await _colorRepo.GetColor(ColorId));
+            var color = Ok(await _colorSevice.GetColor(ColorId));
             if (color == null) { return NotFound(); }
             return Ok(color);
         }
@@ -45,7 +46,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Color?>> CreateColor(Color? color)
         {
-            Color? newcolor = await _colorRepo.InsertColor(color);
+            Color? newcolor = await _colorSevice.InsertColor(color);
             if (newcolor != null){ return await GetSpecificColor(newcolor.Id); }
             else { return BadRequest(); }
         }
@@ -54,7 +55,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{ColorId}")]
         public async Task<IActionResult> ModifyColor(int ColorId, Color newColor)
         {
-            Color? result = await _colorRepo.UpdateColor(ColorId, newColor);
+            Color? result = await _colorSevice.UpdateColor(ColorId, newColor);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -63,10 +64,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{ColorId}")]
         public async Task<IActionResult> DeleteColor(int ColorId)
         {
-            var color = await _colorRepo.GetColor(ColorId);
+            var color = await _colorSevice.GetColor(ColorId);
             if (color == null) { return NotFound(); }
-
-            await _colorRepo.DeleteColor(ColorId);
+            await _colorSevice.DeleteColor(ColorId);
             return NoContent();
         }
     }

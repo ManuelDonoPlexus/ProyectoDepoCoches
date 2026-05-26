@@ -11,6 +11,7 @@ using CarDepo.Infrastructure.Repositories;
 using CarDepo.API.DTOs;
 using CarDepo.API.Utils;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 
 namespace CarDepo.API.Controllers
@@ -20,44 +21,28 @@ namespace CarDepo.API.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private readonly CarDepoContext _cardepocontext;
-        public readonly AuthUtilities _authutils;
+        private readonly AuthService _authservice;
 
-        public AuthController(CarDepoContext context, AuthUtilities utilities)
+        public AuthController(AuthService authService)
         {
-            _cardepocontext = context;
-            _authutils = utilities;
+            _authservice = authService;
         }
 
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register(UserDTO user)
         {
-            var newUser = new User
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Password = _authutils.EncryptToSHA256(user.Password)
-            };
-
-            await _cardepocontext.Users.AddAsync(newUser);
-            await _cardepocontext.SaveChangesAsync();
-            return Ok(newUser);
+            return Ok(_authservice.Register(user));
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginDTO login)
+        public async Task<String?> Login(LoginDTO login)
         {
-            var foundUser = await _cardepocontext.Users
-                                    .Where(u =>
-                                            u.Email == login.Email &&
-                                            u.Password == _authutils.EncryptToSHA256(login.Password) || u.Password == login.Password)
-                                    .FirstOrDefaultAsync();
-
-
-            if (foundUser != null) { return Ok(_authutils.GenerateJWTToken(foundUser)); }
-            else { return NotFound(); }
+            String? token = await _authservice.Login(login);
+            if (token != null) { return token; }
+            else { return null; }
+             
         }
     }
 }

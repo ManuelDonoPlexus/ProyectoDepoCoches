@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class CarDriverController : ControllerBase
     {
-        private readonly ICarDriverRepository _cardriverRepo;
+        private readonly CarDriverService _cardriverService;
 
-        public CarDriverController(ICarDriverRepository cardriverRepo)
+        public CarDriverController(CarDriverService cardriverService)
         {
-            _cardriverRepo = cardriverRepo;
+            _cardriverService = cardriverService;
         }
 
         // GET: api/CarDriver
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarDriver?>>> GetAllCarDrivers()
         {
-            var cardrivers = Ok(await _cardriverRepo.GetCarDrivers());
+            var cardrivers = Ok(await _cardriverService.GetCarDrivers());
             return Ok(cardrivers);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{CarDriverId}")]
         public async Task<ActionResult<CarDriver?>> GetSpecificCarDriver(int CarDriverId)
         {
-            var carDriver = await _cardriverRepo.GetCarDriver(CarDriverId);
+            var carDriver = Ok(await _cardriverService.GetCarDriver(CarDriverId));
             if (carDriver == null) { return NotFound(); }
             return Ok(carDriver);
         }
@@ -45,7 +46,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CarDriver?>?> CreateCarDriver(CarDriver? carDriver)
         {
-            CarDriver? newcardriver = await _cardriverRepo.InsertCarDriver(carDriver);
+            CarDriver? newcardriver = await _cardriverService.InsertCarDriver(carDriver);
             if (newcardriver != null) { return await GetSpecificCarDriver(newcardriver.Id); }
             else { return BadRequest(); }
         }
@@ -54,7 +55,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{CarDriverId}")]
         public async Task<IActionResult> ModifyCarDriver(int CarDriverId, CarDriver newCarDriver)
         {
-            CarDriver? result = await _cardriverRepo.UpdateCarDriver(CarDriverId, newCarDriver);
+            CarDriver? result = await _cardriverService.UpdateCarDriver(CarDriverId, newCarDriver);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -63,11 +64,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{CarDriverId}")]
         public async Task<IActionResult> DeleteCarDriver(int CarDriverId)
         {
-            var cardriver = await _cardriverRepo.GetCarDriver(CarDriverId);
+            var cardriver = await _cardriverService.GetCarDriver(CarDriverId);
             if (cardriver == null) { return NotFound(); }
-
-            await _cardriverRepo.DeleteCarDriver(CarDriverId);
-
+            await _cardriverService.DeleteCarDriver(CarDriverId);
             return NoContent();
         }
     }

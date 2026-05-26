@@ -13,6 +13,7 @@ using CarDepo.API.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -21,53 +22,53 @@ namespace CarDepo.API.Controllers
     [AllowAnonymous]
     public class StadisticsController
     {
-        private readonly IStadisticsRepository _stadisticsRepo;
+        private readonly StadisticsService _stadisticsService;
 
-        public StadisticsController(IStadisticsRepository stadisticsRepo)
+        public StadisticsController(StadisticsService stadisticsService)
         {
-            _stadisticsRepo = stadisticsRepo;
+            _stadisticsService = stadisticsService;
         }
 
         [HttpGet]
         [Route("averagekms")]
         public async Task<Double> GetCarKms()
         {
-            return await _stadisticsRepo.GetCarKms();
+            return await _stadisticsService.GetCarKms();
         }
 
         [HttpGet]
         [Route("colorcount")]
         public async Task<IEnumerable> GetColorCount()
         {
-            return await _stadisticsRepo.GetCarColorCount();
+            return await _stadisticsService.GetCarColorCount();
         }
 
         [HttpGet]
         [Route("makecount")]
         public async Task<IEnumerable> GetMakeCount()
         {
-            return await _stadisticsRepo.GetCarMakeCount();
+            return await _stadisticsService.GetCarMakeCount();
         }
 
         [HttpGet]
         [Route("ownercount")]
         public async Task<IEnumerable> GetOwnerCount()
         {
-            return await _stadisticsRepo.GetCarOwnerCount();
+            return await _stadisticsService.GetCarOwnerCount();
         }
 
         [HttpGet]
         [Route("cdcarcount")]
         public async Task<IEnumerable> GetAssociatedCarCount()
         {
-            return await _stadisticsRepo.GetCarDriverAssociatedCarCount();
+            return await _stadisticsService.GetCarDriverAssociatedCarCount();
         }
 
         [HttpGet]
         [Route("averageprice")]
         public async Task<Decimal> GetAveragePrice()
         {
-            return await _stadisticsRepo.GetAveragePrice();
+            return await _stadisticsService.GetAveragePrice();
         }
     }
 }

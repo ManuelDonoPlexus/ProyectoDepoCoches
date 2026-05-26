@@ -8,9 +8,9 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface ICarDriverRepository
 {
-    Task<CarDriver?> InsertCarDriver(CarDriver? newCarDriver);
     Task<CarDriver?> GetCarDriver(int CarDriverId);
     Task<IEnumerable<CarDriver>> GetCarDrivers();
+    Task<CarDriver?> InsertCarDriver(CarDriver? newCarDriver);
     Task DeleteCarDriver(int CarDriverId);
     Task<CarDriver?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver);
     bool IfCarDriverExists(int CarDriverId);

@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class OwnerController : ControllerBase
     {
-        private readonly IOwnerRepository _ownerRepo;
+        private readonly OwnerService _ownerService;
 
-        public OwnerController(IOwnerRepository ownerRepo)
+        public OwnerController(OwnerService ownerService)
         {
-            _ownerRepo = ownerRepo;
+            _ownerService = ownerService;
         }
 
         // GET: api/Owner
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Owner>>> GetAllOwners()
         {
-            var owners = Ok(await _ownerRepo.GetOwners());
+            var owners = Ok(await _ownerService.GetOwners());
             return Ok(owners);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{OwnerId}")]
         public async Task<ActionResult<Owner?>> GetSpecificOwner(int OwnerId)
         {
-            var owner = Ok(await _ownerRepo.GetOwner(OwnerId));
+            var owner = Ok(await _ownerService.GetOwner(OwnerId));
             if (owner == null) { return NotFound(); }
             return Ok(owner);
         }
@@ -45,7 +46,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Owner?>> CreateOwner(Owner? owner)
         {
-            Owner? newowner = await _ownerRepo.InsertOwner(owner);
+            Owner? newowner = await _ownerService.InsertOwner(owner);
             if (newowner != null) { return await GetSpecificOwner(newowner.Id); }
             else { return BadRequest(); }
         }
@@ -54,7 +55,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{OwnerId}")]
         public async Task<IActionResult> ModifyOwner(int OwnerId, Owner newOwner)
         {
-            Owner? result = await _ownerRepo.UpdateOwner(OwnerId, newOwner);
+            Owner? result = await _ownerService.UpdateOwner(OwnerId, newOwner);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -63,9 +64,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{OwnerId}")]
         public async Task<IActionResult> DeleteOwner(int OwnerId)
         {
-            var owner = await _ownerRepo.GetOwner(OwnerId);
+            var owner = await _ownerService.GetOwner(OwnerId);
             if (owner == null) { return NotFound(); }
-            await _ownerRepo.DeleteOwner(OwnerId);
+            await _ownerService.DeleteOwner(OwnerId);
             return NoContent();
         }
     }

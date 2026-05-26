@@ -8,12 +8,12 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IMakeRepository
 {
-    Task<Make?> InsertMake(Make? Owner);
-    Task<Make?> GetMake(int OwnerId);
+    Task<Make?> InsertMake(Make? newMake);
+    Task<Make?> GetMake(int MakeId);
     Task<IEnumerable<Make>> GetMakes();
-    Task DeleteMake(int OwnerId);
-    Task<Make?> UpdateMake(int OwnerId, Make newOwner);
-    bool IfMakeExists(int OwnerId);
+    Task DeleteMake(int MakeId);
+    Task<Make?> UpdateMake(int MakeId, Make newMake);
+    bool IfMakeExists(int MakeId);
 }
 
 
@@ -42,11 +42,11 @@ public class MakeRepository : IMakeRepository
                 .FirstOrDefaultAsync(m => m.Id == MakeId);
     }
 
-    public async Task<Make?> InsertMake(Make? Make)
+    public async Task<Make?> InsertMake(Make? newMake)
     {
-        if (Make != null)
+        if (newMake != null)
         {
-            EntityEntry<Make> make = _cardepocontext.Makes.Add(Make);
+            EntityEntry<Make> make = _cardepocontext.Makes.Add(newMake);
             await _cardepocontext.SaveChangesAsync();
             return make.Entity;
         }

@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class MakeController : ControllerBase
     {
-        private readonly IMakeRepository _makeRepo;
+        private readonly MakeService _makeService;
 
-        public MakeController(IMakeRepository makeRepo)
+        public MakeController(MakeService makeService)
         {
-            _makeRepo = makeRepo;
+            _makeService = makeService;
         }
 
         // GET: api/Make
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Make>>> GetAllMakes()
         {
-            var makes = Ok(await _makeRepo.GetMakes());
+            var makes = Ok(await _makeService.GetMakes());
             return Ok(makes);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{MakeId}")]
         public async Task<ActionResult<Make?>> GetSpecificMake(int MakeId)
         {
-            var make = await _makeRepo.GetMake(MakeId);
+            var make = await _makeService.GetMake(MakeId);
             if (make == null){return NotFound();}
 
             return Ok(make);
@@ -46,7 +47,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Make?>> CreateMake(Make? make)
         {
-            Make? newmake = await _makeRepo.InsertMake(make);
+            Make? newmake = await _makeService.InsertMake(make);
             if (newmake != null){return await GetSpecificMake(newmake.Id);}
             else { return BadRequest(); }
         }
@@ -55,7 +56,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{MakeId}")]
         public async Task<IActionResult> ModifyMake(int MakeId, Make newMake)
         {
-            Make? result = await _makeRepo.UpdateMake(MakeId, newMake);
+            Make? result = await _makeService.UpdateMake(MakeId, newMake);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -64,9 +65,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{MakeId}")]
         public async Task<IActionResult> DeleteMake(int MakeId)
         {
-            var make = await _makeRepo.GetMake(MakeId);
+            var make = await _makeService.GetMake(MakeId);
             if (make == null) { return NotFound(); }
-            await _makeRepo.DeleteMake(MakeId);
+            await _makeService.DeleteMake(MakeId);
             return NoContent();
         }
 

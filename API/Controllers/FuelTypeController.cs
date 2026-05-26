@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class FuelTypeController : ControllerBase
     {
-        private readonly IFuelTypeRepository _fueltypeRepo;
+        private readonly FuelTypeService _fueltypeService;
 
-        public FuelTypeController(IFuelTypeRepository fueltypeRepo)
+        public FuelTypeController(FuelTypeService fueltypeService)
         {
-            _fueltypeRepo = fueltypeRepo;
+            _fueltypeService = fueltypeService;
         }
 
         // GET: api/FuelType
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FuelType>>> GetAllFuelTypes()
         {
-            var fuels = Ok(await _fueltypeRepo.GetFuelTypes());
+            var fuels = Ok(await _fueltypeService.GetFuelTypes());
             return Ok(fuels);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{FuelId}")]
         public async Task<ActionResult<FuelType?>> GetSpecificFuelType(int FuelId)
         {
-            var fuel = Ok(await _fueltypeRepo.GetFuelTypes());
+            var fuel = Ok(await _fueltypeService.GetFuelTypes());
             if (fuel == null) { return NotFound(); }
             return Ok(fuel);
         }
@@ -45,7 +46,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<FuelType?>> CreateFuelType(FuelType? fuelType)
         {
-            FuelType? newFuel = await _fueltypeRepo.InsertFuelType(fuelType);
+            FuelType? newFuel = await _fueltypeService.InsertFuelType(fuelType);
             if (newFuel != null) { return await GetSpecificFuelType(newFuel.Id); }
             else { return BadRequest(); }
         }
@@ -54,7 +55,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{FuelId}")]
         public async Task<IActionResult> ModifyFuelType(int FuelId, FuelType newFuelType)
         {
-            FuelType? result = await _fueltypeRepo.UpdateFuelType(FuelId, newFuelType);
+            FuelType? result = await _fueltypeService.UpdateFuelType(FuelId, newFuelType);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -63,9 +64,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{FuelId}")]
         public async Task<IActionResult> DeleteFuelType(int FuelId)
         {
-            var fuel = _fueltypeRepo.GetFuelType(FuelId);
+            var fuel = _fueltypeService.GetFuelType(FuelId);
             if (fuel == null) { return NotFound(); }
-            await _fueltypeRepo.DeleteFuelType(FuelId);
+            await _fueltypeService.DeleteFuelType(FuelId);
             return NoContent();
         }
     }

@@ -8,7 +8,7 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IFineRepository
 {
-    Task<Fine?> InsertFine(Fine? fine);
+    Task<Fine?> InsertFine(Fine? newFine);
     Task<Fine?> GetFine(int FineId);
     Task<IEnumerable<Fine>> GetFines();
     Task DeleteFine(int FineId);
@@ -43,11 +43,11 @@ public class FineRepository : IFineRepository
                 .FirstOrDefaultAsync(f => f.Id == FineId);
     }
 
-    public async Task<Fine?> InsertFine(Fine? Fine)
+    public async Task<Fine?> InsertFine(Fine? newFine)
     {
-        if (Fine != null)
+        if (newFine != null)
         {
-            EntityEntry<Fine> fine = _cardepocontext.Fines.Add(Fine);
+            EntityEntry<Fine> fine = _cardepocontext.Fines.Add(newFine);
             await _cardepocontext.SaveChangesAsync();
             return fine.Entity;
         }

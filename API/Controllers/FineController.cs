@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class FineController : ControllerBase
     {
-        private readonly IFineRepository _fineRepository;
+        private readonly FineService _fineService;
 
-        public FineController(IFineRepository fineRepository)
+        public FineController(FineService fineService)
         {
-            _fineRepository = fineRepository;
+            _fineService = fineService;
         }
 
         // GET: api/Fine
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Fine>>> GetAllFines()
         {
-            var fines = Ok(await _fineRepository.GetFines());
+            var fines = Ok(await _fineService.GetFines());
             return Ok(fines);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{FineId}")]
         public async Task<ActionResult<Fine?>> GetSpecificFine(int FineId)
         {
-            var fine = Ok(await _fineRepository.GetFine(FineId));
+            var fine = Ok(await _fineService.GetFine(FineId));
             return Ok(fine);
         }
 
@@ -44,7 +45,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Fine?>> CreateFine(Fine? fine)
         {
-            Fine? newFine = await _fineRepository.InsertFine(fine);
+            Fine? newFine = await _fineService.InsertFine(fine);
             if (newFine != null) { return await GetSpecificFine(newFine.Id); }
             else { return BadRequest(); }
         }
@@ -53,7 +54,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{FineId}")]
         public async Task<IActionResult> ModifyFine(int FineId, Fine newFine)
         {
-            Fine? result = await _fineRepository.UpdateFine(FineId, newFine);
+            Fine? result = await _fineService.UpdateFine(FineId, newFine);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -62,10 +63,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{FineId}")]
         public async Task<IActionResult> DeleteFine(int FineId)
         {
-            var fine = await _fineRepository.GetFine(FineId);
+            var fine = await _fineService.GetFine(FineId);
             if (fine == null) { return NotFound(); }
-
-            await _fineRepository.DeleteFine(FineId);
+            await _fineService.DeleteFine(FineId);
             return NoContent();
         }
     }

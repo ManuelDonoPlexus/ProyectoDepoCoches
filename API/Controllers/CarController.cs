@@ -9,6 +9,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
 
 namespace CarDepo.API.Controllers
 {
@@ -17,18 +18,18 @@ namespace CarDepo.API.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly ICarRepository _carRepo;
+        private readonly CarService _carService;
 
-        public CarController(ICarRepository carRepo)
+        public CarController(CarService carService)
         {
-            _carRepo = carRepo;
+            _carService = carService;
         }
 
         // GET: api/Car
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Car>>> GetAllCars()
         {
-            var cars = Ok(await _carRepo.GetCars());
+            var cars = Ok(await _carService.GetCars());
             return Ok(cars);
         }
 
@@ -36,7 +37,7 @@ namespace CarDepo.API.Controllers
         [HttpGet("{CarId}")]
         public async Task<ActionResult<Car?>> GetSpecificCar(int CarId)
         {
-            var car = Ok(await _carRepo.GetCar(CarId));
+            var car = Ok(await _carService.GetCar(CarId));
             if (car == null) { return NotFound(); }
             return Ok(car);
         }
@@ -45,7 +46,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Car?>?> CreateCar(Car? car)
         {
-            Car? newcar = await _carRepo.InsertCar(car);
+            Car? newcar = await _carService.InsertCar(car);
             if (newcar != null) { return await GetSpecificCar(newcar.Id); }
             else { return BadRequest(); }
         }
@@ -54,7 +55,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{CarId}")]
         public async Task<IActionResult> ModifyCar(int CarId, Car newCar)
         {
-            Car? result = await _carRepo.UpdateCar(CarId, newCar);
+            Car? result = await _carService.UpdateCar(CarId, newCar);
             if(result != null) { return NoContent(); }
             else { return BadRequest(); }
         }
@@ -63,7 +64,9 @@ namespace CarDepo.API.Controllers
         [HttpDelete("{CarId}")]
         public async Task<IActionResult> DeleteCar(int CarId)
         {
-            await _carRepo.DeleteCar(CarId);
+            var car = await _carService.GetCar(CarId);
+            if (car == null) { return NotFound(); }
+            await _carService.DeleteCar(CarId);
             return NoContent();
         }
     }

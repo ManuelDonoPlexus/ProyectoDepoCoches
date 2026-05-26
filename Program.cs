@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using CarDepo.API.Utils;
+using CarDepo.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -12,6 +13,9 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<CarDepoContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("CarDepoContext")));
 
+// REPOSITORIOS
+
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ICarRepository, CarRepository>();
 builder.Services.AddScoped<ICarDriverRepository, CarDriverRepository>();
 builder.Services.AddScoped<IColorRepository, ColorRepository>();
@@ -21,7 +25,20 @@ builder.Services.AddScoped<IFuelTypeRepository, FuelTypeRepository>();
 builder.Services.AddScoped<IMakeRepository, MakeRepository>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 builder.Services.AddScoped<IStadisticsRepository, StadisticsRepository>();
+
+// SERVICIOS
+
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AuthUtilities>();
+builder.Services.AddScoped<CarService>();
+builder.Services.AddScoped<CarDriverService>();
+builder.Services.AddScoped<ColorService>();
+builder.Services.AddScoped<DriverService>();
+builder.Services.AddScoped<FineService>();
+builder.Services.AddScoped<FuelTypeService>();
+builder.Services.AddScoped<MakeService>();
+builder.Services.AddScoped<OwnerService>();
+builder.Services.AddScoped<StadisticsService>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
