@@ -79,6 +79,7 @@ function initialize() {
     document.getElementById("cardrivers").style.display = "none";
 
     document.getElementById("cardetailView").style.display = "none";
+    document.getElementById("cardriverdetailView").style.display = "none";
     document.getElementById("makedetailView").style.display = "none";
     document.getElementById("ownerdetailView").style.display = "none";
     document.getElementById("driverdetailView").style.display = "none";
@@ -1153,8 +1154,8 @@ function addCarDriver() {
 
         const newCarDriver = {
             dateDrive: addCDDate.value.trim(),
-            car: CDCar.id,
-            driver: CDDriver.id
+            carCDId: CDCar.id,
+            driverCDId: CDDriver.id
         }
 
         addCDDate.value = "";
@@ -1174,7 +1175,7 @@ function addCarDriver() {
         }
 
         fetch(baseurl + uriCarDriver, requestOptions)
-            .then(() => displayTable('driversTBody'))
+            .then(() => displayTable('cardriversTBody'))
             .then(() => showView('driverview'))
     } catch (error) {
         console.error("Unable to add car driver to database. ", error)
@@ -1836,6 +1837,24 @@ function enableEditCar(id) {
     enableBton.hidden = true;
 
     let saveBton = document.getElementById("saveEditCar");
+    saveBton.setAttribute("onclick", `saveEditCar(${id})`);
+    saveBton.hidden = false;
+}
+
+function enableEditCarDriver(id) {
+    var name = document.getElementById("nameCarDriver");
+    var date = document.getElementById("dateCarDriver");
+    var license = document.getElementById("licenseCarDriver");
+
+    name.disabled = false;
+    date.disabled = false;
+    license.disabled = false;
+
+    let enableBton = document.getElementById("enableEditCarDriver");
+    enableBton.hidden = true;
+
+    let saveBton = document.getElementById("saveEditCarDriver");
+    saveBton.setAttribute("onclick", `saveEditCarDriver(${id})`);
     saveBton.hidden = false;
 }
 
@@ -1854,6 +1873,7 @@ function enableEditMake(id) {
     enableBton.hidden = true;
 
     let saveBton = document.getElementById("saveEditMake");
+    saveBton.setAttribute("onclick", `saveEditMake(${id})`);
     saveBton.hidden = false;
 }
 
@@ -1874,6 +1894,7 @@ function enableEditOwner(id) {
     enableBton.hidden = true;
 
     let saveBton = document.getElementById("saveEditOwner");
+    saveBton.setAttribute("onclick", `saveEditOwner(${id})`);
     saveBton.hidden = false;
 }
 
@@ -1894,6 +1915,7 @@ function enableEditDriver(id) {
     enableBton.hidden = true;
 
     let saveBton = document.getElementById("saveEditDriver");
+    saveBton.setAttribute("onclick", `saveEditDriver(${id})`);
     saveBton.hidden = false;
 }
 
@@ -1916,12 +1938,13 @@ function enableEditFine(id) {
     enableBton.hidden = true;
 
     let saveBton = document.getElementById("saveEditFine");
+    saveBton.setAttribute("onclick", `saveEditFine(${id})`);
     saveBton.hidden = false;
 }
 
 // Save changes from Edit
 
-function saveEditCar() {
+function saveEditCar(id) {
     try {
         event.preventDefault();
         var editLicense = document.getElementById("licenseCar");
@@ -1954,19 +1977,57 @@ function saveEditCar() {
             body: JSON.stringify(newcar)
         }
 
-        fetch(baseurl + uriCar, requestOptions)
+        fetch(baseurl + uriCar + '/' + id, requestOptions)
+            .then(() => displayTable('carsTBody'))
+            .then(() => showView('carview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 }
 
-function saveEditMake() {
+function saveEditCarDriver(id) {
+    try {
+        event.preventDefault();
+        var nameCarDriver = document.getElementById("nameCarDriver").value.trim();
+        var dateCarDriver = document.getElementById("dateCarDriver").value.trim();
+        var licenseCarDriver = document.getElementById("licenseCarDriver").value.trim();
+
+        var editDriverCarDriver = getSpecificCar(nameCarDriver, "name");
+        var editCarDriverCar = getSpecificDriver(licenseCarDriver,"license")
+        editMake = getSpecificMake(editMakeName, "name");
+
+        const newcardriver = {
+            carCDId: editCarDriverCar.id,
+            driverCDId: editDriverCarDriver.id,
+            dateDrive: dateCarDriver
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newcardriver)
+        }
+
+        fetch(baseurl + uriCarDriver + '/' + id, requestOptions)
+            .then(() => displayTable('carsTBody'))
+            .then(() => showView('carview'))
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
+    }
+}
+
+function saveEditMake(id) {
     try {
         event.preventDefault();
         var editName = document.getElementById("nameMake");
         var editHorsePower = document.getElementById("horsepowerMake");
         var editPrice = document.getElementById("priceMake");
-
         var editFuelName = document.getElementById("fueltypeMake").value.trim();
         editFuel = getSpecificFuel(editFuelName, "name")
 
@@ -1990,13 +2051,15 @@ function saveEditMake() {
             body: JSON.stringify(newmake)
         }
 
-        fetch(baseurl + uriMake, requestOptions)
+        fetch(baseurl + uriMake + '/' + id, requestOptions)
+            .then(() => displayTable('makesTBody'))
+            .then(() => showView('makeview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 }
 
-function saveEditOwner() {
+function saveEditOwner(id) {
     try {
         event.preventDefault();
         var editName = document.getElementById("nameOwner");
@@ -2025,13 +2088,15 @@ function saveEditOwner() {
             body: JSON.stringify(newowner)
         }
 
-        fetch(baseurl + uriOwner, requestOptions)
+        fetch(baseurl + uriOwner + '/' + id, requestOptions)
+            .then(() => displayTable('ownersTBody'))
+            .then(() => showView('ownerview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 }
 
-function saveEditDriver() {
+function saveEditDriver(id) {
     try {
         event.preventDefault();
         var editName = document.getElementById("nameDriver");
@@ -2062,14 +2127,16 @@ function saveEditDriver() {
             body: JSON.stringify(newdriver)
         }
 
-        fetch(baseurl + uriDriver, requestOptions)
+        fetch(baseurl + uriDriver + '/' + id, requestOptions)
+            .then(() => displayTable('driversTBody'))
+            .then(() => showView('driverview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }
 
 }
 
-function saveEditFine() {
+function saveEditFine(id) {
     try {
         event.preventDefault();
         var editPrice = document.getElementById("priceFine");
@@ -2107,7 +2174,9 @@ function saveEditFine() {
             body: JSON.stringify(newfine)
         }
 
-        fetch(baseurl + uriFine, requestOptions)
+        fetch(baseurl + uriFine + '/' + id, requestOptions)
+            .then(() => displayTable('finesTBody'))
+            .then(() => showView('fineview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }

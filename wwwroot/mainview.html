@@ -314,6 +314,21 @@
             </div>
         </div>
 
+        <div class="detailView" id="cardriverdetailView">
+            <h1 class="title">Editar conductor de la Base de datos</h1>
+            <div class="editform">
+                <input type="text" id="nameCarDriver" disabled="true">
+                <input type="date" id="dateCarDriver" disabled="true">
+                <input type="text" id="licenseCarDriver" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteCarDriver">Borrar</button>
+                <button class="enableditBton" id="enableEditCarDriver">Editar</button>
+                <button class="saveBton" id="saveEditCarDriver" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+            </div>
+        </div>
+
         <div class="detailView" id="makedetailView">
             <h1 class="title">Editar modelo de la Base de datos</h1>
             <div class="editform">
@@ -327,23 +342,6 @@
                 <button class="enableditBton" id="enableEditMake">Editar</button>
                 <button class="saveBton" id="saveEditMake" hidden>Guardar Cambios</button>
                 <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
-            </div>
-        </div>
-
-        <div class="detailView" id="driverdetailView">
-            <h1 class="title">Editar conductor de la Base de datos</h1>
-            <div class="editform">
-                <input type="text" id="nameDriver" disabled="true">
-                <input type="text" id="dniDriver" disabled="true">
-                <input type="email" id="emailaddrDriver" disabled="true">
-                <input type="tel" id="phonenumberDriver" disabled="true">
-                <input list="driverList" id="ownerDriver" disabled="true">
-            </div>
-            <div class="view-info">
-                <button class="editDeleteBton" id="deleteDriver">Borrar</button>
-                <button class="enableditBton" id="enableEditDriver">Editar</button>
-                <button class="saveBton" id="saveEditDriver" hidden>Guardar Cambios</button>
-                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
             </div>
         </div>
 
@@ -361,6 +359,23 @@
                 <button class="enableditBton" id="enableEditOwner">Editar</button>
                 <button class="saveBton" id="saveOwner" onclick="" hidden>Guardar Cambios</button>
                 <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="detailView" id="driverdetailView">
+            <h1 class="title">Editar conductor de la Base de datos</h1>
+            <div class="editform">
+                <input type="text" id="nameDriver" disabled="true">
+                <input type="text" id="dniDriver" disabled="true">
+                <input type="email" id="emailaddrDriver" disabled="true">
+                <input type="tel" id="phonenumberDriver" disabled="true">
+                <input list="driverList" id="ownerDriver" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteDriver">Borrar</button>
+                <button class="enableditBton" id="enableEditDriver">Editar</button>
+                <button class="saveBton" id="saveEditDriver" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
             </div>
         </div>
 
