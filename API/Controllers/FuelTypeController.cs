@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         public async Task<IActionResult> ModifyFuelType(int FuelId, FuelType newFuelType)
         {
             FuelType? result = await _fueltypeService.UpdateFuelType(FuelId, newFuelType);
-            if(result != null) { return NoContent(); }
+            if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }
 

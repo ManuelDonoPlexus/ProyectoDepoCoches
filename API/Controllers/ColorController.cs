@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         public async Task<IActionResult> ModifyColor(int ColorId, Color newColor)
         {
             Color? result = await _colorSevice.UpdateColor(ColorId, newColor);
-            if(result != null) { return NoContent(); }
+            if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }
 

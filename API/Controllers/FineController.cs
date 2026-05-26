@@ -47,7 +47,7 @@ namespace CarDepo.API.Controllers
         public async Task<IActionResult> ModifyFine(int FineId, Fine newFine)
         {
             Fine? result = await _fineService.UpdateFine(FineId, newFine);
-            if(result != null) { return NoContent(); }
+            if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }
 

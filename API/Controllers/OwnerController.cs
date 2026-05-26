@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         public async Task<IActionResult> ModifyOwner(int OwnerId, Owner newOwner)
         {
             Owner? result = await _ownerService.UpdateOwner(OwnerId, newOwner);
-            if(result != null) { return NoContent(); }
+            if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }
 

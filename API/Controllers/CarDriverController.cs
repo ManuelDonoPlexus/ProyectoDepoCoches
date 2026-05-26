@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         public async Task<IActionResult> ModifyCarDriver(int CarDriverId, CarDriver newCarDriver)
         {
             CarDriver? result = await _cardriverService.UpdateCarDriver(CarDriverId, newCarDriver);
-            if(result != null) { return NoContent(); }
+            if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }
 

@@ -1696,9 +1696,11 @@ function carShowEdit(id) {
 
     let enableBton = document.getElementById("enableEditCar");
     enableBton.setAttribute("onclick", `enableEditCar(${id})`);
+    enableBton.hidden = false;
 
     let saveBton = document.getElementById("saveEditCar");
     saveBton.setAttribute("onclick", `saveEditCar(${id})`);
+    saveBton.hidden = true;
 }
 
 function driverShowEdit(id) {
@@ -1725,9 +1727,11 @@ function driverShowEdit(id) {
 
     let enableBton = document.getElementById("enableEditDriver");
     enableBton.setAttribute("onclick", `enableEditDriver(${id})`);
+    enableBton.hidden = false;
 
     let saveBton = document.getElementById("saveEditDriver");
     saveBton.setAttribute("onclick", `saveEditDriver(${id})`);
+    saveBton.hidden = true;
 }
 
 function fineShowEdit(id) {
@@ -1758,9 +1762,11 @@ function fineShowEdit(id) {
 
     let enableBton = document.getElementById("enableEditFine");
     enableBton.setAttribute("onclick", `enableEditFine(${id})`);
+    enableBton.hidden = false;
 
     let saveBton = document.getElementById("saveEditFine");
     saveBton.setAttribute("onclick", `saveEditFine(${id})`);
+    saveBton.hidden = true;
 }
 
 function makeShowEdit(id) {
@@ -1784,9 +1790,11 @@ function makeShowEdit(id) {
 
     let enableBton = document.getElementById("enableEditMake");
     enableBton.setAttribute("onclick", `enableEditMake(${id})`);
+    enableBton.hidden = false;
 
     let saveBton = document.getElementById("saveEditMake");
     saveBton.setAttribute("onclick", `saveEditMake(${id})`);
+    saveBton.hidden = true;
 }
 
 function ownerShowEdit(id) {
@@ -1813,9 +1821,11 @@ function ownerShowEdit(id) {
 
     let enableBton = document.getElementById("enableEditOwner");
     enableBton.setAttribute("onclick", `enableEditOwner(${id})`);
+    enableBton.hidden = false;
 
     let saveBton = document.getElementById("saveEditOwner");
     saveBton.setAttribute("onclick", `saveEditOwner(${id})`);
+    saveBton.hidden = true;
 }
 
 // Enable Editform
@@ -1947,19 +1957,20 @@ function enableEditFine(id) {
 function saveEditCar(id) {
     try {
         event.preventDefault();
-        var editLicense = document.getElementById("licenseCar");
-        var editKms = document.getElementById("kmsCar");
+        var editLicense = document.getElementById("licenseCar").value.trim();
+        var editKms = document.getElementById("kmsCar").value.trim();
 
         var editColorName = document.getElementById("colorCar").value.trim();
         var editOwnerName = document.getElementById("ownerCar").value.trim();
         var editMakeName = document.getElementById("makeCar").value.trim();
+
         editColor = getSpecificColor(editColorName, "name");
         editOwner = getSpecificOwner(editOwnerName, "name");
         editMake = getSpecificMake(editMakeName, "name");
 
         const newcar = {
-            license: editLicense.value.trim(),
-            kms: editKms.value.trim(),
+            license: editLicense,
+            kms: editKms,
             colorId: editColor.id,
             ownerId: editOwner.id,
             makeId: editMake.id
@@ -2025,17 +2036,17 @@ function saveEditCarDriver(id) {
 function saveEditMake(id) {
     try {
         event.preventDefault();
-        var editName = document.getElementById("nameMake");
-        var editHorsePower = document.getElementById("horsepowerMake");
-        var editPrice = document.getElementById("priceMake");
+        var editName = document.getElementById("nameMake").value.trim();
+        var editHorsePower = document.getElementById("horsepowerMake").value.trim();
+        var editPrice = document.getElementById("priceMake").value.trim();
         var editFuelName = document.getElementById("fueltypeMake").value.trim();
         var editFuel = getSpecificFuel(editFuelName, "name")
 
 
         const newmake = {
-            name: editName.value.trim(),
-            horsePower: editHorsePower.value.trim(),
-            price: editPrice.value.trim(),
+            name: editName,
+            horsePower: editHorsePower,
+            price: editPrice,
             fuelTypeId: editFuel.id
         }
 
@@ -2062,18 +2073,18 @@ function saveEditMake(id) {
 function saveEditOwner(id) {
     try {
         event.preventDefault();
-        var editName = document.getElementById("nameOwner");
-        var editNif = document.getElementById("nifOwner");
-        var editPhone = document.getElementById("phonenumberOwner");
-        var editDate = document.getElementById("datentryOwner");
-        var editEmail = document.getElementById("emailaddrOwner");
+        var editName = document.getElementById("nameOwner").value.trim();
+        var editNif = document.getElementById("nifOwner").value.trim();
+        var editPhone = document.getElementById("phonenumberOwner").value.trim();
+        var editDate = document.getElementById("datentryOwner").value.trim();
+        var editEmail = document.getElementById("emailaddrOwner").value.trim();
 
         const newowner = {
-            name: editName.value.trim(),
-            nif: editNif.value.trim(),
-            phoneNumber: editPhone.value.trim(),
-            dateEntry: editDate.value.trim(),
-            emailAddr: editEmail.value.trim()
+            name: editName,
+            nif: editNif,
+            phoneNumber: editPhone,
+            dateEntry: editDate,
+            emailAddr: editEmail
         }
 
         var myHeaders = new Headers();
@@ -2099,19 +2110,19 @@ function saveEditOwner(id) {
 function saveEditDriver(id) {
     try {
         event.preventDefault();
-        var editName = document.getElementById("nameDriver");
-        var editDni = document.getElementById("dniDriver");
-        var editEmail = document.getElementById("emailaddrDriver");
-        var editPhone = document.getElementById("phonenumberDriver");
+        var editName = document.getElementById("nameDriver").value.trim();
+        var editDni = document.getElementById("dniDriver").value.trim();
+        var editEmail = document.getElementById("emailaddrDriver").value.trim();
+        var editPhone = document.getElementById("phonenumberDriver").value.trim();
 
         var editOwnerName = document.getElementById("ownerDriver").value.trim();
         var editOwner = getSpecificOwner(editOwnerName, "name")
 
         const newdriver = {
-            name: editName.value.trim(),
-            dni: editDni.value.trim(),
-            emailAddr: editEmail.value.trim(),
-            phoneNumber: editPhone.value.trim(),
+            name: editName,
+            dni: editDni,
+            emailAddr: editEmail,
+            phoneNumber: editPhone,
             ownerId: editOwner.id
         }
 
@@ -2139,10 +2150,10 @@ function saveEditDriver(id) {
 function saveEditFine(id) {
     try {
         event.preventDefault();
-        var editPrice = document.getElementById("priceFine");
-        var editPayed = document.getElementById("payedFine");
-        var editDescription = document.getElementById("descriptionFine");
-        var editDate = document.getElementById("dateFine");
+        var editPrice = document.getElementById("priceFine").value.trim();
+        var editPayed = document.getElementById("payedFine").value.trim();
+        var editDescription = document.getElementById("descriptionFine").value.trim();
+        var editDate = document.getElementById("dateFine").value.trim();
 
         var editOwnerName = document.getElementById("ownerFine").value.trim();
         var editCarName = document.getElementById("carFine").value.trim();
@@ -2154,9 +2165,9 @@ function saveEditFine(id) {
         else { payed = false }
 
         const newfine = {
-            price: editPrice.value.trim(),
-            date: editDate.value.trim(),
-            description: editDescription.value.trim(),
+            price: editPrice,
+            date: editDate,
+            description: editDescription,
             payed: payed,
             ownerId: editOwner.id,
             carId: editCar.id,

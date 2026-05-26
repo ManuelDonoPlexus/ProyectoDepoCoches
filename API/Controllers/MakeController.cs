@@ -49,7 +49,7 @@ namespace CarDepo.API.Controllers
         public async Task<IActionResult> ModifyMake(int MakeId, Make newMake)
         {
             Make? result = await _makeService.UpdateMake(MakeId, newMake);
-            if(result != null) { return NoContent(); }
+            if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }
 
