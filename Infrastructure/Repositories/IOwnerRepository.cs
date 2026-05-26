@@ -1,6 +1,5 @@
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

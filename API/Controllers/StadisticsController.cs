@@ -1,17 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CarDepo.API.Models;
-using CarDepo.Infrastructure.Data;
-using CarDepo.Infrastructure.Repositories;
-using CarDepo.API.DTOs;
-using CarDepo.API.Utils;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections;
 using CarDepo.Application.Services;
 

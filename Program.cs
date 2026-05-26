@@ -4,7 +4,7 @@ using CarDepo.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using CarDepo.API.Utils;
+using CarDepo.Application.Utils;
 using CarDepo.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,5 +1,4 @@
 using CarDepo.API.Models;
-using CarDepo.API.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarDepo.Infrastructure.Data

@@ -5,7 +5,7 @@ using System.Text;
 using CarDepo.API.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CarDepo.API.Utils;
+namespace CarDepo.Application.Utils;
 
 public class AuthUtilities
 {

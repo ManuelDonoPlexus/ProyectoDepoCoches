@@ -1,9 +1,7 @@
 using CarDepo.API.DTOs;
 using CarDepo.API.Models;
-using CarDepo.API.Utils;
+using CarDepo.Application.Utils;
 using CarDepo.Infrastructure.Data;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 public interface IAuthRepository

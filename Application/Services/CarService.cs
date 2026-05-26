@@ -1,6 +1,5 @@
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace CarDepo.Application.Services;
 
