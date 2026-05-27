@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Make;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
@@ -17,17 +18,17 @@ public class MakeService : IMakeRepository
         return await _makerepo.GetMakes();
     }
 
-    public async Task<Make?> GetMake(int MakeId)
+    public async Task<MakeGetDTO?> GetMake(int MakeId)
     {
         return await _makerepo.GetMake(MakeId);
     }
 
-    public async Task<Make?> InsertMake(Make? newMake)
+    public async Task<MakeInsertDTO?> InsertMake(Make? newMake)
     {
         return await _makerepo.InsertMake(newMake);
     }
 
-    public async Task<Make?> UpdateMake(int MakeId, Make newMake)
+    public async Task<MakeUpdateDTO?> UpdateMake(int MakeId, Make newMake)
     {
         return await _makerepo.UpdateMake(MakeId, newMake);
     }

@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Fine;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IFineRepository
 {
-    Task<Fine?> InsertFine(Fine? newFine);
-    Task<Fine?> GetFine(int FineId);
     Task<IEnumerable<Fine>> GetFines();
+    Task<FineGetDTO?> GetFine(int FineId);
+    Task<FineInsertDTO?> InsertFine(Fine? newFine);
+    Task<FineUpdateDTO?> UpdateFine(int FineId, Fine newFine);
     Task DeleteFine(int FineId);
-    Task<Fine?> UpdateFine(int FineId, Fine newFine);
     bool IfFineExists(int FineId);
 }
 
@@ -33,29 +34,59 @@ public class FineRepository : IFineRepository
                 .ToListAsync();
     }
 
-    public async Task<Fine?> GetFine(int FineId)
+    public async Task<FineGetDTO?> GetFine(int FineId)
     {
-        return await _cardepocontext.Fines
+        Fine? result = await _cardepocontext.Fines
                 .Include(f => f.Owner)
                 .Include(f => f.Car)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(f => f.Id == FineId);
+
+        if (result != null)
+        {
+            var dto = new FineGetDTO()
+            {
+                Id = result.Id,
+                Price = result.Price,
+                Payed = result.Payed,
+                Description = result.Description,
+                Date = result.Date,
+                OwnerId = result.OwnerId,
+                CarId = result.CarId
+            };
+
+            return dto;
+        }
+        else { return null; }
     }
 
-    public async Task<Fine?> InsertFine(Fine? newFine)
+    public async Task<FineInsertDTO?> InsertFine(Fine? newFine)
     {
         if (newFine != null)
         {
             EntityEntry<Fine> fine = _cardepocontext.Fines.Add(newFine);
             await _cardepocontext.SaveChangesAsync();
-            return fine.Entity;
+            Fine? result = fine.Entity;
+
+            var dto = new FineInsertDTO()
+            {
+                Id = result.Id,
+                Price = result.Price,
+                Payed = result.Payed,
+                Description = result.Description,
+                Date = result.Date,
+                OwnerId = result.OwnerId,
+                CarId = result.CarId
+            };
+
+            return dto;
         }
         else { return null; }
     }
 
-    public async Task<Fine?> UpdateFine(int FineId, Fine newFine)
+    public async Task<FineUpdateDTO?> UpdateFine(int FineId, Fine newFine)
     {
-        var result = await GetFine(FineId);
+        var result = await _cardepocontext.Fines.FindAsync(FineId);
 
         if (result != null)
         {
@@ -66,15 +97,27 @@ public class FineRepository : IFineRepository
             result.OwnerId = newFine.OwnerId;
             result.CarId = newFine.CarId;
             await _cardepocontext.SaveChangesAsync();
-            return result;
+
+            var dto = new FineUpdateDTO()
+            {
+                Id = result.Id,
+                Price = result.Price,
+                Payed = result.Payed,
+                Description = result.Description,
+                Date = result.Date,
+                OwnerId = result.OwnerId,
+                CarId = result.CarId
+            };
+
+            return dto;
         }
-        else { return null; }  
-        
+        else { return null; }
+
     }
 
     public async Task DeleteFine(int FineId)
     {
-        var result = await GetFine(FineId);
+        var result = await _cardepocontext.Fines.FindAsync(FineId);
         if (result != null)
         {
             _cardepocontext.Fines.Remove(result);

@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Color;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IColorRepository
 {
-    Task<Color?> InsertColor(Color? newColor);
-    Task<Color?> GetColor(int ColorId);
     Task<IEnumerable<Color>> GetColors();
+    Task<ColorGetDTO?> GetColor(int ColorId);
+    Task<ColorInsertDTO?> InsertColor(Color? newColor);
+    Task<ColorUpdateDTO?> UpdateColor(int ColorId, Color newColor);
     Task DeleteColor(int ColorId);
-    Task<Color?> UpdateColor(int ColorId, Color newColor);
     bool IfColorExists(int ColorId);
 }
 
@@ -31,41 +32,67 @@ public class ColorRepository : IColorRepository
                 .ToListAsync();
     }
 
-    public async Task<Color?> GetColor(int ColorId)
+    public async Task<ColorGetDTO?> GetColor(int ColorId)
     {
-        return await _cardepocontext.Colors
+        Color? result = await _cardepocontext.Colors
                 .AsNoTracking()
                 .FirstOrDefaultAsync(c => c.Id == ColorId);
+
+        if (result != null)
+        {
+            var dto = new ColorGetDTO()
+            {
+                Id = result.Id,
+                Name = result.Name
+            };
+            return dto;
+        }
+        else { return null; }
     }
 
-    public async Task<Color?> InsertColor(Color? newColor)
+    public async Task<ColorInsertDTO?> InsertColor(Color? newColor)
     {
         if (newColor != null)
         {
             EntityEntry<Color> color = _cardepocontext.Colors.Add(newColor);
             await _cardepocontext.SaveChangesAsync();
-            return color.Entity;
+            Color result = color.Entity;
+
+            var dto = new ColorInsertDTO()
+            {
+                Id = result.Id,
+                Name = result.Name
+            };
+            
+            return dto;
         }
         else { return null; }
 
     }
 
-    public async Task<Color?> UpdateColor(int ColorId, Color newColor)
+    public async Task<ColorUpdateDTO?> UpdateColor(int ColorId, Color newColor)
     {
-        var result = await GetColor(ColorId);
+        var result = await _cardepocontext.Colors.FindAsync(ColorId);
 
         if (result != null)
         {
             result.Name = newColor.Name;
             await _cardepocontext.SaveChangesAsync();
-            return result;
+
+            var dto = new ColorUpdateDTO()
+            {
+                Id = result.Id,
+                Name = result.Name
+            };
+            return dto;
+
         }
-        else { return null; }    
+        else { return null; }
     }
 
     public async Task DeleteColor(int ColorId)
     {
-        var result = await GetColor(ColorId);
+        var result = await _cardepocontext.Colors.FindAsync(ColorId);
         if (result != null)
         {
             _cardepocontext.Colors.Remove(result);

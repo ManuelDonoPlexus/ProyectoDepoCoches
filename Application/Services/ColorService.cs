@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Color;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
@@ -17,17 +18,17 @@ public class ColorService : IColorRepository
         return await _colorrepo.GetColors();
     }
 
-    public async Task<Color?> GetColor(int ColorId)
+    public async Task<ColorGetDTO?> GetColor(int ColorId)
     {
         return await _colorrepo.GetColor(ColorId);
     }
 
-    public async Task<Color?> InsertColor(Color? newColor)
+    public async Task<ColorInsertDTO?> InsertColor(Color? newColor)
     {
         return await _colorrepo.InsertColor(newColor);
     }
 
-    public async Task<Color?> UpdateColor(int ColorId, Color newColor)
+    public async Task<ColorUpdateDTO?> UpdateColor(int ColorId, Color newColor)
     {
         return await _colorrepo.UpdateColor(ColorId, newColor);
     }

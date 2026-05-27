@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Driver;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
@@ -18,17 +19,17 @@ public class DriverService : IDriverRepository
     }
 
 
-    public async Task<Driver?> GetDriver(int DriverId)
+    public async Task<DriverGetDTO?> GetDriver(int DriverId)
     {
         return await _driverrepo.GetDriver(DriverId);
     }
 
-    public async Task<Driver?> InsertDriver(Driver? newDriver)
+    public async Task<DriverInsertDTO?> InsertDriver(Driver? newDriver)
     {
         return await _driverrepo.InsertDriver(newDriver);
     }
 
-    public async Task<Driver?> UpdateDriver(int DriverId, Driver newDriver)
+    public async Task<DriverUpdateDTO?> UpdateDriver(int DriverId, Driver newDriver)
     {
         return await _driverrepo.UpdateDriver(DriverId, newDriver);
     }

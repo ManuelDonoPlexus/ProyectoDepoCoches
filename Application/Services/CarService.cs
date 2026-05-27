@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Car;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
@@ -17,17 +18,17 @@ public class CarService : ICarRepository
         return await _carrepo.GetCars();
     }
 
-    public async Task<Car?> GetCar(int CarId)
+    public async Task<CarGetDTO?> GetCar(int CarId)
     {
         return await _carrepo.GetCar(CarId);
     }
 
-    public async Task<Car?> InsertCar(Car? newCar)
+    public async Task<CarInsertDTO?> InsertCar(Car? newCar)
     {
         return await _carrepo.InsertCar(newCar);
     }
 
-    public async Task<Car?> UpdateCar(int CarId, Car newCar)
+    public async Task<CarUpdateDTO?> UpdateCar(int CarId, Car newCar)
     {
         return await _carrepo.UpdateCar(CarId, newCar);
     }

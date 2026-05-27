@@ -1998,11 +1998,8 @@ function saveEditCar(id) {
             license: editLicense,
             kms: editKms,
             colorId: editColor.id,
-            color: editColor,
             ownerId: editOwner.id,
-            owner: editOwner,
             makeId: editMake.id,
-            make: editMake
         }
 
         var myHeaders = new Headers();
@@ -2037,9 +2034,7 @@ function saveEditCarDriver(id) {
 
         const newcardriver = {
             carCDId: editCarDriverCar.id,
-            car: editCarDriverCar,
             driverCDId: editDriverCarDriver.id,
-            driver: editDriverCarDriver,
             dateDrive: dateCarDriver
         }
 
@@ -2080,7 +2075,6 @@ function saveEditDriver(id) {
             emailAddr: editEmail,
             phoneNumber: editPhone,
             ownerId: editOwner.id,
-            owner: editOwner
         }
 
         var myHeaders = new Headers();
@@ -2118,7 +2112,6 @@ function saveEditMake(id) {
             horsePower: editHorsePower,
             price: editPrice,
             fuelTypeId: editFuel.id,
-            fuelType: editFuel
         }
 
         var myHeaders = new Headers();
@@ -2201,9 +2194,7 @@ function saveEditFine(id) {
             description: editDescription,
             payed: payed,
             ownerId: editOwner.id,
-            owner: editOwner,
             carId: editCar.id,
-            car: editCar
         }
 
         var myHeaders = new Headers();

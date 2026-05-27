@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Car;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface ICarRepository
 {
-    Task<Car?> InsertCar(Car? newCar);
-    Task<Car?> GetCar(int CarId);
     Task<IEnumerable<Car>> GetCars();
+    Task<CarGetDTO?> GetCar(int CarId);
+    Task<CarInsertDTO?> InsertCar(Car? newCar);
+    Task<CarUpdateDTO?> UpdateCar(int CarId, Car newCar);
     Task DeleteCar(int CarId);
-    Task<Car?> UpdateCar(int CarId, Car newCar);
     bool IfCarExists(int CarId);
 }
 
@@ -34,30 +35,57 @@ public class CarRepository : ICarRepository
             .ToListAsync();
     }
 
-    public async Task<Car?> GetCar(int CarId)
+    public async Task<CarGetDTO?> GetCar(int CarId)
     {
-        return await _cardepocontext.Cars
+        Car? result = await _cardepocontext.Cars
             .Include(car => car.Color)
             .Include(car => car.Make)
             .Include(car => car.Owner)
             .AsNoTracking()
             .FirstOrDefaultAsync(car => car.Id == CarId);
+
+        if (result != null)
+        {
+            var dto = new CarGetDTO()
+            {
+                Id = result.Id,
+                License = result.License,
+                Kms = result.Kms,
+                ColorId = result.ColorId,
+                OwnerId = result.OwnerId,
+                MakeId = result.MakeId
+            };
+            return dto;
+        }
+        else { return null; }
     }
 
-    public async Task<Car?> InsertCar(Car? newCar)
+    public async Task<CarInsertDTO?> InsertCar(Car? newCar)
     {
         if (newCar != null)
         {
             EntityEntry<Car> car = _cardepocontext.Cars.Add(newCar);
             await _cardepocontext.SaveChangesAsync();
-            return car?.Entity;
+            Car result = car.Entity;
+
+            var dto = new CarInsertDTO()
+            {
+                Id = result.Id,
+                License = result.License,
+                Kms = result.Kms,
+                ColorId = result.ColorId,
+                OwnerId = result.OwnerId,
+                MakeId = result.MakeId
+            };
+            
+            return dto;
         }
         else { return null; }
     }
 
-    public async Task<Car?> UpdateCar(int CarId, Car newCar)
+    public async Task<CarUpdateDTO?> UpdateCar(int CarId, Car newCar)
     {
-        var result = await GetCar(CarId);
+        var result = await _cardepocontext.Cars.FindAsync(CarId);
 
         if (result != null)
         {
@@ -68,14 +96,25 @@ public class CarRepository : ICarRepository
             result.MakeId = newCar.MakeId;
 
             await _cardepocontext.SaveChangesAsync();
-            return result;
+
+            var dto = new CarUpdateDTO()
+            {
+                Id = result.Id,
+                License = result.License,
+                Kms = result.Kms,
+                ColorId = result.ColorId,
+                OwnerId = result.OwnerId,
+                MakeId = result.MakeId
+            };
+
+            return dto;
         }
         else { return null; }
     }
 
     public async Task DeleteCar(int CarId)
     {
-        var result = await GetCar(CarId);
+        var result = await _cardepocontext.Cars.FindAsync(CarId);
         if (result != null)
         {
             _cardepocontext.Cars.Remove(result);

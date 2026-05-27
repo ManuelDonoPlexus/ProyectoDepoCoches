@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using CarDepo.Application.Services;
+using CarDepo.API.DTOs.Color;
 
 namespace CarDepo.API.Controllers
 {
@@ -38,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Color?>> CreateColor(Color? color)
         {
-            Color? newcolor = await _colorSevice.InsertColor(color);
+            ColorInsertDTO? newcolor = await _colorSevice.InsertColor(color);
             if (newcolor != null){ return await GetSpecificColor(newcolor.Id); }
             else { return BadRequest(); }
         }
@@ -47,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{ColorId}")]
         public async Task<IActionResult> ModifyColor(int ColorId, Color newColor)
         {
-            Color? result = await _colorSevice.UpdateColor(ColorId, newColor);
+            ColorUpdateDTO? result = await _colorSevice.UpdateColor(ColorId, newColor);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

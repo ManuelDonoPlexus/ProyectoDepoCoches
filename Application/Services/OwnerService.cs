@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Owner;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
@@ -17,17 +18,17 @@ public class OwnerService : IOwnerRepository
         return await _ownerrepo.GetOwners();
     }
 
-    public async Task<Owner?> GetOwner(int OwnerId)
+    public async Task<OwnerGetDTO?> GetOwner(int OwnerId)
     {
         return await _ownerrepo.GetOwner(OwnerId);
     }
 
-    public async Task<Owner?> InsertOwner(Owner? newOwner)
+    public async Task<OwnerInsertDTO?> InsertOwner(Owner? newOwner)
     {
         return await _ownerrepo.InsertOwner(newOwner);
     }
 
-    public async Task<Owner?> UpdateOwner(int OwnerId, Owner newOwner)
+    public async Task<OwnerUpdateDTO?> UpdateOwner(int OwnerId, Owner newOwner)
     {
         return await _ownerrepo.UpdateOwner(OwnerId, newOwner);
     }

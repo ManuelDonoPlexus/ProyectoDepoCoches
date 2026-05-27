@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using CarDepo.Application.Services;
+using CarDepo.API.DTOs.FuelType;
 
 namespace CarDepo.API.Controllers
 {
@@ -38,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<FuelType?>> CreateFuelType(FuelType? fuelType)
         {
-            FuelType? newFuel = await _fueltypeService.InsertFuelType(fuelType);
+            FuelTypeInsertDTO? newFuel = await _fueltypeService.InsertFuelType(fuelType);
             if (newFuel != null) { return await GetSpecificFuelType(newFuel.Id); }
             else { return BadRequest(); }
         }
@@ -47,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{FuelId}")]
         public async Task<IActionResult> ModifyFuelType(int FuelId, FuelType newFuelType)
         {
-            FuelType? result = await _fueltypeService.UpdateFuelType(FuelId, newFuelType);
+            FuelTypeUpdateDTO? result = await _fueltypeService.UpdateFuelType(FuelId, newFuelType);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

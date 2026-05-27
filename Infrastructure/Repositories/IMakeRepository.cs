@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Make;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IMakeRepository
 {
-    Task<Make?> InsertMake(Make? newMake);
-    Task<Make?> GetMake(int MakeId);
     Task<IEnumerable<Make>> GetMakes();
+    Task<MakeGetDTO?> GetMake(int MakeId);
+    Task<MakeInsertDTO?> InsertMake(Make? newMake);
+    Task<MakeUpdateDTO?> UpdateMake(int MakeId, Make newMake);
     Task DeleteMake(int MakeId);
-    Task<Make?> UpdateMake(int MakeId, Make newMake);
     bool IfMakeExists(int MakeId);
 }
 
@@ -33,28 +34,54 @@ public class MakeRepository : IMakeRepository
                 .ToListAsync();
     }
 
-    public async Task<Make?> GetMake(int MakeId)
+    public async Task<MakeGetDTO?> GetMake(int MakeId)
     {
-        return await _cardepocontext.Makes
+        Make? result = await _cardepocontext.Makes
                 .Include(m => m.FuelType)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == MakeId);
+
+        if (result != null)
+        {
+            var dto = new MakeGetDTO()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                HorsePower = result.HorsePower,
+                Price = result.Price,
+                FuelTypeId = result.FuelTypeId
+            };
+
+            return dto;
+        }
+        else { return null; }
     }
 
-    public async Task<Make?> InsertMake(Make? newMake)
+    public async Task<MakeInsertDTO?> InsertMake(Make? newMake)
     {
         if (newMake != null)
         {
             EntityEntry<Make> make = _cardepocontext.Makes.Add(newMake);
             await _cardepocontext.SaveChangesAsync();
-            return make.Entity;
+            Make result = make.Entity;
+
+            var dto = new MakeInsertDTO()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                HorsePower = result.HorsePower,
+                Price = result.Price,
+                FuelTypeId = result.FuelTypeId
+            };
+
+            return dto;
         }
         else { return null; }
     }
 
-    public async Task<Make?> UpdateMake(int MakeId, Make newMake)
+    public async Task<MakeUpdateDTO?> UpdateMake(int MakeId, Make newMake)
     {
-        var result = await GetMake(MakeId);
+        var result = await _cardepocontext.Makes.FindAsync(MakeId);
 
         if (result != null)
         {
@@ -62,14 +89,24 @@ public class MakeRepository : IMakeRepository
             result.Price = newMake.Price;
             result.FuelTypeId = newMake.FuelTypeId;
             await _cardepocontext.SaveChangesAsync();
-            return result;
+
+            var dto = new MakeUpdateDTO()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                HorsePower = result.HorsePower,
+                Price = result.Price,
+                FuelTypeId = result.FuelTypeId
+            };
+
+            return dto;
         }
-        else { return null; }    
+        else { return null; }
     }
 
     public async Task DeleteMake(int MakeId)
     {
-        var result = await GetMake(MakeId);
+        var result = await _cardepocontext.Makes.FindAsync(MakeId);
         if (result != null)
         {
             _cardepocontext.Makes.Remove(result);

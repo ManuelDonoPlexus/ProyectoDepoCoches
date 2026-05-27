@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Owner;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface IOwnerRepository
 {
-    Task<Owner?> InsertOwner(Owner? newOwner);
-    Task<Owner?> GetOwner(int OwnerId);
     Task<IEnumerable<Owner>> GetOwners();
+    Task<OwnerGetDTO?> GetOwner(int OwnerId);
+    Task<OwnerInsertDTO?> InsertOwner(Owner? newOwner);
+    Task<OwnerUpdateDTO?> UpdateOwner(int OwnerId, Owner Owner);
     Task DeleteOwner(int OwnerId);
-    Task<Owner?> UpdateOwner(int OwnerId, Owner Owner);
     bool IfOwnerExists(int OwnerId);
 }
 
@@ -32,25 +33,53 @@ public class OwnerRepository : IOwnerRepository
                 .ToListAsync();
     }
 
-    public async Task<Owner?> GetOwner(int OwnerId)
+    public async Task<OwnerGetDTO?> GetOwner(int OwnerId)
     {
-        return await _cardepocontext.Owners
+        Owner? result = await _cardepocontext.Owners
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == OwnerId);
+
+        if (result != null)
+        {
+            var dto = new OwnerGetDTO()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Nif = result.Nif,
+                PhoneNumber = result.PhoneNumber,
+                DateEntry = result.DateEntry,
+                EmailAddr = result.EmailAddr
+            };
+
+            return dto;
+        }
+        else { return null; }
     }
 
-    public async Task<Owner?> InsertOwner(Owner? newOwner)
+    public async Task<OwnerInsertDTO?> InsertOwner(Owner? newOwner)
     {
         if (newOwner != null)
         {
             EntityEntry<Owner> owner = _cardepocontext.Owners.Add(newOwner);
             await _cardepocontext.SaveChangesAsync();
-            return owner.Entity;
+            Owner result = owner.Entity;
+
+            var dto = new OwnerInsertDTO()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Nif = result.Nif,
+                PhoneNumber = result.PhoneNumber,
+                DateEntry = result.DateEntry,
+                EmailAddr = result.EmailAddr
+            };
+
+            return dto;
         }
         else { return null; }
     }
 
-    public async Task<Owner?> UpdateOwner(int OwnerId, Owner newOwner)
+    public async Task<OwnerUpdateDTO?> UpdateOwner(int OwnerId, Owner newOwner)
     {
         var result = await GetOwner(OwnerId);
 
@@ -62,7 +91,18 @@ public class OwnerRepository : IOwnerRepository
             result.DateEntry = newOwner.DateEntry;
             result.EmailAddr = newOwner.EmailAddr;
             await _cardepocontext.SaveChangesAsync();
-            return result;
+
+            var dto = new OwnerUpdateDTO()
+            {
+                Id = result.Id,
+                Name = result.Name,
+                Nif = result.Nif,
+                PhoneNumber = result.PhoneNumber,
+                DateEntry = result.DateEntry,
+                EmailAddr = result.EmailAddr
+            };
+
+            return dto;
         }
         else { return null; }
     }

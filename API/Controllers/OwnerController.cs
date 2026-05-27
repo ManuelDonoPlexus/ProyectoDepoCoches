@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using CarDepo.Application.Services;
+using CarDepo.API.DTOs.Owner;
 
 namespace CarDepo.API.Controllers
 {
@@ -38,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Owner?>> CreateOwner(Owner? owner)
         {
-            Owner? newowner = await _ownerService.InsertOwner(owner);
+            OwnerInsertDTO? newowner = await _ownerService.InsertOwner(owner);
             if (newowner != null) { return await GetSpecificOwner(newowner.Id); }
             else { return BadRequest(); }
         }
@@ -47,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{OwnerId}")]
         public async Task<IActionResult> ModifyOwner(int OwnerId, Owner newOwner)
         {
-            Owner? result = await _ownerService.UpdateOwner(OwnerId, newOwner);
+            OwnerUpdateDTO? result = await _ownerService.UpdateOwner(OwnerId, newOwner);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

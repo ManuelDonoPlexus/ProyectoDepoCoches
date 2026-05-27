@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.Fine;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
@@ -17,17 +18,17 @@ public class FineService : IFineRepository
         return await _finerepo.GetFines();
     }
 
-    public async Task<Fine?> GetFine(int FineId)
+    public async Task<FineGetDTO?> GetFine(int FineId)
     {
         return await _finerepo.GetFine(FineId);
     }
 
-    public async Task<Fine?> InsertFine(Fine? newFine)
+    public async Task<FineInsertDTO?> InsertFine(Fine? newFine)
     {
         return await _finerepo.InsertFine(newFine);
     }
 
-    public async Task<Fine?> UpdateFine(int FineId, Fine newFine)
+    public async Task<FineUpdateDTO?> UpdateFine(int FineId, Fine newFine)
     {
         return await _finerepo.UpdateFine(FineId, newFine);
     }

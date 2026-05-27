@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.FuelType;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
@@ -17,17 +18,17 @@ public class FuelTypeService : IFuelTypeRepository
         return await _fuelrepo.GetFuelTypes();
     }
 
-    public async Task<FuelType?> GetFuelType(int FuelTypeId)
+    public async Task<FuelTypeGetDTO?> GetFuelType(int FuelTypeId)
     {
         return await _fuelrepo.GetFuelType(FuelTypeId);
     }
 
-    public async Task<FuelType?> InsertFuelType(FuelType? newFuelType)
+    public async Task<FuelTypeInsertDTO?> InsertFuelType(FuelType? newFuelType)
     {
         return await _fuelrepo.InsertFuelType(newFuelType);
     }
 
-    public async Task<FuelType?> UpdateFuelType(int FuelTypeId, FuelType newFuelType)
+    public async Task<FuelTypeUpdateDTO?> UpdateFuelType(int FuelTypeId, FuelType newFuelType)
     {
         return await _fuelrepo.UpdateFuelType(FuelTypeId, newFuelType);
     }

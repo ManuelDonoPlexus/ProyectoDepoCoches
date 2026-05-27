@@ -1,3 +1,4 @@
+using CarDepo.API.DTOs.CarDriver;
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +8,11 @@ namespace CarDepo.Infrastructure.Repositories;
 
 public interface ICarDriverRepository
 {
-    Task<CarDriver?> GetCarDriver(int CarDriverId);
     Task<IEnumerable<CarDriver>> GetCarDrivers();
-    Task<CarDriver?> InsertCarDriver(CarDriver? newCarDriver);
+    Task<CarDriverGetDTO?> GetCarDriver(int CarDriverId);
+    Task<CarDriverInsertDTO?> InsertCarDriver(CarDriver? newCarDriver);
+    Task<CarDriverUpdateDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver);
     Task DeleteCarDriver(int CarDriverId);
-    Task<CarDriver?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver);
     bool IfCarDriverExists(int CarDriverId);
 }
 
@@ -34,45 +35,77 @@ public class CarDriverRepository : ICarDriverRepository
                 .ToListAsync();
     }
 
-    public async Task<CarDriver?> GetCarDriver(int CarDriverId)
+    public async Task<CarDriverGetDTO?> GetCarDriver(int CarDriverId)
     {
-        return await _cardepocontext.CarDrivers
+        CarDriver? result = await _cardepocontext.CarDrivers
                 .Include(cd => cd.Driver)
                 .Include(cd => cd.Car)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(cd => cd.Id == CarDriverId);
+
+        if (result != null)
+        {
+            var dto = new CarDriverGetDTO()
+            {
+                Id = result.Id,
+                DateDrive = result.DateDrive,
+                CarCDId = result.CarCDId,
+                DriverCDId = result.DriverCDId
+            };
+            return dto;
+        }
+        else { return null; }
     }
 
-    public async Task<CarDriver?> InsertCarDriver(CarDriver? newCarDriver)
+    public async Task<CarDriverInsertDTO?> InsertCarDriver(CarDriver? newCarDriver)
     {
         if (newCarDriver != null)
         {
             EntityEntry<CarDriver> cardriver = _cardepocontext.CarDrivers.Add(newCarDriver);
             await _cardepocontext.SaveChangesAsync();
-            return cardriver.Entity;
-        } 
+            CarDriver result = cardriver.Entity;
+
+            var dto = new CarDriverInsertDTO()
+            {
+                Id = result.Id,
+                DateDrive = result.DateDrive,
+                CarCDId = result.CarCDId,
+                DriverCDId = result.DriverCDId
+            };
+
+            return dto;
+        }
         else { return null; }
     }
 
-    public async Task<CarDriver?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
+    public async Task<CarDriverUpdateDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
     {
-        var result = await GetCarDriver(CarDriverId);
+        var result = await _cardepocontext.CarDrivers.FindAsync(CarDriverId);
 
         if (result != null)
         {
             result.DateDrive = newCarDriver.DateDrive;
             result.CarCDId = newCarDriver.CarCDId;
             result.DriverCDId = newCarDriver.DriverCDId;
-            
+
             await _cardepocontext.SaveChangesAsync();
-            return result;
+
+            var dto = new CarDriverUpdateDTO()
+            {
+                Id = result.Id,
+                DateDrive = result.DateDrive,
+                CarCDId = result.CarCDId,
+                DriverCDId = result.DriverCDId
+            };
+
+            return dto;
         }
-        else { return null; }   
+        else { return null; }
     }
 
     public async Task DeleteCarDriver(int CarDriverId)
     {
-        var result = await GetCarDriver(CarDriverId);
+        var result = await _cardepocontext.CarDrivers.FindAsync(CarDriverId);
         if (result != null)
         {
             _cardepocontext.CarDrivers.Remove(result);

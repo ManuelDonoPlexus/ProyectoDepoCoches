@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using CarDepo.Application.Services;
+using CarDepo.API.DTOs.Make;
 
 namespace CarDepo.API.Controllers
 {
@@ -39,7 +40,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Make?>> CreateMake(Make? make)
         {
-            Make? newmake = await _makeService.InsertMake(make);
+            MakeInsertDTO? newmake = await _makeService.InsertMake(make);
             if (newmake != null){return await GetSpecificMake(newmake.Id);}
             else { return BadRequest(); }
         }
@@ -48,7 +49,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{MakeId}")]
         public async Task<IActionResult> ModifyMake(int MakeId, Make newMake)
         {
-            Make? result = await _makeService.UpdateMake(MakeId, newMake);
+            MakeUpdateDTO? result = await _makeService.UpdateMake(MakeId, newMake);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

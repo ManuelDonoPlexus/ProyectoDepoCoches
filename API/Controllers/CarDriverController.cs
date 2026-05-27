@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using CarDepo.Application.Services;
+using CarDepo.API.DTOs.CarDriver;
 
 namespace CarDepo.API.Controllers
 {
@@ -38,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CarDriver?>?> CreateCarDriver(CarDriver? carDriver)
         {
-            CarDriver? newcardriver = await _cardriverService.InsertCarDriver(carDriver);
+            CarDriverInsertDTO? newcardriver = await _cardriverService.InsertCarDriver(carDriver);
             if (newcardriver != null) { return await GetSpecificCarDriver(newcardriver.Id); }
             else { return BadRequest(); }
         }
@@ -47,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{CarDriverId}")]
         public async Task<IActionResult> ModifyCarDriver(int CarDriverId, CarDriver newCarDriver)
         {
-            CarDriver? result = await _cardriverService.UpdateCarDriver(CarDriverId, newCarDriver);
+            CarDriverUpdateDTO? result = await _cardriverService.UpdateCarDriver(CarDriverId, newCarDriver);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }
