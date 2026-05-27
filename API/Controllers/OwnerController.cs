@@ -39,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Owner?>> CreateOwner(Owner? owner)
         {
-            OwnerInsertDTO? newowner = await _ownerService.InsertOwner(owner);
+            OwnerDTO? newowner = await _ownerService.InsertOwner(owner);
             if (newowner != null) { return await GetSpecificOwner(newowner.Id); }
             else { return BadRequest(); }
         }
@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{OwnerId}")]
         public async Task<IActionResult> ModifyOwner(int OwnerId, Owner newOwner)
         {
-            OwnerUpdateDTO? result = await _ownerService.UpdateOwner(OwnerId, newOwner);
+            OwnerDTO? result = await _ownerService.UpdateOwner(OwnerId, newOwner);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

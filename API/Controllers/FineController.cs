@@ -38,7 +38,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Fine?>> CreateFine(Fine? fine)
         {
-            FineInsertDTO? newFine = await _fineService.InsertFine(fine);
+            FineDTO? newFine = await _fineService.InsertFine(fine);
             if (newFine != null) { return await GetSpecificFine(newFine.Id); }
             else { return BadRequest(); }
         }
@@ -47,7 +47,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{FineId}")]
         public async Task<IActionResult> ModifyFine(int FineId, Fine newFine)
         {
-            FineUpdateDTO? result = await _fineService.UpdateFine(FineId, newFine);
+            FineDTO? result = await _fineService.UpdateFine(FineId, newFine);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

@@ -39,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Color?>> CreateColor(Color? color)
         {
-            ColorInsertDTO? newcolor = await _colorSevice.InsertColor(color);
+            ColorDTO? newcolor = await _colorSevice.InsertColor(color);
             if (newcolor != null){ return await GetSpecificColor(newcolor.Id); }
             else { return BadRequest(); }
         }
@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{ColorId}")]
         public async Task<IActionResult> ModifyColor(int ColorId, Color newColor)
         {
-            ColorUpdateDTO? result = await _colorSevice.UpdateColor(ColorId, newColor);
+            ColorDTO? result = await _colorSevice.UpdateColor(ColorId, newColor);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

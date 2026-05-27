@@ -19,17 +19,17 @@ public class DriverService : IDriverRepository
     }
 
 
-    public async Task<DriverGetDTO?> GetDriver(int DriverId)
+    public async Task<DriverDTO?> GetDriver(int DriverId)
     {
         return await _driverrepo.GetDriver(DriverId);
     }
 
-    public async Task<DriverInsertDTO?> InsertDriver(Driver? newDriver)
+    public async Task<DriverDTO?> InsertDriver(Driver? newDriver)
     {
         return await _driverrepo.InsertDriver(newDriver);
     }
 
-    public async Task<DriverUpdateDTO?> UpdateDriver(int DriverId, Driver newDriver)
+    public async Task<DriverDTO?> UpdateDriver(int DriverId, Driver newDriver)
     {
         return await _driverrepo.UpdateDriver(DriverId, newDriver);
     }

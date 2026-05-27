@@ -39,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Car?>?> CreateCar(Car? car)
         {
-            CarInsertDTO? newcar = await _carService.InsertCar(car);
+            CarDTO? newcar = await _carService.InsertCar(car);
             if (newcar != null) { return await GetSpecificCar(newcar.Id); }
             else { return BadRequest(); }
         }
@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{CarId}")]
         public async Task<IActionResult> ModifyCar(int CarId, Car newCar)
         {
-            CarUpdateDTO? result = await _carService.UpdateCar(CarId, newCar);
+            CarDTO? result = await _carService.UpdateCar(CarId, newCar);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

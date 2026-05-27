@@ -18,17 +18,17 @@ public class ColorService : IColorRepository
         return await _colorrepo.GetColors();
     }
 
-    public async Task<ColorGetDTO?> GetColor(int ColorId)
+    public async Task<ColorDTO?> GetColor(int ColorId)
     {
         return await _colorrepo.GetColor(ColorId);
     }
 
-    public async Task<ColorInsertDTO?> InsertColor(Color? newColor)
+    public async Task<ColorDTO?> InsertColor(Color? newColor)
     {
         return await _colorrepo.InsertColor(newColor);
     }
 
-    public async Task<ColorUpdateDTO?> UpdateColor(int ColorId, Color newColor)
+    public async Task<ColorDTO?> UpdateColor(int ColorId, Color newColor)
     {
         return await _colorrepo.UpdateColor(ColorId, newColor);
     }

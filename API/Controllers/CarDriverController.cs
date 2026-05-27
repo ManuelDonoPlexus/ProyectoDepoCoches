@@ -39,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<CarDriver?>?> CreateCarDriver(CarDriver? carDriver)
         {
-            CarDriverInsertDTO? newcardriver = await _cardriverService.InsertCarDriver(carDriver);
+            CarDriverDTO? newcardriver = await _cardriverService.InsertCarDriver(carDriver);
             if (newcardriver != null) { return await GetSpecificCarDriver(newcardriver.Id); }
             else { return BadRequest(); }
         }
@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{CarDriverId}")]
         public async Task<IActionResult> ModifyCarDriver(int CarDriverId, CarDriver newCarDriver)
         {
-            CarDriverUpdateDTO? result = await _cardriverService.UpdateCarDriver(CarDriverId, newCarDriver);
+            CarDriverDTO? result = await _cardriverService.UpdateCarDriver(CarDriverId, newCarDriver);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

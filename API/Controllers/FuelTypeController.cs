@@ -39,7 +39,7 @@ namespace CarDepo.API.Controllers
         [HttpPost]
         public async Task<ActionResult<FuelType?>> CreateFuelType(FuelType? fuelType)
         {
-            FuelTypeInsertDTO? newFuel = await _fueltypeService.InsertFuelType(fuelType);
+            FuelTypeDTO? newFuel = await _fueltypeService.InsertFuelType(fuelType);
             if (newFuel != null) { return await GetSpecificFuelType(newFuel.Id); }
             else { return BadRequest(); }
         }
@@ -48,7 +48,7 @@ namespace CarDepo.API.Controllers
         [HttpPut("{FuelId}")]
         public async Task<IActionResult> ModifyFuelType(int FuelId, FuelType newFuelType)
         {
-            FuelTypeUpdateDTO? result = await _fueltypeService.UpdateFuelType(FuelId, newFuelType);
+            FuelTypeDTO? result = await _fueltypeService.UpdateFuelType(FuelId, newFuelType);
             if(result != null) { return Ok(result); }
             else { return BadRequest(); }
         }

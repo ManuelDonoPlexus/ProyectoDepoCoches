@@ -18,17 +18,17 @@ public class FuelTypeService : IFuelTypeRepository
         return await _fuelrepo.GetFuelTypes();
     }
 
-    public async Task<FuelTypeGetDTO?> GetFuelType(int FuelTypeId)
+    public async Task<FuelTypeDTO?> GetFuelType(int FuelTypeId)
     {
         return await _fuelrepo.GetFuelType(FuelTypeId);
     }
 
-    public async Task<FuelTypeInsertDTO?> InsertFuelType(FuelType? newFuelType)
+    public async Task<FuelTypeDTO?> InsertFuelType(FuelType? newFuelType)
     {
         return await _fuelrepo.InsertFuelType(newFuelType);
     }
 
-    public async Task<FuelTypeUpdateDTO?> UpdateFuelType(int FuelTypeId, FuelType newFuelType)
+    public async Task<FuelTypeDTO?> UpdateFuelType(int FuelTypeId, FuelType newFuelType)
     {
         return await _fuelrepo.UpdateFuelType(FuelTypeId, newFuelType);
     }

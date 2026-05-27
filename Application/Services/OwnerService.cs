@@ -18,17 +18,17 @@ public class OwnerService : IOwnerRepository
         return await _ownerrepo.GetOwners();
     }
 
-    public async Task<OwnerGetDTO?> GetOwner(int OwnerId)
+    public async Task<OwnerDTO?> GetOwner(int OwnerId)
     {
         return await _ownerrepo.GetOwner(OwnerId);
     }
 
-    public async Task<OwnerInsertDTO?> InsertOwner(Owner? newOwner)
+    public async Task<OwnerDTO?> InsertOwner(Owner? newOwner)
     {
         return await _ownerrepo.InsertOwner(newOwner);
     }
 
-    public async Task<OwnerUpdateDTO?> UpdateOwner(int OwnerId, Owner newOwner)
+    public async Task<OwnerDTO?> UpdateOwner(int OwnerId, Owner newOwner)
     {
         return await _ownerrepo.UpdateOwner(OwnerId, newOwner);
     }

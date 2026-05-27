@@ -18,17 +18,17 @@ public class CarDriverService : ICarDriverRepository
         return await _cardriverrepo.GetCarDrivers();
     }
 
-    public async Task<CarDriverGetDTO?> GetCarDriver(int CarDriverId)
+    public async Task<CarDriverDTO?> GetCarDriver(int CarDriverId)
     {
         return await _cardriverrepo.GetCarDriver(CarDriverId);
     }
 
-    public async Task<CarDriverInsertDTO?> InsertCarDriver(CarDriver? newCarDriver)
+    public async Task<CarDriverDTO?> InsertCarDriver(CarDriver? newCarDriver)
     {
         return await _cardriverrepo.InsertCarDriver(newCarDriver);
     }
 
-    public async Task<CarDriverUpdateDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
+    public async Task<CarDriverDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
     {
         return await _cardriverrepo.UpdateCarDriver(CarDriverId, newCarDriver);
     }
