@@ -13,12 +13,14 @@ namespace CarDepo.CarDepoTest;
 public class CarRepoTest
 {
     // UNIT TEST
-/*
+
     [Fact]
-    public async Task GetCar_ReturnsOkObjectResult()
+    public async Task GetSpecificCar_ReturnsOkObjectResult()
     {
-        var repoMock = new Mock<CarService>();
-        var controller = new CarController(repoMock.Object);
+        var context = new Mock<CarDepoContext>();
+        var repoMock = new Mock<CarRepository>(context.Object);
+        var serviceMock = new Mock<CarService>(repoMock.Object);
+        var controller = new CarController(serviceMock.Object);
         var result = await controller.GetSpecificCar(1);
         Assert.IsType<OkObjectResult>(result.Result);
     }
@@ -26,8 +28,9 @@ public class CarRepoTest
     [Fact]
     public async Task CreateCar_Fail()
     {
-        var repoMock = new Mock<CarService>();
-        var controller = new CarController(repoMock.Object);
+        var repoMock = new Mock<CarRepository>();
+        var serviceMock = new Mock<CarService>(repoMock.Object);
+        var controller = new CarController(serviceMock.Object);
         var result = await controller.CreateCar(null);
         Assert.IsType<BadRequestResult>(result!.Result);
     }
@@ -35,29 +38,10 @@ public class CarRepoTest
     [Fact]
     public async Task DeleteCar_NotContentResult()
     {
-        var repoMock = new Mock<CarService>();
-        var controller = new CarController(repoMock.Object);
+        var repoMock = new Mock<CarRepository>();
+        var serviceMock = new Mock<CarService>(repoMock.Object);
+        var controller = new CarController(serviceMock.Object);
         var result = await controller.DeleteCar(-9);
         Assert.IsType<NoContentResult>(result);
     }
-
-    [Fact]
-    public async Task DBContext()
-    {
-        var mockSet = new Mock<DbSet<Car>>();
-        var mockContext = new Mock<CarDepoContext>();
-        mockContext.Setup(c => c.Cars).Returns(mockSet.Object);
-
-        var service = new CarService(mockContext.Object);
-
-        var License = "ABCD-123";
-        var Kms = 123;
-        var ColorId = 1;
-        var OwnerId = 1;
-        var MakeId = 1;
-
-        var result = await service.insertCarWithValidation(License,Kms,ColorId,OwnerId,MakeId);
-        Assert.True(result);
-    }
-    */
 }
