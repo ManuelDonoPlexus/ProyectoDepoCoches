@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface ICarRepository
 {
     Task<IEnumerable<Car>> GetCars();
-    Task<CarGetDTO?> GetCar(int CarId);
-    Task<CarInsertDTO?> InsertCar(Car? newCar);
-    Task<CarUpdateDTO?> UpdateCar(int CarId, Car newCar);
+    Task<CarDTO?> GetCar(int CarId);
+    Task<CarDTO?> InsertCar(Car? newCar);
+    Task<CarDTO?> UpdateCar(int CarId, Car newCar);
     Task DeleteCar(int CarId);
     bool IfCarExists(int CarId);
 }
@@ -35,7 +35,7 @@ public class CarRepository : ICarRepository
             .ToListAsync();
     }
 
-    public async Task<CarGetDTO?> GetCar(int CarId)
+    public async Task<CarDTO?> GetCar(int CarId)
     {
         Car? result = await _cardepocontext.Cars
             .Include(car => car.Color)
@@ -46,7 +46,7 @@ public class CarRepository : ICarRepository
 
         if (result != null)
         {
-            var dto = new CarGetDTO()
+            var dto = new CarDTO()
             {
                 Id = result.Id,
                 License = result.License,
@@ -60,7 +60,7 @@ public class CarRepository : ICarRepository
         else { return null; }
     }
 
-    public async Task<CarInsertDTO?> InsertCar(Car? newCar)
+    public async Task<CarDTO?> InsertCar(Car? newCar)
     {
         if (newCar != null)
         {
@@ -68,7 +68,7 @@ public class CarRepository : ICarRepository
             await _cardepocontext.SaveChangesAsync();
             Car result = car.Entity;
 
-            var dto = new CarInsertDTO()
+            var dto = new CarDTO()
             {
                 Id = result.Id,
                 License = result.License,
@@ -83,7 +83,7 @@ public class CarRepository : ICarRepository
         else { return null; }
     }
 
-    public async Task<CarUpdateDTO?> UpdateCar(int CarId, Car newCar)
+    public async Task<CarDTO?> UpdateCar(int CarId, Car newCar)
     {
         var result = await _cardepocontext.Cars.FindAsync(CarId);
 
@@ -97,7 +97,7 @@ public class CarRepository : ICarRepository
 
             await _cardepocontext.SaveChangesAsync();
 
-            var dto = new CarUpdateDTO()
+            var dto = new CarDTO()
             {
                 Id = result.Id,
                 License = result.License,

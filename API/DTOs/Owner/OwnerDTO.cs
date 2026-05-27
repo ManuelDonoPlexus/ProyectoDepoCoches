@@ -1,6 +1,6 @@
 namespace CarDepo.API.DTOs.Owner;
 
-public class OwnerInsertDTO
+public class OwnerDTO
 {
     public int Id { get; set; }
     public required string Name { get; set; }

@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface IMakeRepository
 {
     Task<IEnumerable<Make>> GetMakes();
-    Task<MakeGetDTO?> GetMake(int MakeId);
-    Task<MakeInsertDTO?> InsertMake(Make? newMake);
-    Task<MakeUpdateDTO?> UpdateMake(int MakeId, Make newMake);
+    Task<MakeDTO?> GetMake(int MakeId);
+    Task<MakeDTO?> InsertMake(Make? newMake);
+    Task<MakeDTO?> UpdateMake(int MakeId, Make newMake);
     Task DeleteMake(int MakeId);
     bool IfMakeExists(int MakeId);
 }
@@ -34,7 +34,7 @@ public class MakeRepository : IMakeRepository
                 .ToListAsync();
     }
 
-    public async Task<MakeGetDTO?> GetMake(int MakeId)
+    public async Task<MakeDTO?> GetMake(int MakeId)
     {
         Make? result = await _cardepocontext.Makes
                 .Include(m => m.FuelType)
@@ -43,7 +43,7 @@ public class MakeRepository : IMakeRepository
 
         if (result != null)
         {
-            var dto = new MakeGetDTO()
+            var dto = new MakeDTO()
             {
                 Id = result.Id,
                 Name = result.Name,
@@ -57,7 +57,7 @@ public class MakeRepository : IMakeRepository
         else { return null; }
     }
 
-    public async Task<MakeInsertDTO?> InsertMake(Make? newMake)
+    public async Task<MakeDTO?> InsertMake(Make? newMake)
     {
         if (newMake != null)
         {
@@ -65,7 +65,7 @@ public class MakeRepository : IMakeRepository
             await _cardepocontext.SaveChangesAsync();
             Make result = make.Entity;
 
-            var dto = new MakeInsertDTO()
+            var dto = new MakeDTO()
             {
                 Id = result.Id,
                 Name = result.Name,
@@ -79,7 +79,7 @@ public class MakeRepository : IMakeRepository
         else { return null; }
     }
 
-    public async Task<MakeUpdateDTO?> UpdateMake(int MakeId, Make newMake)
+    public async Task<MakeDTO?> UpdateMake(int MakeId, Make newMake)
     {
         var result = await _cardepocontext.Makes.FindAsync(MakeId);
 
@@ -90,7 +90,7 @@ public class MakeRepository : IMakeRepository
             result.FuelTypeId = newMake.FuelTypeId;
             await _cardepocontext.SaveChangesAsync();
 
-            var dto = new MakeUpdateDTO()
+            var dto = new MakeDTO()
             {
                 Id = result.Id,
                 Name = result.Name,

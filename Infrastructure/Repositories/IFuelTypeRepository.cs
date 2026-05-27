@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface IFuelTypeRepository
 {
     Task<IEnumerable<FuelType>> GetFuelTypes();
-    Task<FuelTypeGetDTO?> GetFuelType(int FuelTypeId);
-    Task<FuelTypeInsertDTO?> InsertFuelType(FuelType? newFuelType);
-    Task<FuelTypeUpdateDTO?> UpdateFuelType(int FuelTypeId, FuelType newFuelType);
+    Task<FuelTypeDTO?> GetFuelType(int FuelTypeId);
+    Task<FuelTypeDTO?> InsertFuelType(FuelType? newFuelType);
+    Task<FuelTypeDTO?> UpdateFuelType(int FuelTypeId, FuelType newFuelType);
     Task DeleteFuelType(int FuelTypeId);
     bool IfFuelTypeExists(int FuelTypeId);
 }
@@ -33,7 +33,7 @@ public class FuelTypeRepository : IFuelTypeRepository
                 .ToListAsync();
     }
 
-    public async Task<FuelTypeGetDTO?> GetFuelType(int FuelTypeId)
+    public async Task<FuelTypeDTO?> GetFuelType(int FuelTypeId)
     {
         FuelType? result = await _cardepocontext.FuelTypes
                 .AsNoTracking()
@@ -41,7 +41,7 @@ public class FuelTypeRepository : IFuelTypeRepository
 
         if (result != null)
         {
-            var dto = new FuelTypeGetDTO()
+            var dto = new FuelTypeDTO()
             {
                 Id = result.Id,
                 Name = result.Name
@@ -52,7 +52,7 @@ public class FuelTypeRepository : IFuelTypeRepository
         else { return null; }
     }
 
-    public async Task<FuelTypeInsertDTO?> InsertFuelType(FuelType? newFuelType)
+    public async Task<FuelTypeDTO?> InsertFuelType(FuelType? newFuelType)
     {
         if (newFuelType != null)
         {
@@ -60,7 +60,7 @@ public class FuelTypeRepository : IFuelTypeRepository
             await _cardepocontext.SaveChangesAsync();
             FuelType? result = fuelType.Entity;
             
-            var dto = new FuelTypeInsertDTO()
+            var dto = new FuelTypeDTO()
             {
                 Id = result.Id,
                 Name = result.Name
@@ -71,7 +71,7 @@ public class FuelTypeRepository : IFuelTypeRepository
         else { return null; }
     }
 
-    public async Task<FuelTypeUpdateDTO?> UpdateFuelType(int FuelTypeId, FuelType newFuelType)
+    public async Task<FuelTypeDTO?> UpdateFuelType(int FuelTypeId, FuelType newFuelType)
     {
         var result = await _cardepocontext.FuelTypes.FindAsync(FuelTypeId);
 
@@ -80,7 +80,7 @@ public class FuelTypeRepository : IFuelTypeRepository
             result.Name = newFuelType.Name;
             await _cardepocontext.SaveChangesAsync();
             
-            var dto = new FuelTypeUpdateDTO()
+            var dto = new FuelTypeDTO()
             {
                 Id = result.Id,
                 Name = result.Name

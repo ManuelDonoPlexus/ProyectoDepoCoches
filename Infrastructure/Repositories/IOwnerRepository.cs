@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface IOwnerRepository
 {
     Task<IEnumerable<Owner>> GetOwners();
-    Task<OwnerGetDTO?> GetOwner(int OwnerId);
-    Task<OwnerInsertDTO?> InsertOwner(Owner? newOwner);
-    Task<OwnerUpdateDTO?> UpdateOwner(int OwnerId, Owner Owner);
+    Task<OwnerDTO?> GetOwner(int OwnerId);
+    Task<OwnerDTO?> InsertOwner(Owner? newOwner);
+    Task<OwnerDTO?> UpdateOwner(int OwnerId, Owner Owner);
     Task DeleteOwner(int OwnerId);
     bool IfOwnerExists(int OwnerId);
 }
@@ -33,7 +33,7 @@ public class OwnerRepository : IOwnerRepository
                 .ToListAsync();
     }
 
-    public async Task<OwnerGetDTO?> GetOwner(int OwnerId)
+    public async Task<OwnerDTO?> GetOwner(int OwnerId)
     {
         Owner? result = await _cardepocontext.Owners
                 .AsNoTracking()
@@ -41,7 +41,7 @@ public class OwnerRepository : IOwnerRepository
 
         if (result != null)
         {
-            var dto = new OwnerGetDTO()
+            var dto = new OwnerDTO()
             {
                 Id = result.Id,
                 Name = result.Name,
@@ -56,7 +56,7 @@ public class OwnerRepository : IOwnerRepository
         else { return null; }
     }
 
-    public async Task<OwnerInsertDTO?> InsertOwner(Owner? newOwner)
+    public async Task<OwnerDTO?> InsertOwner(Owner? newOwner)
     {
         if (newOwner != null)
         {
@@ -64,7 +64,7 @@ public class OwnerRepository : IOwnerRepository
             await _cardepocontext.SaveChangesAsync();
             Owner result = owner.Entity;
 
-            var dto = new OwnerInsertDTO()
+            var dto = new OwnerDTO()
             {
                 Id = result.Id,
                 Name = result.Name,
@@ -79,7 +79,7 @@ public class OwnerRepository : IOwnerRepository
         else { return null; }
     }
 
-    public async Task<OwnerUpdateDTO?> UpdateOwner(int OwnerId, Owner newOwner)
+    public async Task<OwnerDTO?> UpdateOwner(int OwnerId, Owner newOwner)
     {
         var result = await GetOwner(OwnerId);
 
@@ -92,7 +92,7 @@ public class OwnerRepository : IOwnerRepository
             result.EmailAddr = newOwner.EmailAddr;
             await _cardepocontext.SaveChangesAsync();
 
-            var dto = new OwnerUpdateDTO()
+            var dto = new OwnerDTO()
             {
                 Id = result.Id,
                 Name = result.Name,

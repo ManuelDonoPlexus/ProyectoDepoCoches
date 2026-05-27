@@ -1,7 +1,7 @@
-namespace CarDepo.API.DTOs.Color;
+namespace CarDepo.API.DTOs.FuelType;
 
-public class ColorGetDTO
-{    
+public class FuelTypeDTO
+{
     public int Id { get; set; }
     public string? Name { get; set; }
 }

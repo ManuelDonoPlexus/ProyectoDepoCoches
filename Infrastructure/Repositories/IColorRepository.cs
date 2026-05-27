@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface IColorRepository
 {
     Task<IEnumerable<Color>> GetColors();
-    Task<ColorGetDTO?> GetColor(int ColorId);
-    Task<ColorInsertDTO?> InsertColor(Color? newColor);
-    Task<ColorUpdateDTO?> UpdateColor(int ColorId, Color newColor);
+    Task<ColorDTO?> GetColor(int ColorId);
+    Task<ColorDTO?> InsertColor(Color? newColor);
+    Task<ColorDTO?> UpdateColor(int ColorId, Color newColor);
     Task DeleteColor(int ColorId);
     bool IfColorExists(int ColorId);
 }
@@ -32,7 +32,7 @@ public class ColorRepository : IColorRepository
                 .ToListAsync();
     }
 
-    public async Task<ColorGetDTO?> GetColor(int ColorId)
+    public async Task<ColorDTO?> GetColor(int ColorId)
     {
         Color? result = await _cardepocontext.Colors
                 .AsNoTracking()
@@ -40,7 +40,7 @@ public class ColorRepository : IColorRepository
 
         if (result != null)
         {
-            var dto = new ColorGetDTO()
+            var dto = new ColorDTO()
             {
                 Id = result.Id,
                 Name = result.Name
@@ -50,7 +50,7 @@ public class ColorRepository : IColorRepository
         else { return null; }
     }
 
-    public async Task<ColorInsertDTO?> InsertColor(Color? newColor)
+    public async Task<ColorDTO?> InsertColor(Color? newColor)
     {
         if (newColor != null)
         {
@@ -58,7 +58,7 @@ public class ColorRepository : IColorRepository
             await _cardepocontext.SaveChangesAsync();
             Color result = color.Entity;
 
-            var dto = new ColorInsertDTO()
+            var dto = new ColorDTO()
             {
                 Id = result.Id,
                 Name = result.Name
@@ -70,7 +70,7 @@ public class ColorRepository : IColorRepository
 
     }
 
-    public async Task<ColorUpdateDTO?> UpdateColor(int ColorId, Color newColor)
+    public async Task<ColorDTO?> UpdateColor(int ColorId, Color newColor)
     {
         var result = await _cardepocontext.Colors.FindAsync(ColorId);
 
@@ -79,7 +79,7 @@ public class ColorRepository : IColorRepository
             result.Name = newColor.Name;
             await _cardepocontext.SaveChangesAsync();
 
-            var dto = new ColorUpdateDTO()
+            var dto = new ColorDTO()
             {
                 Id = result.Id,
                 Name = result.Name

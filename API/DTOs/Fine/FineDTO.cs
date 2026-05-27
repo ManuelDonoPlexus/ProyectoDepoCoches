@@ -1,6 +1,6 @@
 namespace CarDepo.API.DTOs.Fine;
 
-public class FineUpdateDTO
+public class FineDTO
 {
     public int Id { get; set; }
     public required decimal Price { get; set; }

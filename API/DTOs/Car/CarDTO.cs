@@ -1,6 +1,6 @@
 namespace CarDepo.API.DTOs.Car;
 
-public class CarUpdateDTO
+public class CarDTO
 {
     public int Id { get; set; }
     public required string License { get; set; }

@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface IFineRepository
 {
     Task<IEnumerable<Fine>> GetFines();
-    Task<FineGetDTO?> GetFine(int FineId);
-    Task<FineInsertDTO?> InsertFine(Fine? newFine);
-    Task<FineUpdateDTO?> UpdateFine(int FineId, Fine newFine);
+    Task<FineDTO?> GetFine(int FineId);
+    Task<FineDTO?> InsertFine(Fine? newFine);
+    Task<FineDTO?> UpdateFine(int FineId, Fine newFine);
     Task DeleteFine(int FineId);
     bool IfFineExists(int FineId);
 }
@@ -34,7 +34,7 @@ public class FineRepository : IFineRepository
                 .ToListAsync();
     }
 
-    public async Task<FineGetDTO?> GetFine(int FineId)
+    public async Task<FineDTO?> GetFine(int FineId)
     {
         Fine? result = await _cardepocontext.Fines
                 .Include(f => f.Owner)
@@ -44,7 +44,7 @@ public class FineRepository : IFineRepository
 
         if (result != null)
         {
-            var dto = new FineGetDTO()
+            var dto = new FineDTO()
             {
                 Id = result.Id,
                 Price = result.Price,
@@ -60,7 +60,7 @@ public class FineRepository : IFineRepository
         else { return null; }
     }
 
-    public async Task<FineInsertDTO?> InsertFine(Fine? newFine)
+    public async Task<FineDTO?> InsertFine(Fine? newFine)
     {
         if (newFine != null)
         {
@@ -68,7 +68,7 @@ public class FineRepository : IFineRepository
             await _cardepocontext.SaveChangesAsync();
             Fine? result = fine.Entity;
 
-            var dto = new FineInsertDTO()
+            var dto = new FineDTO()
             {
                 Id = result.Id,
                 Price = result.Price,
@@ -84,7 +84,7 @@ public class FineRepository : IFineRepository
         else { return null; }
     }
 
-    public async Task<FineUpdateDTO?> UpdateFine(int FineId, Fine newFine)
+    public async Task<FineDTO?> UpdateFine(int FineId, Fine newFine)
     {
         var result = await _cardepocontext.Fines.FindAsync(FineId);
 
@@ -98,7 +98,7 @@ public class FineRepository : IFineRepository
             result.CarId = newFine.CarId;
             await _cardepocontext.SaveChangesAsync();
 
-            var dto = new FineUpdateDTO()
+            var dto = new FineDTO()
             {
                 Id = result.Id,
                 Price = result.Price,

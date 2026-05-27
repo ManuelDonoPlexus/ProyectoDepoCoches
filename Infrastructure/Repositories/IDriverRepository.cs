@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface IDriverRepository
 {
     Task<IEnumerable<Driver>> GetDrivers();
-    Task<DriverGetDTO?> GetDriver(int DriverId);
-    Task<DriverInsertDTO?> InsertDriver(Driver? newDriver);
-    Task<DriverUpdateDTO?> UpdateDriver(int DriverId, Driver newDriver);
+    Task<DriverDTO?> GetDriver(int DriverId);
+    Task<DriverDTO?> InsertDriver(Driver? newDriver);
+    Task<DriverDTO?> UpdateDriver(int DriverId, Driver newDriver);
     Task DeleteDriver(int DriverId);
     bool IfDriverExists(int DriverId);
 }
@@ -33,7 +33,7 @@ public class DriverRepository : IDriverRepository
                 .ToListAsync();
     }
 
-    public async Task<DriverGetDTO?> GetDriver(int DriverId)
+    public async Task<DriverDTO?> GetDriver(int DriverId)
     {
         Driver? result = await _cardepocontext.Drivers
                 .Include(d => d.Owner)
@@ -42,7 +42,7 @@ public class DriverRepository : IDriverRepository
 
         if (result != null)
         {
-            var dto = new DriverGetDTO()
+            var dto = new DriverDTO()
             {
                 Id = result.Id,
                 Name = result.Name,
@@ -57,7 +57,7 @@ public class DriverRepository : IDriverRepository
         else { return null; }
     }
 
-    public async Task<DriverInsertDTO?> InsertDriver(Driver? newDriver)
+    public async Task<DriverDTO?> InsertDriver(Driver? newDriver)
     {
         if (newDriver != null)
         {
@@ -65,7 +65,7 @@ public class DriverRepository : IDriverRepository
             await _cardepocontext.SaveChangesAsync();
             Driver result = driver.Entity;
 
-            var dto = new DriverInsertDTO()
+            var dto = new DriverDTO()
             {
                 Id = result.Id,
                 Name = result.Name,
@@ -80,7 +80,7 @@ public class DriverRepository : IDriverRepository
         else { return null; }
     }
 
-    public async Task<DriverUpdateDTO?> UpdateDriver(int DriverId, Driver newDriver)
+    public async Task<DriverDTO?> UpdateDriver(int DriverId, Driver newDriver)
     {
         var result = await _cardepocontext.Drivers.FindAsync(DriverId);
 
@@ -93,7 +93,7 @@ public class DriverRepository : IDriverRepository
             result.OwnerId = newDriver.OwnerId;
             await _cardepocontext.SaveChangesAsync();
 
-            var dto = new DriverUpdateDTO()
+            var dto = new DriverDTO()
             {
                 Id = result.Id,
                 Name = result.Name,

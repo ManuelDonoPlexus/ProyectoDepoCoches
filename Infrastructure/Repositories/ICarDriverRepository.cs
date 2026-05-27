@@ -9,9 +9,9 @@ namespace CarDepo.Infrastructure.Repositories;
 public interface ICarDriverRepository
 {
     Task<IEnumerable<CarDriver>> GetCarDrivers();
-    Task<CarDriverGetDTO?> GetCarDriver(int CarDriverId);
-    Task<CarDriverInsertDTO?> InsertCarDriver(CarDriver? newCarDriver);
-    Task<CarDriverUpdateDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver);
+    Task<CarDriverDTO?> GetCarDriver(int CarDriverId);
+    Task<CarDriverDTO?> InsertCarDriver(CarDriver? newCarDriver);
+    Task<CarDriverDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver);
     Task DeleteCarDriver(int CarDriverId);
     bool IfCarDriverExists(int CarDriverId);
 }
@@ -35,7 +35,7 @@ public class CarDriverRepository : ICarDriverRepository
                 .ToListAsync();
     }
 
-    public async Task<CarDriverGetDTO?> GetCarDriver(int CarDriverId)
+    public async Task<CarDriverDTO?> GetCarDriver(int CarDriverId)
     {
         CarDriver? result = await _cardepocontext.CarDrivers
                 .Include(cd => cd.Driver)
@@ -45,7 +45,7 @@ public class CarDriverRepository : ICarDriverRepository
 
         if (result != null)
         {
-            var dto = new CarDriverGetDTO()
+            var dto = new CarDriverDTO()
             {
                 Id = result.Id,
                 DateDrive = result.DateDrive,
@@ -57,7 +57,7 @@ public class CarDriverRepository : ICarDriverRepository
         else { return null; }
     }
 
-    public async Task<CarDriverInsertDTO?> InsertCarDriver(CarDriver? newCarDriver)
+    public async Task<CarDriverDTO?> InsertCarDriver(CarDriver? newCarDriver)
     {
         if (newCarDriver != null)
         {
@@ -65,7 +65,7 @@ public class CarDriverRepository : ICarDriverRepository
             await _cardepocontext.SaveChangesAsync();
             CarDriver result = cardriver.Entity;
 
-            var dto = new CarDriverInsertDTO()
+            var dto = new CarDriverDTO()
             {
                 Id = result.Id,
                 DateDrive = result.DateDrive,
@@ -78,7 +78,7 @@ public class CarDriverRepository : ICarDriverRepository
         else { return null; }
     }
 
-    public async Task<CarDriverUpdateDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
+    public async Task<CarDriverDTO?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
     {
         var result = await _cardepocontext.CarDrivers.FindAsync(CarDriverId);
 
@@ -90,7 +90,7 @@ public class CarDriverRepository : ICarDriverRepository
 
             await _cardepocontext.SaveChangesAsync();
 
-            var dto = new CarDriverUpdateDTO()
+            var dto = new CarDriverDTO()
             {
                 Id = result.Id,
                 DateDrive = result.DateDrive,
