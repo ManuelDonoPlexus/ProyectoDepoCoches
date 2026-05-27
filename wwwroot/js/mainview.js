@@ -927,7 +927,9 @@ function loadFinesTableContent(tablecontent) {
 
         let td3 = tr.insertCell(3);
         td3.setAttribute("class", "finePayed");
-        let txtNode3 = document.createTextNode(fine.payed);
+        let txtNode3;
+        if(fine.payed == true) { txtNode3 = document.createTextNode("Pagada"); }
+        else { txtNode3 = document.createTextNode("No pagada"); }
         td3.appendChild(txtNode3);
 
         let td4 = tr.insertCell(4);
