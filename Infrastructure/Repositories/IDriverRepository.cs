@@ -53,7 +53,7 @@ public class DriverRepository : IDriverRepository
 
     public async Task<Driver?> UpdateDriver(int DriverId, Driver newDriver)
     {
-        var result = await _cardepocontext.Drivers.FindAsync(newDriver);
+        var result = await GetDriver(DriverId);
 
         if (result != null)
         {

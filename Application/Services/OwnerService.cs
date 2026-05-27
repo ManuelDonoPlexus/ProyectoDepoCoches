@@ -27,9 +27,9 @@ public class OwnerService : IOwnerRepository
         return await _ownerrepo.InsertOwner(newOwner);
     }
 
-    public async Task<Owner?> UpdateOwner(int OwnerId, Owner Owner)
+    public async Task<Owner?> UpdateOwner(int OwnerId, Owner newOwner)
     {
-        return await _ownerrepo.UpdateOwner(OwnerId,Owner);
+        return await _ownerrepo.UpdateOwner(OwnerId, newOwner);
     }
 
     public async Task DeleteOwner(int OwnerId)

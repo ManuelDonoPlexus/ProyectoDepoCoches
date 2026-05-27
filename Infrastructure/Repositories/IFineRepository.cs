@@ -55,7 +55,7 @@ public class FineRepository : IFineRepository
 
     public async Task<Fine?> UpdateFine(int FineId, Fine newFine)
     {
-        var result = await _cardepocontext.Fines.FindAsync(newFine);
+        var result = await GetFine(FineId);
 
         if (result != null)
         {

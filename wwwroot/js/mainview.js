@@ -955,15 +955,15 @@ function loadCarDriverTableContent(tablecontent) {
     const bton = document.createElement("button");
 
     for (let i = 0; i < tablecontent.length; i++) {
-        const driver = tablecontent[i];
+        const cardriver = tablecontent[i];
         let detailsBton = bton.cloneNode(false);
         detailsBton.innerText = "Detalles";
-        detailsBton.setAttribute("onclick", `showEditForm('driverdetailView',${driver.id})`);
+        detailsBton.setAttribute("onclick", `showEditForm('cardriverdetailView',${cardriver.id})`);
         detailsBton.setAttribute("class", "detailsBton");
 
         let deleteBton = bton.cloneNode(false);
         deleteBton.innerText = "Borrar";
-        deleteBton.setAttribute("onclick", `showDeleteConfirm(${driver.id}, 'driver')`);
+        deleteBton.setAttribute("onclick", `showDeleteConfirm(${cardriver.id}, 'driver')`);
         deleteBton.setAttribute("class", "deleteBton");
 
         let tr = tBody.insertRow();
@@ -971,17 +971,17 @@ function loadCarDriverTableContent(tablecontent) {
 
         let td0 = tr.insertCell(0);
         td0.setAttribute("class", "cardriverName");
-        let txtNode0 = document.createTextNode(driver.driver.name);
+        let txtNode0 = document.createTextNode(cardriver.driver.name);
         td0.appendChild(txtNode0);
 
         let td1 = tr.insertCell(1);
         td1.setAttribute("class", "cardriverDate");
-        let txtNode1 = document.createTextNode(driver.dateDrive);
+        let txtNode1 = document.createTextNode(cardriver.dateDrive);
         td1.appendChild(txtNode1);
 
         let td2 = tr.insertCell(2);
         td2.setAttribute("class", "cardriverAssociatedCar");
-        let txtNode2 = document.createTextNode(driver.car.license);
+        let txtNode2 = document.createTextNode(cardriver.car.license);
         td2.appendChild(txtNode2);
 
         let td3 = tr.insertCell(3);
@@ -1666,6 +1666,7 @@ function showEditForm(nameView, idEntity) {
     showView(nameView);
 
     if (nameView == "cardetailView") { carShowEdit(idEntity) }
+    if (nameView == "cardriverdetailView") { cardriverShowEdit(idEntity) }
     if (nameView == "driverdetailView") { driverShowEdit(idEntity) }
     if (nameView == "makedetailView") { makeShowEdit(idEntity) }
     if (nameView == "ownerdetailView") { ownerShowEdit(idEntity) }
@@ -1690,6 +1691,31 @@ function carShowEdit(id) {
     owner.disabled = true;
     make.value = car.make.name;
     make.disabled = true;
+
+    let delBton = document.getElementById("deleteEditCar");
+    delBton.setAttribute("onclick", `deleteCar(${id})`);
+
+    let enableBton = document.getElementById("enableEditCar");
+    enableBton.setAttribute("onclick", `enableEditCar(${id})`);
+    enableBton.hidden = false;
+
+    let saveBton = document.getElementById("saveEditCar");
+    saveBton.setAttribute("onclick", `saveEditCar(${id})`);
+    saveBton.hidden = true;
+}
+
+function cardriverShowEdit(id){
+    let cardriver = getSpecificCarDriver(id, "id");
+    let car = getSpecificCar(cardriver.carCDId, "id");
+    let driver = getSpecificDriver(cardriver.driverCDId, "id");
+
+    var carCDinput = document.getElementById("nameCarDriver");
+    var driverCDinput = document.getElementById("licenseCarDriver");
+    var dateCDinput = document.getElementById("dateCarDriver");
+
+    carCDinput.value = car.name;
+    driverCDinput.value = driver.license;
+    dateCDinput.value = cardriver.dateDrive;
 
     let delBton = document.getElementById("deleteEditCar");
     delBton.setAttribute("onclick", `deleteCar(${id})`);
@@ -1964,16 +1990,19 @@ function saveEditCar(id) {
         var editOwnerName = document.getElementById("ownerCar").value.trim();
         var editMakeName = document.getElementById("makeCar").value.trim();
 
-        editColor = getSpecificColor(editColorName, "name");
-        editOwner = getSpecificOwner(editOwnerName, "name");
-        editMake = getSpecificMake(editMakeName, "name");
+        var editColor = getSpecificColor(editColorName, "name");
+        var editOwner = getSpecificOwner(editOwnerName, "name");
+        var editMake = getSpecificMake(editMakeName, "name");
 
         const newcar = {
             license: editLicense,
             kms: editKms,
             colorId: editColor.id,
+            color: editColor,
             ownerId: editOwner.id,
-            makeId: editMake.id
+            owner: editOwner,
+            makeId: editMake.id,
+            make: editMake
         }
 
         var myHeaders = new Headers();
@@ -2005,11 +2034,12 @@ function saveEditCarDriver(id) {
 
         var editDriverCarDriver = getSpecificCar(nameCarDriver, "name");
         var editCarDriverCar = getSpecificDriver(licenseCarDriver,"license")
-        editMake = getSpecificMake(editMakeName, "name");
 
         const newcardriver = {
             carCDId: editCarDriverCar.id,
+            car: editCarDriverCar,
             driverCDId: editDriverCarDriver.id,
+            driver: editDriverCarDriver,
             dateDrive: dateCarDriver
         }
 
@@ -2033,6 +2063,47 @@ function saveEditCarDriver(id) {
     }
 }
 
+function saveEditDriver(id) {
+    try {
+        event.preventDefault();
+        var editName = document.getElementById("nameDriver").value.trim();
+        var editDni = document.getElementById("dniDriver").value.trim();
+        var editEmail = document.getElementById("emailaddrDriver").value.trim();
+        var editPhone = document.getElementById("phonenumberDriver").value.trim();
+
+        var editOwnerName = document.getElementById("ownerDriver").value.trim();
+        var editOwner = getSpecificOwner(editOwnerName, "name")
+
+        const newdriver = {
+            name: editName,
+            dni: editDni,
+            emailAddr: editEmail,
+            phoneNumber: editPhone,
+            ownerId: editOwner.id,
+            owner: editOwner
+        }
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token)
+        myHeaders.append("Accept", "application/json")
+        myHeaders.append("Content-Type", "application/json")
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: myHeaders,
+            redirect: 'follow',
+            body: JSON.stringify(newdriver)
+        }
+
+        fetch(baseurl + uriDriver + '/' + id, requestOptions)
+            .then(() => displayTable('driversTBody'))
+            .then(() => showView('driverview'))
+    } catch (error) {
+        console.error("Unable to add fine to database. ", error)
+    }
+
+}
+
 function saveEditMake(id) {
     try {
         event.preventDefault();
@@ -2042,12 +2113,12 @@ function saveEditMake(id) {
         var editFuelName = document.getElementById("fueltypeMake").value.trim();
         var editFuel = getSpecificFuel(editFuelName, "name")
 
-
         const newmake = {
             name: editName,
             horsePower: editHorsePower,
             price: editPrice,
-            fuelTypeId: editFuel.id
+            fuelTypeId: editFuel.id,
+            fuelType: editFuel
         }
 
         var myHeaders = new Headers();
@@ -2107,46 +2178,6 @@ function saveEditOwner(id) {
     }
 }
 
-function saveEditDriver(id) {
-    try {
-        event.preventDefault();
-        var editName = document.getElementById("nameDriver").value.trim();
-        var editDni = document.getElementById("dniDriver").value.trim();
-        var editEmail = document.getElementById("emailaddrDriver").value.trim();
-        var editPhone = document.getElementById("phonenumberDriver").value.trim();
-
-        var editOwnerName = document.getElementById("ownerDriver").value.trim();
-        var editOwner = getSpecificOwner(editOwnerName, "name")
-
-        const newdriver = {
-            name: editName,
-            dni: editDni,
-            emailAddr: editEmail,
-            phoneNumber: editPhone,
-            ownerId: editOwner.id
-        }
-
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + token)
-        myHeaders.append("Accept", "application/json")
-        myHeaders.append("Content-Type", "application/json")
-
-        var requestOptions = {
-            method: 'PUT',
-            headers: myHeaders,
-            redirect: 'follow',
-            body: JSON.stringify(newdriver)
-        }
-
-        fetch(baseurl + uriDriver + '/' + id, requestOptions)
-            .then(() => displayTable('driversTBody'))
-            .then(() => showView('driverview'))
-    } catch (error) {
-        console.error("Unable to add fine to database. ", error)
-    }
-
-}
-
 function saveEditFine(id) {
     try {
         event.preventDefault();
@@ -2157,8 +2188,8 @@ function saveEditFine(id) {
 
         var editOwnerName = document.getElementById("ownerFine").value.trim();
         var editCarName = document.getElementById("carFine").value.trim();
-        editOwner = getSpecificOwner(editOwnerName, "name");
-        editCar = getSpecificCar(editCarName, "name")
+        var editOwner = getSpecificOwner(editOwnerName, "name");
+        var editCar = getSpecificCar(editCarName, "name")
 
         var payed;
         if (editPayed.checked == true) { payed = true }
@@ -2170,7 +2201,9 @@ function saveEditFine(id) {
             description: editDescription,
             payed: payed,
             ownerId: editOwner.id,
+            owner: editOwner,
             carId: editCar.id,
+            car: editCar
         }
 
         var myHeaders = new Headers();

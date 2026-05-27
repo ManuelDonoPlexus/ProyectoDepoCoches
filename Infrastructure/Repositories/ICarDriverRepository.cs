@@ -56,7 +56,7 @@ public class CarDriverRepository : ICarDriverRepository
 
     public async Task<CarDriver?> UpdateCarDriver(int CarDriverId, CarDriver newCarDriver)
     {
-        var result = await _cardepocontext.CarDrivers.FindAsync(CarDriverId);
+        var result = await GetCarDriver(CarDriverId);
 
         if (result != null)
         {

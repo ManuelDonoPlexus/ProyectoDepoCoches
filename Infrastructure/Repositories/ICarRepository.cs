@@ -30,6 +30,7 @@ public class CarRepository : ICarRepository
             .Include(car => car.Color)
             .Include(car => car.Make)
             .Include(car => car.Owner)
+            .AsNoTracking()
             .ToListAsync();
     }
 
@@ -39,6 +40,7 @@ public class CarRepository : ICarRepository
             .Include(car => car.Color)
             .Include(car => car.Make)
             .Include(car => car.Owner)
+            .AsNoTracking()
             .FirstOrDefaultAsync(car => car.Id == CarId);
     }
 
@@ -49,7 +51,7 @@ public class CarRepository : ICarRepository
             EntityEntry<Car> car = _cardepocontext.Cars.Add(newCar);
             await _cardepocontext.SaveChangesAsync();
             return car?.Entity;
-        } 
+        }
         else { return null; }
     }
 
@@ -64,11 +66,11 @@ public class CarRepository : ICarRepository
             result.ColorId = newCar.ColorId;
             result.OwnerId = newCar.OwnerId;
             result.MakeId = newCar.MakeId;
-            
+
             await _cardepocontext.SaveChangesAsync();
             return result;
         }
-        else { return null; }        
+        else { return null; }
     }
 
     public async Task DeleteCar(int CarId)

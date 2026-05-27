@@ -52,7 +52,7 @@ public class ColorRepository : IColorRepository
 
     public async Task<Color?> UpdateColor(int ColorId, Color newColor)
     {
-        var result = await _cardepocontext.Colors.FindAsync(ColorId);
+        var result = await GetColor(ColorId);
 
         if (result != null)
         {
