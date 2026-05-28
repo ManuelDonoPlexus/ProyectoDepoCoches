@@ -2218,3 +2218,85 @@ function saveEditFine(id) {
         console.error("Unable to add fine to database. ", error)
     }
 }
+
+function exportToExcel(data) {
+    switch (data) {
+        case 'cars':
+            convertCarsToCsv(cars);
+            break;
+        case 'makes':
+            convertMakesToCsv(makes);
+            break;
+        case 'owners':
+            convertOwnersToCsv(owners);
+            break;
+        case 'drivers':
+            convertDriversToCsv(drivers)
+            break;
+        case 'cardrivers':
+            convertCarDriversToCsv(cardrivers)
+            break;
+        case 'fines':
+            convertFinesToCsv(fines)
+            break;
+        default:
+            break;
+    }
+
+    //window.open('data:application/vnd.ms-excel,' + encodeURIComponent(CsvString));
+    console.log(data)
+}
+
+function convertCarsToCsv(table){
+    var csvString = "";
+    csvString += "Matricula,Kilometros,Color,Propietario,Modelo,\r\n"
+    table.forEach(item => {
+        csvString += item.license+','+item.kms+','+item.color.name+','+item.owner.name+','+item.make.name+','+"\r\n";
+    });
+    window.open("data:application/vnd.ms-excel," + encodeURIComponent(csvString));
+}
+
+function convertMakesToCsv(table){
+    var csvString = "";
+    csvString += "Nombre,Poder de caballo,Precio,Combustible,\r\n"
+    table.forEach(item => {
+        csvString += item.name+','+item.horsePower+','+item.price+','+item.fuelType.name+','+"\r\n";
+    });
+    window.open("data:application/vnd.ms-excel," + encodeURIComponent(csvString));
+}
+
+function convertOwnersToCsv(table){
+    var csvString = "";
+    csvString += "Nombre,NIF,Fecha de entrada,Telefono,Dirección de correo,\r\n"
+    table.forEach(item => {
+        csvString += item.name+','+item.nif+','+item.dateEntry+','+item.phoneNumber+','+item.emailAddr+','+"\r\n";
+    });
+    window.open("data:application/vnd.ms-excel," + encodeURIComponent(csvString));
+}
+
+function convertDriversToCsv(table){
+    var csvString = "";
+    csvString += "Nombre,DNI,Telefono,Dirección de correo,Propietario asociado,\r\n"
+    table.forEach(item => {
+        csvString += item.name+','+item.dni+','+item.phoneNumber+','+item.emailAddr+','+item.owner.name+','+"\r\n";
+    });
+    window.open("data:application/vnd.ms-excel," + encodeURIComponent(csvString));
+}
+
+function convertCarDriversToCsv(table){
+    var csvString = "";
+    csvString += "Nombre del conductor,Fecha de conducción,Vehiculo asociado,\r\n"
+    table.forEach(item => {
+        csvString += item.driver.name+','+item.dateDrive+','+item.car.license+','+"\r\n";
+    });
+    window.open("data:application/vnd.ms-excel," + encodeURIComponent(csvString));
+}
+
+function convertFinesToCsv(table){
+    var csvString = "";
+    csvString += "Fecha,Importe,Descripción,Estado,Propietario asociado,Coche asociado,\r\n"
+    table.forEach(item => {
+        csvString += item.date+','+item.price+','+item.description+','+item.payed+','+item.owner.name+','+item.car.license+"\r\n";
+    });
+    window.open("data:application/vnd.ms-excel," + encodeURIComponent(csvString));
+}

@@ -44,10 +44,11 @@
                     onkeyup="search('carSearchbar', 'carsTBody', 'carLicense')"
                     placeholder="Buscar coche por matricula...">
                 <button class="addBton" onclick="showView('carCreate')">Crear coche</button>
+                <button class="exportBton" onclick="exportToExcel('cars')">Exportar a Excel</button>
             </div>
 
             <div id="carTable">
-                <table class="datatable">
+                <table class="datatable" id="cardataTable">
                     <div class="page-container" id="carTablepages"></div>
                     <tr>
                         <th>Matricula</th>
@@ -71,11 +72,12 @@
                     onkeyup="search('makeSearchBar', 'makesTBody', 'makeName')"
                     placeholder="Buscar modelo por nombre...">
                 <button class="addBton" onclick="showView('makeCreate')">Crear modelo</button>
+                <button class="exportBton" onclick="exportToExcel('makes')">Exportar a Excel</button>
             </div>
 
             <div id="makeTable">
                 <div class="page-container" id="makeTablepages"></div>
-                <table class="datatable">
+                <table class="datatable" id="makedataTable">
                     <tr>
                         <th>Nombre</th>
                         <th>Poder de caballo</th>
@@ -97,10 +99,11 @@
                     onkeyup="search('ownerSearchbar', 'ownersTBody', 'ownerName')"
                     placeholder="Buscar propietario por nombre...">
                 <button class="addBton" onclick="showView('ownerCreate')">Crear propietario</button>
+                <button class="exportBton" onclick="exportToExcel('owners')">Exportar a Excel</button>
             </div>
 
             <div id="ownerTable">
-                <table class="datatable">
+                <table class="datatable" id="ownerdataTable">
                     <div class="page-container" id="ownerTablepages"></div>
                     <tr>
                         <th>Nombre</th>
@@ -121,8 +124,7 @@
 
             <div class="button-shows">
                 <button class="regularBton" onclick="showDrivers('drivers')">Mostrar los conductores</button>
-                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar los conductores asociados a
-                    vehiculos</button>
+                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar los conductores asociados a vehiculos</button>
             </div>
 
             <div id="drivers">
@@ -132,8 +134,9 @@
                         onkeyup="search('driverSearchbar', 'driversTBody', 'driverName')"
                         placeholder="Buscar conductor por nombre...">
                     <button class="addBton" onclick="showView('driverCreate')">Crear conductor</button>
+                <button class="exportBton" onclick="exportToExcel('drivers')">Exportar a Excel</button>
                 </div>
-                <table class="datatable">
+                <table class="datatable" id="driverdataTable">
                     <div class="page-container" id="driverTablepages"></div>
                     <tr>
                         <th>Nombre</th>
@@ -154,8 +157,9 @@
                         onkeyup="search('cardriverSearchbar', 'cardriversTBody', 'cardriverName')"
                         placeholder="Buscar conductor por nombre...">
                     <button class="addBton" onclick="showView('cardriverCreate')">Crear conductor</button>
+                <button class="exportBton" onclick="exportToExcel('cardrivers')">Exportar a Excel</button>
                 </div>
-                <table class="datatable">
+                <table class="datatable" id="cardriverdataTable">
                     <div class="page-container" id="cardriverTablepages"></div>
                     <tr>
                         <th>Nombre del conductor</th>
@@ -179,8 +183,9 @@
                         onkeyup="search('fineSearchbar','fineTBody','fineDate')"
                         placeholder="Buscar multa por fecha...">
                     <button class="addBton" onclick="showView('fineCreate')">Crear multa</button>
+                    <button class="exportBton" onclick="exportToExcel('fines')">Exportar a Excel</button>
                 </div>
-                <table class="datatable">
+                <table class="datatable" id="finedataTable">
                     <div class="page-container" id="fineTablepages"></div>
                     <tr>
                         <th>Fecha</th>

@@ -135,12 +135,12 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    width: 100%;
     margin-top: 5%;
 }
 
 .view-info button{
     margin-left: 5%;
-    margin-right: 5%;
 }
 
 .stadisticsview{
@@ -368,6 +368,24 @@ body {
     color: white;
     background-color: red;
     border-color: red;
+}
+
+.exportBton{
+    font-family: 'Oswald', sans-serif;
+    width: 15%;
+    border-radius: 16px;
+    font-size: 16px;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border:2px solid black;
+    transition-duration: 0.4s;
+}
+
+.exportBton:hover {
+    color: white;
+    background-color: green;
+    border-color: green;
 }
 
 .viewDeleteBton{
