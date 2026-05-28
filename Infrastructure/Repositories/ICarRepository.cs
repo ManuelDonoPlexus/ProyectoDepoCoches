@@ -94,7 +94,11 @@ public class CarRepository : ICarRepository
             result.ColorId = newCar.ColorId;
             result.OwnerId = newCar.OwnerId;
             result.MakeId = newCar.MakeId;
-
+            result.Color = newCar.Color;
+            result.Make = newCar.Make;
+            result.Owner = newCar.Owner;
+            
+            _cardepocontext.Cars.Update(result);
             await _cardepocontext.SaveChangesAsync();
 
             var dto = new CarDTO()

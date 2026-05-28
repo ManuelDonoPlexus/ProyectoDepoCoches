@@ -77,6 +77,7 @@ public class ColorRepository : IColorRepository
         if (result != null)
         {
             result.Name = newColor.Name;
+            _cardepocontext.Colors.Update(result);
             await _cardepocontext.SaveChangesAsync();
 
             var dto = new ColorDTO()

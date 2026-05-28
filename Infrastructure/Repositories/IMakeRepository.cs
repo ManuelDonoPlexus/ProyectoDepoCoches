@@ -88,6 +88,9 @@ public class MakeRepository : IMakeRepository
             result.Name = newMake.Name;
             result.Price = newMake.Price;
             result.FuelTypeId = newMake.FuelTypeId;
+            result.FuelType = newMake.FuelType;
+
+            _cardepocontext.Makes.Update(result);
             await _cardepocontext.SaveChangesAsync();
 
             var dto = new MakeDTO()

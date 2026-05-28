@@ -81,7 +81,7 @@ public class OwnerRepository : IOwnerRepository
 
     public async Task<OwnerDTO?> UpdateOwner(int OwnerId, Owner newOwner)
     {
-        var result = await GetOwner(OwnerId);
+        var result = await _cardepocontext.Owners.FindAsync(OwnerId);
 
         if (result != null)
         {
@@ -90,6 +90,8 @@ public class OwnerRepository : IOwnerRepository
             result.PhoneNumber = newOwner.PhoneNumber;
             result.DateEntry = newOwner.DateEntry;
             result.EmailAddr = newOwner.EmailAddr;
+            
+            _cardepocontext.Owners.Update(result);
             await _cardepocontext.SaveChangesAsync();
 
             var dto = new OwnerDTO()

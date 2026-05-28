@@ -78,6 +78,8 @@ public class FuelTypeRepository : IFuelTypeRepository
         if (result != null)
         {
             result.Name = newFuelType.Name;
+
+            _cardepocontext.FuelTypes.Update(result);
             await _cardepocontext.SaveChangesAsync();
             
             var dto = new FuelTypeDTO()

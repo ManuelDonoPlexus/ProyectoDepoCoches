@@ -1708,26 +1708,26 @@ function carShowEdit(id) {
 
 function cardriverShowEdit(id) {
     let cardriver = getSpecificCarDriver(id, "id");
-    let car = getSpecificCar(cardriver.carCDId, "id");
-    let driver = getSpecificDriver(cardriver.driverCDId, "id");
-
-    var carCDinput = document.getElementById("nameCarDriver");
-    var driverCDinput = document.getElementById("licenseCarDriver");
+    var nameCDinput = document.getElementById("nameCarDriver");
+    var licenseCDinput = document.getElementById("licenseCarDriver");
     var dateCDinput = document.getElementById("dateCarDriver");
 
-    carCDinput.value = car.name;
-    driverCDinput.value = driver.license;
+    nameCDinput.value = cardriver.driver.name;
+    nameCDinput.disabled = true;
+    licenseCDinput.value = cardriver.car.license;
+    licenseCDinput.disabled = true;
     dateCDinput.value = cardriver.dateDrive;
+    dateCDinput.disabled = true;
 
-    let delBton = document.getElementById("deleteEditCar");
-    delBton.setAttribute("onclick", `deleteCar(${id})`);
+    let delBton = document.getElementById("deleteEditCarDriver");
+    delBton.setAttribute("onclick", `deleteCarDriver(${id})`);
 
-    let enableBton = document.getElementById("enableEditCar");
-    enableBton.setAttribute("onclick", `enableEditCar(${id})`);
+    let enableBton = document.getElementById("enableEditCarDriver");
+    enableBton.setAttribute("onclick", `enableEditCarDriver(${id})`);
     enableBton.hidden = false;
 
-    let saveBton = document.getElementById("saveEditCar");
-    saveBton.setAttribute("onclick", `saveEditCar(${id})`);
+    let saveBton = document.getElementById("saveEditCarDriver");
+    saveBton.setAttribute("onclick", `saveEditCarDriver(${id})`);
     saveBton.hidden = true;
 }
 
@@ -2027,16 +2027,16 @@ function saveEditCar(id) {
 function saveEditCarDriver(id) {
     try {
         event.preventDefault();
-        var nameCarDriver = document.getElementById("nameCarDriver").value.trim();
-        var dateCarDriver = document.getElementById("dateCarDriver").value.trim();
+        var nameDriverCarDriver = document.getElementById("nameCarDriver").value.trim();
         var licenseCarDriver = document.getElementById("licenseCarDriver").value.trim();
+        var dateCarDriver = document.getElementById("dateCarDriver").value.trim();
 
-        var editDriverCarDriver = getSpecificCar(nameCarDriver, "name");
-        var editCarDriverCar = getSpecificDriver(licenseCarDriver, "license")
+        var driverCD = getSpecificDriver(nameDriverCarDriver, "name");
+        var carCD = getSpecificCar(licenseCarDriver, "license");
 
         const newcardriver = {
-            carCDId: editCarDriverCar.id,
-            driverCDId: editDriverCarDriver.id,
+            carCDId: carCD.id,
+            driverCDId: driverCD.id,
             dateDrive: dateCarDriver
         }
 
@@ -2053,8 +2053,8 @@ function saveEditCarDriver(id) {
         }
 
         fetch(baseurl + uriCarDriver + '/' + id, requestOptions)
-            .then(() => displayTable('carsTBody'))
-            .then(() => showView('carview'))
+            .then(() => displayTable('cardriversTBody'))
+            .then(() => showView('driverview'))
     } catch (error) {
         console.error("Unable to add fine to database. ", error)
     }

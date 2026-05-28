@@ -91,6 +91,9 @@ public class DriverRepository : IDriverRepository
             result.EmailAddr = newDriver.EmailAddr;
             result.PhoneNumber = newDriver.PhoneNumber;
             result.OwnerId = newDriver.OwnerId;
+            result.Owner = newDriver.Owner;
+            
+            _cardepocontext.Drivers.Update(result);
             await _cardepocontext.SaveChangesAsync();
 
             var dto = new DriverDTO()

@@ -6,7 +6,7 @@ namespace CarDepo.API.Models;
 public class Driver
 {
     [Key]
-    public required int Id { get; set; }
+    public int Id { get; set; }
     
     public required string Name { get; set; }
     public required string Dni { get; set; }

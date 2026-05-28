@@ -96,6 +96,10 @@ public class FineRepository : IFineRepository
             result.Payed = newFine.Payed;
             result.OwnerId = newFine.OwnerId;
             result.CarId = newFine.CarId;
+            result.Owner = newFine.Owner;
+            result.Car = newFine.Car;
+
+            _cardepocontext.Fines.Update(result);
             await _cardepocontext.SaveChangesAsync();
 
             var dto = new FineDTO()
