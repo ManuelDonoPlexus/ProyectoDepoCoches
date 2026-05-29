@@ -24,7 +24,7 @@ namespace CarDepo.Infrastructure.Data
 
             new CarEntityTypeConfiguration().Configure(modelBuilder.Entity<Car>());
             new CarDriverEntityTypeConfiguration().Configure(modelBuilder.Entity<CarDriver>());
-            new ColorDriverEntityTypeConfiguration().Configure(modelBuilder.Entity<Color>());
+            new ColorEntityTypeConfiguration().Configure(modelBuilder.Entity<Color>());
             new DriverEntityTypeConfiguration().Configure(modelBuilder.Entity<Driver>());
             new FineEntityTypeConfiguration().Configure(modelBuilder.Entity<Fine>());
             new FuelTypeEntityTypeConfiguration().Configure(modelBuilder.Entity<FuelType>());

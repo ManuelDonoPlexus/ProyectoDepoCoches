@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CarDepo.Infrastructure.EntityProperties;
 
-public class ColorDriverEntityTypeConfiguration : IEntityTypeConfiguration<Color>
+public class ColorEntityTypeConfiguration : IEntityTypeConfiguration<Color>
 {
     public void Configure(EntityTypeBuilder<Color> builder)
     {
