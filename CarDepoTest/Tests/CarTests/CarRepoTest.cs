@@ -1,22 +1,16 @@
 using CarDepo.API.Models;
 using Moq;
 using CarDepo.Infrastructure.Repositories;
-using CarDepo.API.Controllers;
-using Microsoft.AspNetCore.Mvc;
-using CarDepo.Application.Services;
-using CarDepo.API.DTOs.Car;
-using CarDepo.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using CarDepo.CarDepoTest.Utils;
+using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.CarTests;
+namespace CarDepo.CarDepoTest.Tests.CarTests;
 
 public class CarRepoTest
 {
     private readonly CarRepository _carrepoMock;
 
     public CarRepoTest(){
-        _carrepoMock = new CarRepository(new RepoClassTest().ReturnFakeContext());
+        _carrepoMock = new CarRepository(new RepoClassTestUtil().ReturnFakeContext());
     }
 
     [Fact]
@@ -84,7 +78,7 @@ public class CarRepoTest
     {
         var newcartest = new Car
         {
-            Id = 1,
+            Id = 9461232,
             License = "9101112-GHI",
             Kms = 300,
             ColorId = 1,
@@ -117,7 +111,7 @@ public class CarRepoTest
     }
 
     [Fact]
-    public async Task IfCarExists_Fail()
+    public async Task IfCarDoesNotExists_Fail()
     {
         var result = _carrepoMock.IfCarExists(935231311);
 

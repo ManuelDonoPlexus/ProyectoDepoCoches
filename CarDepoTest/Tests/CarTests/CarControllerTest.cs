@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Car;
 
-namespace CarDepo.CarDepoTest.CarTests;
+namespace CarDepo.CarDepoTest.Tests.CarTests;
 
 public class CarControllerTest
 {
@@ -48,11 +48,11 @@ public class CarControllerTest
     public async Task CreateCar_ReturnsBadRequestWhenNull()
     {
         _carrepoMock.Setup(r => r.InsertCar(null))
-            .ReturnsAsync((CarDTO?)null);
+            .Returns((Task<CarDTO?>)null);
         
         var result = await _carcontroller.CreateCar(null);
 
-        Assert.IsType<BadRequestResult>(result.Result);
+        Assert.IsType<BadRequestResult>(result?.Result);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class CarControllerTest
             OwnerId = 1
         };
 
-        var caredit = new CarDTO
+        var carDTO = new CarDTO
         {
             Id = testcar.Id,
             License = testcar.License,
@@ -79,7 +79,7 @@ public class CarControllerTest
         };
 
         _carrepoMock.Setup(r => r.UpdateCar(1, testcar))
-            .ReturnsAsync(caredit);
+            .ReturnsAsync(carDTO);
 
         var result = await _carcontroller.GetAllCars();
 

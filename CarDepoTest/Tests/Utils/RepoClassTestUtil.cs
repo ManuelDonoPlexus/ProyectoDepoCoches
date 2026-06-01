@@ -2,9 +2,9 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarDepo.CarDepoTest.Utils;
+namespace CarDepo.CarDepoTest.Tests.Utils;
 
-public class RepoClassTest()
+public class RepoClassTestUtil()
 {
     public CarDepoContext ReturnFakeContext()
     {

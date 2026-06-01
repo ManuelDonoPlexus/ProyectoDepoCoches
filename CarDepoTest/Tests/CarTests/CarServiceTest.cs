@@ -1,12 +1,10 @@
 using CarDepo.API.Models;
 using Moq;
 using CarDepo.Infrastructure.Repositories;
-using CarDepo.API.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Car;
 
-namespace CarDepo.CarDepoTest.CarTests;
+namespace CarDepo.CarDepoTest.Tests.CarTests;
 
 public class CarServiceTest
 {
@@ -32,7 +30,7 @@ public class CarServiceTest
             OwnerId = 1
         };
 
-        var cardto = new CarDTO
+        var carDTO = new CarDTO
         {
             Id = testcar.Id,
             License = testcar.License,
@@ -43,7 +41,7 @@ public class CarServiceTest
         };
 
         _carrepoMock.Setup(r => r.InsertCar(testcar))
-            .ReturnsAsync(cardto);
+            .ReturnsAsync(carDTO);
         
         var result = await _carserviceMock.InsertCar(testcar);
 
