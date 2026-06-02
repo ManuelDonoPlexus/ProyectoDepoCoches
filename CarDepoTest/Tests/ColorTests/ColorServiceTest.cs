@@ -3,6 +3,7 @@ using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Color;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.ColorTests;
 
@@ -13,27 +14,22 @@ public class ColorServiceTest
 
     public ColorServiceTest()
     {
-        _colorrepoMock = new Mock<ColorRepository>();
+        _colorrepoMock = new Mock<ColorRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _colorserviceMock = new ColorService(_colorrepoMock.Object);
     }
 
     [Fact]
-    public async Task InsertCar_ReturnsInsertedCar()
+    public async Task InsertColor_ReturnsInsertedCar()
     {
         Color testcolor = new Color
         {
-            Id = 1,
-            Name = "Azul"
+            Name = "Verde"
         };
 
         var colorDTO = new ColorDTO
         {
-            Id = 1,
-            Name = "Azul"
+            Name = "Violeta"
         };
-
-        _colorrepoMock.Setup(r => r.InsertColor(testcolor))
-            .ReturnsAsync(colorDTO);
         
         var result = await _colorserviceMock.InsertColor(testcolor);
 

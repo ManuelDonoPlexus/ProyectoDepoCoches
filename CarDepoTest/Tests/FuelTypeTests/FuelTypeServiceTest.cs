@@ -3,6 +3,7 @@ using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.FuelType;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.FuelTypeTests;
 
@@ -13,27 +14,17 @@ public class FuelTypeServiceTest
 
     public FuelTypeServiceTest()
     {
-        _fuelrepoMock = new Mock<FuelTypeRepository>();
+        _fuelrepoMock = new Mock<FuelTypeRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _fuelserviceMock = new FuelTypeService(_fuelrepoMock.Object);
     }
 
     [Fact]
-    public async Task InsertFuelType_ReturnsInsertedDriver()
+    public async Task InsertFuelType_ReturnsInsertedFuelType()
     {
         FuelType testfuel = new FuelType
         {
-            Id = 1,
             Name = "Diesel"
         };
-
-        FuelTypeDTO fuelDTO = new FuelTypeDTO
-        {
-            Id = testfuel.Id,
-            Name = "Gasolina"
-        };
-
-        _fuelrepoMock.Setup(r => r.InsertFuelType(testfuel))
-            .ReturnsAsync(fuelDTO);
         
         var result = await _fuelserviceMock.InsertFuelType(testfuel);
 

@@ -13,7 +13,7 @@ public class FineRepoTest
     }
 
     [Fact]
-    public async Task GetFines_ReturnsDrivers()
+    public async Task GetFines_ReturnsFines()
     {
         var result = await _finerepoMock.GetFines();
 
@@ -41,7 +41,6 @@ public class FineRepoTest
     {
         Fine testfine = new Fine
         {
-            Id = 1,
             Price = 100.00M,
             Payed = true,
             Description = "",

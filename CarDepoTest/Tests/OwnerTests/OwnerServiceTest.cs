@@ -4,6 +4,7 @@ using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Make;
 using CarDepo.API.DTOs.Owner;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.MakeTests;
 
@@ -14,35 +15,21 @@ public class OwnerServiceTest
 
     public OwnerServiceTest()
     {
-        _ownerrepoMock = new Mock<OwnerRepository>();
+        _ownerrepoMock = new Mock<OwnerRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _ownerserviceMock = new OwnerService(_ownerrepoMock.Object);
     }
 
     [Fact]
-    public async Task InsertFuelType_ReturnsInsertedDriver()
+    public async Task InsertOwner_ReturnsInsertedOwner()
     {
         Owner testowner = new Owner
         {
-            Id = 1,
             Name = "Test INC",
             Nif = "A11113333",
             PhoneNumber = 999222111,
             DateEntry = DateOnly.Parse("2001-01-01"),
             EmailAddr = "test@mail"
         };
-
-        var ownerDTO = new OwnerDTO
-        {
-            Id = testowner.Id,
-            Name = testowner.Name,
-            Nif = testowner.Nif,
-            PhoneNumber = 923145678,
-            DateEntry = testowner.DateEntry,
-            EmailAddr = testowner.EmailAddr
-        };
-
-        _ownerrepoMock.Setup(r => r.InsertOwner(testowner))
-            .ReturnsAsync(ownerDTO);
         
         var result = await _ownerserviceMock.InsertOwner(testowner);
 

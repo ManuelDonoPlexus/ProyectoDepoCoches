@@ -5,6 +5,7 @@ using CarDepo.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Car;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.CarTests;
 
@@ -16,7 +17,7 @@ public class CarControllerTest
 
     public CarControllerTest()
     {
-        _carrepoMock = new Mock<CarRepository>();
+        _carrepoMock = new Mock<CarRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _carserviceMock = new Mock<CarService>(_carrepoMock.Object);
         _carcontroller = new CarController(_carserviceMock.Object);
     }
@@ -24,21 +25,6 @@ public class CarControllerTest
     [Fact]
     public async Task GetAllCars_ReturnsOk()
     {
-        Car testcar = new Car
-        {
-            Id = 1,
-            License = "1234-ABC",
-            Kms = 100,
-            ColorId = 1,
-            MakeId = 1,
-            OwnerId = 1
-        };
-
-        var cars = new List<Car>(){testcar};
-
-        _carrepoMock.Setup(r => r.GetCars())
-            .ReturnsAsync(cars);
-
         var result = await _carcontroller.GetAllCars();
 
         Assert.IsType<OkObjectResult>(result.Result);
@@ -47,9 +33,6 @@ public class CarControllerTest
     [Fact]
     public async Task CreateCar_ReturnsBadRequestWhenNull()
     {
-        _carrepoMock.Setup(r => r.InsertCar(null))
-            .Returns((Task<CarDTO?>)null);
-        
         var result = await _carcontroller.CreateCar(null);
 
         Assert.IsType<BadRequestResult>(result?.Result);
@@ -60,7 +43,6 @@ public class CarControllerTest
     {
         Car testcar = new Car
         {
-            Id = 1,
             License = "1234-ABC",
             Kms = 100,
             ColorId = 1,
@@ -68,20 +50,7 @@ public class CarControllerTest
             OwnerId = 1
         };
 
-        var carDTO = new CarDTO
-        {
-            Id = testcar.Id,
-            License = testcar.License,
-            Kms = 300,
-            ColorId = 2,
-            MakeId = testcar.ColorId,
-            OwnerId = testcar.OwnerId
-        };
-
-        _carrepoMock.Setup(r => r.UpdateCar(1, testcar))
-            .ReturnsAsync(carDTO);
-
-        var result = await _carcontroller.GetAllCars();
+        var result = await _carcontroller.ModifyCar(1, testcar);
 
         Assert.IsType<OkObjectResult>(result);
     }

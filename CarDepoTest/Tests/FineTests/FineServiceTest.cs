@@ -3,6 +3,7 @@ using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Fine;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.FineTests;
 
@@ -13,16 +14,15 @@ public class FineServiceTest
 
     public FineServiceTest()
     {
-        _finerepoMock = new Mock<FineRepository>();
+        _finerepoMock = new Mock<FineRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _fineserviceMock = new FineService(_finerepoMock.Object);
     }
 
     [Fact]
-    public async Task InsertFine_ReturnsInsertedDriver()
+    public async Task InsertFine_ReturnsInsertedFine()
     {
         Fine testfine = new Fine
         {
-            Id = 1,
             Price = 100.00M,
             Payed = true,
             Description = "",
@@ -30,20 +30,6 @@ public class FineServiceTest
             OwnerId = 1,
             CarId = 1
         };
-
-        var fineDTO = new FineDTO
-        {
-            Id = testfine.Id,
-            Price = testfine.Price,
-            Payed = true,
-            Description = testfine.Description,
-            Date = testfine.Date,
-            OwnerId = testfine.OwnerId,
-            CarId = testfine.CarId
-        };
-
-        _finerepoMock.Setup(r => r.InsertFine(testfine))
-            .ReturnsAsync(fineDTO);
         
         var result = await _fineserviceMock.InsertFine(testfine);
 

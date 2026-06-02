@@ -13,28 +13,28 @@ public class OwnerRepoTest
     }
 
     [Fact]
-    public async Task GetMake_ReturnsDrivers()
+    public async Task GetOwner_ReturnsOwners()
     {
         var result = await _ownerrepoMock.GetOwners();
         Assert.NotNull(result);
     }
 
     [Fact]
-    public async Task GetMake_ReturnsDTOWhenExists()
+    public async Task GetOwner_ReturnsDTOWhenExists()
     {
         var result = await _ownerrepoMock.GetOwner(1);
         Assert.NotNull(result);
     }
 
     [Fact]
-    public async Task GetMake_ReturnsNullWhenNotExists()
+    public async Task GetOwner_ReturnsNullWhenNotExists()
     {
         var result = await _ownerrepoMock.GetOwner(362562);
         Assert.Null(result);
     }
 
     [Fact]
-    public async Task InsertMake_Success()
+    public async Task InsertOwner_Success()
     {
         Owner testowner = new Owner
         {
@@ -51,7 +51,7 @@ public class OwnerRepoTest
     }
 
     [Fact]
-    public async Task UpdateFuelType_Success()
+    public async Task UpdateOwner_Success()
     {
         Owner testowner = new Owner
         {
@@ -68,7 +68,7 @@ public class OwnerRepoTest
     }
 
     [Fact]
-    public async Task UpdateFuelType_ReturnsNullWhenNotFound()
+    public async Task UpdateOwner_ReturnsNullWhenNotFound()
     {
         Owner testowner = new Owner
         {
@@ -85,7 +85,7 @@ public class OwnerRepoTest
     }
 
     [Fact]
-    public async Task DeleteFuelType_Success()
+    public async Task DeleteOwner_Success()
     {
         await _ownerrepoMock.DeleteOwner(1);
         var result = await _ownerrepoMock.GetOwner(1);
@@ -93,14 +93,14 @@ public class OwnerRepoTest
     }
 
     [Fact]
-    public async Task IfFuelTypeExists_Success()
+    public async Task IfOwnerExists_Success()
     {
         var result = _ownerrepoMock.IfOwnerExists(1);
         Assert.True(result);
     }
 
     [Fact]
-    public async Task IfFuelTypeDoesNotExists_Fail()
+    public async Task IfOwnerDoesNotExists_Fail()
     {
         var result = _ownerrepoMock.IfOwnerExists(935231311);
         Assert.False(result);

@@ -5,6 +5,7 @@ using CarDepo.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Color;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.ColorTests;
 
@@ -16,24 +17,19 @@ public class ColorControllerTest
 
     public ColorControllerTest()
     {
-        _colorrepoMock = new Mock<ColorRepository>();
+        _colorrepoMock = new Mock<ColorRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _colorserviceMock = new Mock<ColorService>(_colorrepoMock.Object);
         _colorcontroller = new ColorController(_colorserviceMock.Object);
     }
 
     [Fact]
-    public async Task GetAllCars_ReturnsOk()
+    public async Task GetAllColors_ReturnsOk()
     {
         Color testcolor = new Color
         {
             Id = 1,
             Name = "Azul"
         };
-
-        var colors = new List<Color>(){testcolor};
-
-        _colorrepoMock.Setup(r => r.GetColors())
-            .ReturnsAsync(colors);
 
         var result = await _colorcontroller.GetAllColors();
 
@@ -41,35 +37,22 @@ public class ColorControllerTest
     }
 
     [Fact]
-    public async Task CreateCar_ReturnsBadRequestWhenNull()
+    public async Task CreateColor_ReturnsBadRequestWhenNull()
     {
-        _colorrepoMock.Setup(r => r.InsertColor(null))
-            .Returns((Task<ColorDTO?>)null);
-        
         var result = await _colorcontroller.CreateColor(null);
 
         Assert.IsType<BadRequestResult>(result?.Result);
     }
 
     [Fact]
-    public async Task ModifyCar_ReturnsOk()
+    public async Task ModifyColor_ReturnsOk()
     {
         Color testcolor = new Color
         {
-            Id = 1,
-            Name = "Azul"
+            Name = "Violeta"
         };
 
-        var colorDTO = new ColorDTO
-        {
-            Id = 1,
-            Name = "Rojo"
-        };
-
-        _colorrepoMock.Setup(r => r.UpdateColor(1, testcolor))
-            .ReturnsAsync(colorDTO);
-
-        var result = await _colorcontroller.GetAllColors();
+        var result = await _colorcontroller.ModifyColor(1, testcolor);
 
         Assert.IsType<OkObjectResult>(result);
     }

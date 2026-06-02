@@ -3,6 +3,7 @@ using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.CarDriver;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.CarTests;
 
@@ -13,7 +14,7 @@ public class CarDriverServiceTest
 
     public CarDriverServiceTest()
     {
-        _cardriverrepoMock = new Mock<CarDriverRepository>();
+        _cardriverrepoMock = new Mock<CarDriverRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _cardriverserviceMock = new CarDriverService(_cardriverrepoMock.Object);
     }
 
@@ -22,22 +23,10 @@ public class CarDriverServiceTest
     {
         CarDriver testcardriver = new CarDriver
         {
-            Id = 1,
             DateDrive = DateOnly.Parse("2001-01-1"),
             CarCDId = 1,
             DriverCDId = 1
         };
-
-        var cardriverDTO = new CarDriverDTO
-        {
-            Id = testcardriver.Id,
-            DateDrive = testcardriver.DateDrive,
-            CarCDId = testcardriver.CarCDId,
-            DriverCDId = testcardriver.DriverCDId
-        };
-
-        _cardriverrepoMock.Setup(r => r.InsertCarDriver(testcardriver))
-            .ReturnsAsync(cardriverDTO);
         
         var result = await _cardriverserviceMock.InsertCarDriver(testcardriver);
 

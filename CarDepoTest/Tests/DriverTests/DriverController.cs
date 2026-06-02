@@ -5,6 +5,7 @@ using CarDepo.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Driver;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.DriverTests;
 
@@ -16,7 +17,7 @@ public class DriverControllerTest
 
     public DriverControllerTest()
     {
-        _driverrepoMock = new Mock<DriverRepository>();
+        _driverrepoMock = new Mock<DriverRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _driverserviceMock = new Mock<DriverService>(_driverrepoMock.Object);
         _drivercontroller = new DriverController(_driverserviceMock.Object);
     }
@@ -36,9 +37,6 @@ public class DriverControllerTest
 
         var drivers = new List<Driver>(){testdriver};
 
-        _driverrepoMock.Setup(r => r.GetDrivers())
-            .ReturnsAsync(drivers);
-
         var result = await _drivercontroller.GetAllDrivers();
 
         Assert.IsType<OkObjectResult>(result.Result);
@@ -46,10 +44,7 @@ public class DriverControllerTest
 
     [Fact]
     public async Task CreateDriver_ReturnsBadRequestWhenNull()
-    {
-        _driverrepoMock.Setup(r => r.InsertDriver(null))
-            .Returns((Task<DriverDTO?>)null);
-        
+    {        
         var result = await _drivercontroller.CreateDriver(null);
 
         Assert.IsType<BadRequestResult>(result?.Result);
@@ -60,7 +55,6 @@ public class DriverControllerTest
     {
         Driver testdriver = new Driver
         {
-            Id = 1,
             Name = "Pepe",
             Dni = "11111111A",
             EmailAddr = "pepe@mail.com",
@@ -68,20 +62,7 @@ public class DriverControllerTest
             OwnerId = 1,
         };
 
-        var driverDTO = new DriverDTO
-        {
-            Id = testdriver.Id,
-            Name = testdriver.Name,
-            Dni = testdriver.Dni,
-            EmailAddr = testdriver.EmailAddr,
-            PhoneNumber = 987654321,
-            OwnerId = testdriver.OwnerId
-        };
-
-        _driverrepoMock.Setup(r => r.UpdateDriver(1, testdriver))
-            .ReturnsAsync(driverDTO);
-
-        var result = await _drivercontroller.GetAllDrivers();
+        var result = await _drivercontroller.ModifyDriver(1, testdriver);
 
         Assert.IsType<OkObjectResult>(result);
     }

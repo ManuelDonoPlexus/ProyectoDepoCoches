@@ -3,6 +3,7 @@ using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Make;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.MakeTests;
 
@@ -13,33 +14,20 @@ public class FuelTypeServiceTest
 
     public FuelTypeServiceTest()
     {
-        _makerepoMock = new Mock<MakeRepository>();
+        _makerepoMock = new Mock<MakeRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _makeserviceMock = new MakeService(_makerepoMock.Object);
     }
 
     [Fact]
-    public async Task InsertFuelType_ReturnsInsertedDriver()
+    public async Task InsertMake_ReturnsInsertedMake()
     {
         Make testmake = new Make
         {
-            Id = 1,
             Name = "Seat",
             HorsePower = 100,
             Price = 1000.00M,
             FuelTypeId = 1
         };
-
-        var makeDTO = new MakeDTO
-        {
-            Id = testmake.Id,
-            Name = testmake.Name,
-            HorsePower = testmake.HorsePower,
-            Price = 1500.00M,
-            FuelTypeId = testmake.FuelTypeId
-        };
-
-        _makerepoMock.Setup(r => r.InsertMake(testmake))
-            .ReturnsAsync(makeDTO);
         
         var result = await _makeserviceMock.InsertMake(testmake);
 

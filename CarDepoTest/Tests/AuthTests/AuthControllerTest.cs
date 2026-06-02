@@ -2,6 +2,7 @@ using CarDepo.API.Controllers;
 using CarDepo.API.DTOs;
 using CarDepo.API.Models;
 using CarDepo.Application.Services;
+using CarDepo.CarDepoTest.Tests.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 
@@ -15,7 +16,7 @@ public class AuthControllerTest
 
     public AuthControllerTest()
     {
-        _authrepoMock = new Mock<AuthRepository>();
+        _authrepoMock = new Mock<AuthRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _authserviceMock = new Mock<AuthService>(_authrepoMock.Object);
         _authcontroller = new AuthController(_authserviceMock.Object);
     }
@@ -30,8 +31,6 @@ public class AuthControllerTest
             Email = "manolo@manolo" 
         };
 
-        _authrepoMock.Setup(r => r.Register(userDTO));
-
         var result = _authcontroller.Register(userDTO);
 
         Assert.IsType<Ok>(result);
@@ -45,8 +44,6 @@ public class AuthControllerTest
             Password = "manolo",
             Email = "manolo@manolo" 
         };
-
-        _authrepoMock.Setup(r => r.Login(loginDTO));
 
         var result = await _authcontroller.Login(loginDTO);
 

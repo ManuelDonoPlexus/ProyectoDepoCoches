@@ -5,6 +5,7 @@ using CarDepo.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.FuelType;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.FuelTypeTests;
 
@@ -16,7 +17,7 @@ public class FuelTypeControllerTest
 
     public FuelTypeControllerTest()
     {
-        _fuelrepoMock = new Mock<FuelTypeRepository>();
+        _fuelrepoMock = new Mock<FuelTypeRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _fuelserviceMock = new Mock<FuelTypeService>(_fuelrepoMock.Object);
         _fuelcontroller = new FuelTypeController(_fuelserviceMock.Object);
     }
@@ -24,17 +25,6 @@ public class FuelTypeControllerTest
     [Fact]
     public async Task GetAllFuelTypes_ReturnsOk()
     {
-        FuelType testfuel = new FuelType
-        {
-            Id = 1,
-            Name = "Diesel"
-        };
-
-        var fines = new List<FuelType>(){testfuel};
-
-        _fuelrepoMock.Setup(r => r.GetFuelTypes())
-            .ReturnsAsync(fines);
-
         var result = await _fuelcontroller.GetAllFuelTypes();
 
         Assert.IsType<OkObjectResult>(result.Result);
@@ -42,10 +32,7 @@ public class FuelTypeControllerTest
 
     [Fact]
     public async Task CreateFuelType_ReturnsBadRequestWhenNull()
-    {
-        _fuelrepoMock.Setup(r => r.InsertFuelType(null))
-            .Returns((Task<FuelTypeDTO?>)null);
-        
+    {        
         var result = await _fuelcontroller.CreateFuelType(null);
 
         Assert.IsType<BadRequestResult>(result?.Result);
@@ -56,20 +43,10 @@ public class FuelTypeControllerTest
     {
         FuelType testfuel = new FuelType
         {
-            Id = 1,
-            Name = "Diesel"
+            Name = "Electrico"
         };
 
-        FuelTypeDTO fuelDTO = new FuelTypeDTO
-        {
-            Id = testfuel.Id,
-            Name = "Gasolina"
-        };
-
-        _fuelrepoMock.Setup(r => r.UpdateFuelType(1, testfuel))
-            .ReturnsAsync(fuelDTO);
-
-        var result = await _fuelcontroller.GetAllFuelTypes();
+        var result = await _fuelcontroller.ModifyFuelType(1,testfuel);
 
         Assert.IsType<OkObjectResult>(result);
     }

@@ -3,6 +3,7 @@ using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Driver;
+using CarDepo.CarDepoTest.Tests.Utils;
 
 namespace CarDepo.CarDepoTest.Tests.DriverTests;
 
@@ -13,7 +14,7 @@ public class DriverServiceTest
 
     public DriverServiceTest()
     {
-        _driverrepoMock = new Mock<DriverRepository>();
+        _driverrepoMock = new Mock<DriverRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _driverserviceMock = new DriverService(_driverrepoMock.Object);
     }
 
@@ -22,26 +23,12 @@ public class DriverServiceTest
     {
         Driver testdriver = new Driver
         {
-            Id = 1,
             Name = "Pepe",
             Dni = "11111111A",
             EmailAddr = "pepe@mail.com",
             PhoneNumber = 123456789,
             OwnerId = 1,
         };
-
-        var cardriverDTO = new DriverDTO
-        {
-            Id = testdriver.Id,
-            Name = testdriver.Name,
-            Dni = testdriver.Dni,
-            EmailAddr = testdriver.EmailAddr,
-            PhoneNumber = 987654321,
-            OwnerId = testdriver.OwnerId,
-        };
-
-        _driverrepoMock.Setup(r => r.InsertDriver(testdriver))
-            .ReturnsAsync(cardriverDTO);
         
         var result = await _driverserviceMock.InsertDriver(testdriver);
 

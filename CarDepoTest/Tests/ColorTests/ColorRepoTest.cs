@@ -14,7 +14,7 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task GetCars_ReturnsCars()
+    public async Task GetColors_ReturnsCars()
     {
         var result = await _colorrepoMock.GetColors();
 
@@ -22,7 +22,7 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task GetCar_ReturnsDTOWhenExists()
+    public async Task GetColor_ReturnsDTOWhenExists()
     {
         var result = await _colorrepoMock.GetColor(1);
 
@@ -30,7 +30,7 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task GetCar_ReturnsNullWhenNotExists()
+    public async Task GetColor_ReturnsNullWhenNotExists()
     {
         var result = await _colorrepoMock.GetColor(362562);
 
@@ -38,11 +38,10 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task InsertCar_Success()
+    public async Task InsertColor_Success()
     {
         Color testcolor = new Color
         {
-            Id = 2,
             Name = "Azul"
         };
 
@@ -52,25 +51,23 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task UpdateCar_Success()
+    public async Task UpdateColor_Success()
     {
         Color testcolor = new Color
         {
-            Id = 2,
             Name = "Azul"
         };
 
-        var result = await _colorrepoMock.UpdateColor(2,testcolor);
+        var result = await _colorrepoMock.UpdateColor(1,testcolor);
 
         Assert.NotNull(result);
     }
 
     [Fact]
-    public async Task UpdateCar_ReturnsNullWhenNotFound()
+    public async Task UpdateColor_ReturnsNullWhenNotFound()
     {
         Color testcolor = new Color
         {
-            Id = 9461232,
             Name = "Azul"
         };
 
@@ -80,7 +77,7 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task DeleteCar_Success()
+    public async Task DeleteColor_Success()
     {
         await _colorrepoMock.DeleteColor(1);
 
@@ -90,7 +87,7 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task IfCarExists_Success()
+    public async Task IfColorExists_Success()
     {
 
         var result = _colorrepoMock.IfColorExists(1);
@@ -99,7 +96,7 @@ public class ColorRepoTest
     }
 
     [Fact]
-    public async Task IfCarDoesNotExists_Fail()
+    public async Task IfColorDoesNotExists_Fail()
     {
         var result = _colorrepoMock.IfColorExists(935231311);
 

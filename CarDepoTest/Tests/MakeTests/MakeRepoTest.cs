@@ -13,7 +13,7 @@ public class MakeRepoTest
     }
 
     [Fact]
-    public async Task GetMake_ReturnsDrivers()
+    public async Task GetMake_ReturnsMakes()
     {
         var result = await _makerepoMock.GetMakes();
         Assert.NotNull(result);
@@ -50,7 +50,7 @@ public class MakeRepoTest
     }
 
     [Fact]
-    public async Task UpdateFuelType_Success()
+    public async Task UpdateMake_Success()
     {
         Make testmake = new Make
         {
@@ -66,7 +66,7 @@ public class MakeRepoTest
     }
 
     [Fact]
-    public async Task UpdateFuelType_ReturnsNullWhenNotFound()
+    public async Task UpdateMake_ReturnsNullWhenNotFound()
     {
         Make testmake = new Make
         {
@@ -82,7 +82,7 @@ public class MakeRepoTest
     }
 
     [Fact]
-    public async Task DeleteFuelType_Success()
+    public async Task DeleteMake_Success()
     {
         await _makerepoMock.DeleteMake(1);
         var result = await _makerepoMock.GetMake(1);
@@ -90,14 +90,14 @@ public class MakeRepoTest
     }
 
     [Fact]
-    public async Task IfFuelTypeExists_Success()
+    public async Task IfMakeExists_Success()
     {
         var result = _makerepoMock.IfMakeExists(1);
         Assert.True(result);
     }
 
     [Fact]
-    public async Task IfFuelTypeDoesNotExists_Fail()
+    public async Task IfMakeDoesNotExists_Fail()
     {
         var result = _makerepoMock.IfMakeExists(935231311);
         Assert.False(result);
