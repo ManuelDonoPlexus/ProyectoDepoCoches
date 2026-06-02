@@ -5,7 +5,7 @@ using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Fine;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepoTest.Tests.FineTests;
+namespace CarDepo.CarDepoTest.Tests.FineTests;
 
 public class FineServiceTest
 {

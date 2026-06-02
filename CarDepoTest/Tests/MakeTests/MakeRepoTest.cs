@@ -2,7 +2,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepoTest.Tests.MakeTests;
+namespace CarDepo.CarDepoTest.Tests.MakeTests;
 
 public class MakeRepoTest
 {

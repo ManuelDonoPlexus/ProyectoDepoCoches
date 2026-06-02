@@ -1,7 +1,7 @@
 using CarDepo.CarDepoTest.Tests.Utils;
 using CarDepo.Infrastructure.Repositories;
 
-namespace CarDepoTest.Tests.StadisticsTests;
+namespace CarDepo.CarDepoTest.Tests.StadisticsTests;
 
 public class StadisticsRepoTest
 {

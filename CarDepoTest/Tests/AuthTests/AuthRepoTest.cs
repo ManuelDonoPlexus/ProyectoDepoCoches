@@ -3,7 +3,7 @@ using CarDepo.Application.Utils;
 using CarDepo.CarDepoTest.Tests.Utils;
 using Moq;
 
-namespace CarDepoTest.Tests.AuthTests;
+namespace CarDepo.CarDepoTest.Tests.AuthTests;
 
 public class AuthRepoTest
 {

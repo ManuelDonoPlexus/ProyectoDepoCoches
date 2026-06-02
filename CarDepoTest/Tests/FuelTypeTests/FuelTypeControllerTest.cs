@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepoTest.Tests.FuelTypeTests;
+namespace CarDepo.CarDepoTest.Tests.FuelTypeTests;
 
 public class FuelTypeControllerTest
 {

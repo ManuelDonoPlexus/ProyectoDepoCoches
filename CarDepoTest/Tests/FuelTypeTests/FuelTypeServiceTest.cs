@@ -4,7 +4,7 @@ using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepoTest.Tests.FuelTypeTests;
+namespace CarDepo.CarDepoTest.Tests.FuelTypeTests;
 
 public class FuelTypeServiceTest
 {

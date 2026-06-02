@@ -5,7 +5,7 @@ using CarDepo.Application.Services;
 using System.Collections;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepoTest.Tests.StadisticsTests;
+namespace CarDepo.CarDepoTest.Tests.StadisticsTests;
 
 public class StadisticsControllerTest
 {

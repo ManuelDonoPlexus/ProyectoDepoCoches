@@ -1,11 +1,12 @@
 using CarDepo.API.Controllers;
 using CarDepo.API.DTOs;
+using CarDepo.API.Models;
 using CarDepo.Application.Services;
 using CarDepo.CarDepoTest.Tests.Utils;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 
-namespace CarDepoTest.Tests.AuthTests;
+namespace CarDepo.CarDepoTest.Tests.AuthTests;
 
 public class AuthControllerTest
 {

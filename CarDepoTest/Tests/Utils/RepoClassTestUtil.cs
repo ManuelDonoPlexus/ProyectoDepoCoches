@@ -2,7 +2,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CarDepoTest.Tests.Utils;
+namespace CarDepo.CarDepoTest.Tests.Utils;
 
 public class RepoClassTestUtil()
 {

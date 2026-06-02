@@ -2,7 +2,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepoTest.Tests.FineTests;
+namespace CarDepo.CarDepoTest.Tests.FineTests;
 
 public class FineRepoTest
 {

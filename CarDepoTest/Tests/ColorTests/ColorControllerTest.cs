@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepoTest.Tests.ColorTests;
+namespace CarDepo.CarDepoTest.Tests.ColorTests;
 
 public class ColorControllerTest
 {
