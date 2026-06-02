@@ -1,8 +1,8 @@
 using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
-using CarDepo.CarDepoTest.Tests.Utils;
+using CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.DriverTests;
+namespace CarDepoTest.Tests.DriverTests;
 
 public class DriverRepoTest
 {

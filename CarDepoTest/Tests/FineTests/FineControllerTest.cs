@@ -5,9 +5,9 @@ using CarDepo.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Fine;
-using CarDepo.CarDepoTest.Tests.Utils;
+using CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.FineTests;
+namespace CarDepoTest.Tests.FineTests;
 
 public class FineControllerTest
 {

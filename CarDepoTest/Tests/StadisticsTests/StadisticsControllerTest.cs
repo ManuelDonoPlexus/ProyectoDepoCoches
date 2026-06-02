@@ -3,9 +3,9 @@ using CarDepo.Infrastructure.Repositories;
 using CarDepo.API.Controllers;
 using CarDepo.Application.Services;
 using System.Collections;
-using CarDepo.CarDepoTest.Tests.Utils;
+using CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.StadisticsTests;
+namespace CarDepoTest.Tests.StadisticsTests;
 
 public class StadisticsControllerTest
 {
@@ -40,28 +40,28 @@ public class StadisticsControllerTest
     public async Task GetColorCount_ReturnsOk()
     {
         var result = await _stadisticcontroller.GetColorCount();
-        await Assert.IsType<Task<IEnumerable>>(result);
+        await Assert.IsType<Task<IEnumerable?>>(result);
     }
 
     [Fact]
     public async Task GetMakeCount_ReturnsOk()
     {
         var result = await _stadisticcontroller.GetColorCount();
-        await Assert.IsType<Task<IEnumerable>>(result);
+        await Assert.IsType<Task<IEnumerable?>>(result);
     }
 
     [Fact]
     public async Task GetOwnerCount_ReturnsOk()
     {
         var result = await _stadisticcontroller.GetColorCount();
-        await Assert.IsType<Task<IEnumerable>>(result);
+        await Assert.IsType<Task<IEnumerable?>>(result);
     }
 
     [Fact]
     public async Task GetCarDriverCount_ReturnsOk()
     {
         var result = await _stadisticcontroller.GetAssociatedCarCount();
-        await Assert.IsType<Task<IEnumerable>>(result);
+        await Assert.IsType<Task<IEnumerable?>>(result);
     }
 
 }

@@ -2,9 +2,9 @@ using CarDepo.API.Models;
 using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
-using CarDepo.CarDepoTest.Tests.Utils;
+using CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.CarDriverTests;
+namespace CarDepoTest.Tests.CarDriverTests;
 
 public class CarDriverServiceTest
 {
