@@ -1,4 +1,3 @@
-using CarDepo.API.Models;
 using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.API.Controllers;
@@ -6,7 +5,7 @@ using CarDepo.Application.Services;
 using System.Collections;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.StadisticsTests;
+namespace CarDepoTest.Tests.StadisticsTests;
 
 public class StadisticsControllerTest
 {

@@ -2,7 +2,7 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.FuelTypeTests;
+namespace CarDepoTest.Tests.FuelTypeTests;
 
 public class FuelTypeRepoTest
 {

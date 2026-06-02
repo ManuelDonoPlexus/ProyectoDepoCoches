@@ -4,18 +4,17 @@ using CarDepo.Infrastructure.Repositories;
 using CarDepo.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using CarDepo.Application.Services;
-using CarDepo.API.DTOs.CarDriver;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.CarDriverTests;
+namespace CarDepoTest.Tests.CarDriverTests;
 
-public class CarControllerTest
+public class CarDriverControllerTest
 {
     private readonly Mock<CarDriverRepository> _cardriverrepoMock;
     private readonly Mock<CarDriverService> _cardriverserviceMock;
     private readonly CarDriverController _cardrivercontroller;
 
-    public CarControllerTest()
+    public CarDriverControllerTest()
     {
         _cardriverrepoMock = new Mock<CarDriverRepository>(new RepoClassTestUtil().ReturnFakeContext());
         _cardriverserviceMock = new Mock<CarDriverService>(_cardriverrepoMock.Object);

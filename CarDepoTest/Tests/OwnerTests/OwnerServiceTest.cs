@@ -2,11 +2,9 @@ using CarDepo.API.Models;
 using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.Application.Services;
-using CarDepo.API.DTOs.Make;
-using CarDepo.API.DTOs.Owner;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.MakeTests;
+namespace CarDepoTest.Tests.OwnerTests;
 
 public class OwnerServiceTest
 {

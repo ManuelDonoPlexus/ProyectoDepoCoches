@@ -5,7 +5,7 @@ using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Driver;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.DriverTests;
+namespace CarDepoTest.Tests.DriverTests;
 
 public class DriverServiceTest
 {

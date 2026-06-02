@@ -3,7 +3,7 @@ using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.CarTests;
+namespace CarDepoTest.Tests.CarTests;
 
 public class CarRepoTest
 {

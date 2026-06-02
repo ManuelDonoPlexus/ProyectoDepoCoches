@@ -1,9 +1,8 @@
 using CarDepo.API.Models;
-using Moq;
 using CarDepo.Infrastructure.Repositories;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.ColorTests;
+namespace CarDepoTest.Tests.ColorTests;
 
 public class ColorRepoTest
 {

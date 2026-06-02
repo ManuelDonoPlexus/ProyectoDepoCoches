@@ -5,7 +5,7 @@ using CarDepo.Application.Services;
 using CarDepo.API.DTOs.Color;
 using CarDepo.CarDepoTest.Tests.Utils;
 
-namespace CarDepo.CarDepoTest.Tests.ColorTests;
+namespace CarDepoTest.Tests.ColorTests;
 
 public class ColorServiceTest
 {

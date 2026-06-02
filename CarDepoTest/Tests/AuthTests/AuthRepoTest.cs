@@ -1,10 +1,9 @@
 using CarDepo.API.DTOs;
 using CarDepo.Application.Utils;
 using CarDepo.CarDepoTest.Tests.Utils;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
 
-namespace CarDepo.CarDepoTest.Tests.AuthTests;
+namespace CarDepoTest.Tests.AuthTests;
 
 public class AuthRepoTest
 {
