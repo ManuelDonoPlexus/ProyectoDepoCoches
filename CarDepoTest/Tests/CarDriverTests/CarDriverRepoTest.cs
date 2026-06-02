@@ -8,7 +8,8 @@ public class CarDriverRepoTest
 {
     private readonly CarDriverRepository _cardriverrepoMock;
 
-    public CarDriverRepoTest(){
+    public CarDriverRepoTest()
+    {
         _cardriverrepoMock = new CarDriverRepository(new RepoClassTestUtil().ReturnFakeContext());
     }
 
@@ -63,7 +64,7 @@ public class CarDriverRepoTest
             DriverCDId = 1
         };
 
-        var result = await _cardriverrepoMock.UpdateCarDriver(1,testcardriver);
+        var result = await _cardriverrepoMock.UpdateCarDriver(1, testcardriver);
 
         Assert.NotNull(result);
     }
@@ -79,7 +80,7 @@ public class CarDriverRepoTest
             DriverCDId = 1
         };
 
-        var result = await _cardriverrepoMock.UpdateCarDriver(9461232,testcardriver);
+        var result = await _cardriverrepoMock.UpdateCarDriver(9461232, testcardriver);
 
         Assert.Null(result);
     }
