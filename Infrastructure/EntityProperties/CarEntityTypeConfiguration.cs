@@ -8,24 +8,28 @@ public class CarEntityTypeConfiguration : IEntityTypeConfiguration<Car>
 {
     public void Configure(EntityTypeBuilder<Car> builder)
     {
+        // Uno a muchos con Color
         builder
             .HasOne(e => e.Color)
             .WithMany()
             .HasForeignKey(e => e.ColorId)
             .IsRequired();
 
+        // Uno a muchos con Make
         builder
             .HasOne(e => e.Make)
             .WithMany()
             .HasForeignKey(e => e.MakeId)
             .IsRequired();
 
+        // Uno a muchos con Owner
         builder
             .HasOne(e => e.Owner)
             .WithMany()
             .HasForeignKey(e => e.OwnerId)
             .IsRequired();
         
+        // Información inicial
         builder
             .HasData(
                 new Car { Id = 1, License = "8742-GHX", Kms = 123, ColorId = 7, MakeId = 2, OwnerId = 1 },

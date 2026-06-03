@@ -8,6 +8,7 @@ public class FuelTypeEntityTypeConfiguration : IEntityTypeConfiguration<FuelType
 {
     public void Configure(EntityTypeBuilder<FuelType> builder)
     {
+        // Información inicial
         builder
             .HasData(
                 new FuelType { Id = 1, Name = "Petroleo" },

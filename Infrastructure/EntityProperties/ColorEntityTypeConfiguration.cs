@@ -8,6 +8,7 @@ public class ColorEntityTypeConfiguration : IEntityTypeConfiguration<Color>
 {
     public void Configure(EntityTypeBuilder<Color> builder)
     {
+        // Información inicial
         builder
             .HasData(
                 new Color { Id = 1, Name = "Rojo" },

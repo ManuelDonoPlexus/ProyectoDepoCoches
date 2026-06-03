@@ -650,9 +650,6 @@ function _fillStatistics() {
     }
 
     chartify(cardriverX, cardriverY, "cardriver-chart", "Recuento de conductores por modelo")
-
-    //avgpricestext.innerText = "Precio promedio: " + avgprice.toFixed(2);
-    //avgkmstext.innerText = "Kilometros promedios: " + avgkms.toFixed(2);
 }
 
 async function chartify(labelsX, dataY, chart, msg) {

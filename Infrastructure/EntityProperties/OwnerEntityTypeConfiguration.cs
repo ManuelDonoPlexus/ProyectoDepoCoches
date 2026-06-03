@@ -8,6 +8,7 @@ public class OwnerEntityTypeConfiguration : IEntityTypeConfiguration<Owner>
 {
     public void Configure(EntityTypeBuilder<Owner> builder)
     {
+        // Información inicial
         builder
             .HasData(
                 new Owner { Id = 1, Name = "Jarvis INC", Nif = "N79652124", PhoneNumber = 965123415, DateEntry = DateOnly.Parse("2007-03-14"), EmailAddr = "jarvis@company.inc" },

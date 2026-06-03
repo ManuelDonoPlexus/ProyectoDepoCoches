@@ -8,6 +8,7 @@ namespace CarDepo.Infrastructure.Data
     public class CarDepoContext(DbContextOptions<CarDepoContext> options) : DbContext(options)
     {
 
+        // Estas variables se encargan de almacenar en conjuntos de información las entidades de la Base De Datos 
         public DbSet<Car> Cars { get; set; } = default!;
         public DbSet<CarDriver> CarDrivers { get; set; } = default!;
         public DbSet<Color> Colors { get; set; } = default!;
@@ -17,6 +18,8 @@ namespace CarDepo.Infrastructure.Data
         public DbSet<Make> Makes { get; set; } = default!;
         public DbSet<Owner> Owners { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
+
+        // Este metodo se encarga de definir varios áspectos de como funcionan las entidades en la base de datos, como claves primarias o foraneas o restricciones, y de añadir información inicial a la base de datos.
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

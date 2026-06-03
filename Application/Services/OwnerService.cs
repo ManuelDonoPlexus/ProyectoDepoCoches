@@ -3,7 +3,9 @@ using CarDepo.API.Models;
 using CarDepo.Infrastructure.Repositories;
 
 namespace CarDepo.Application.Services;
+// Capa de servicioo (para comunicar los controladores y los repositorios)
 
+// Clase del servicio, que implementa el repositorio por sus metodos.
 public class OwnerService : IOwnerRepository
 {
     private readonly IOwnerRepository _ownerrepo;

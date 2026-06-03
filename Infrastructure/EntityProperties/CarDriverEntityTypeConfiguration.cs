@@ -8,18 +8,21 @@ public class CarDriverEntityTypeConfiguration : IEntityTypeConfiguration<CarDriv
 {
     public void Configure(EntityTypeBuilder<CarDriver> builder)
     {
+        // Uno a Muchos con Driver
         builder
             .HasOne(e => e.Driver)
             .WithMany()
             .HasForeignKey(e => e.DriverCDId)
             .IsRequired();
         
+        // Uno a Muchos con Car
         builder
             .HasOne(e => e.Car)
             .WithMany()
             .HasForeignKey(e => e.CarCDId)
             .IsRequired();
         
+        // Información inicial
         builder
             .HasData(
                 new CarDriver { Id = 1, DateDrive = DateOnly.Parse("2017-06-17"), CarCDId = 1, DriverCDId = 3 },

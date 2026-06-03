@@ -8,6 +8,7 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
+        // Información inicial
         builder
             .HasData(
                 new User { Id = 1, Name = "admin", Email = "admin@cardepo.company", Password = "Admin,8564." }

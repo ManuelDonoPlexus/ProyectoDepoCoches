@@ -8,12 +8,14 @@ public class MakeEntityTypeConfiguration : IEntityTypeConfiguration<Make>
 {
     public void Configure(EntityTypeBuilder<Make> builder)
     {
+        // Uno a muchos con FuelType
         builder
             .HasOne(e => e.FuelType)
             .WithMany()
             .HasForeignKey(e => e.FuelTypeId)
             .IsRequired();
         
+        // Información inicial
         builder
             .HasData(
                 new Make { Id = 1, Name = "Mercedes-Benz A 200", HorsePower = 163, Price = 25632.21M, FuelTypeId = 1 },

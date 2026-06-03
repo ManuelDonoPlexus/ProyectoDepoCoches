@@ -8,12 +8,14 @@ public class DriverEntityTypeConfiguration : IEntityTypeConfiguration<Driver>
 {
     public void Configure(EntityTypeBuilder<Driver> builder)
     {
+        // Uno a muchos con Owner
         builder
             .HasOne(e => e.Owner)
             .WithMany()
             .HasForeignKey(e => e.OwnerId)
             .IsRequired();
             
+        // Información inicial
         builder
             .HasData(
                 new Driver { Id = 1, Name = "Pepino", Dni = "78546932G", EmailAddr = "pepino@gmail.com", OwnerId = 2 },
