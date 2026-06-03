@@ -1,17 +1,40 @@
+using CarDepo.API.Models;
 using Microsoft.EntityFrameworkCore;
+using CarDepo.Infrastructure.EntityProperties;
 
 namespace CarDepo.Infrastructure.Data
 {
-    public class CarDepoContext : DbContext
+    // Esta clase esta encargada de la construcción de la sesión con la base de datos que sera usada por los repositorios y controladores del programa.   
+    public class CarDepoContext(DbContextOptions<CarDepoContext> options) : DbContext(options)
     {
-        public CarDepoContext (DbContextOptions<CarDepoContext> options)
-            :base(options)
-        {            
-        }
 
-        public DbSet<CarDepo.API.Models.Car> Car { get; set; } = default!;
-        public DbSet<CarDepo.API.Models.Owner> Owner { get; set; } = default!;
-        public DbSet<CarDepo.API.Models.Make> Make { get; set; } = default!;
-        public DbSet<CarDepo.API.Models.Color> Color { get; set; } = default!;
+        // Estas variables se encargan de almacenar en conjuntos de información las entidades de la Base De Datos 
+        public DbSet<Car> Cars { get; set; } = default!;
+        public DbSet<CarDriver> CarDrivers { get; set; } = default!;
+        public DbSet<Color> Colors { get; set; } = default!;
+        public DbSet<Driver> Drivers { get; set; } = default!;
+        public DbSet<Fine> Fines { get; set; } = default!;
+        public DbSet<FuelType> FuelTypes { get; set; } = default!;
+        public DbSet<Make> Makes { get; set; } = default!;
+        public DbSet<Owner> Owners { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
+
+        // Este metodo se encarga de definir varios áspectos de como funcionan las entidades en la base de datos, como claves primarias o foraneas o restricciones, y de añadir información inicial a la base de datos.
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            new CarEntityTypeConfiguration().Configure(modelBuilder.Entity<Car>());
+            new CarDriverEntityTypeConfiguration().Configure(modelBuilder.Entity<CarDriver>());
+            new ColorEntityTypeConfiguration().Configure(modelBuilder.Entity<Color>());
+            new DriverEntityTypeConfiguration().Configure(modelBuilder.Entity<Driver>());
+            new FineEntityTypeConfiguration().Configure(modelBuilder.Entity<Fine>());
+            new FuelTypeEntityTypeConfiguration().Configure(modelBuilder.Entity<FuelType>());
+            new MakeEntityTypeConfiguration().Configure(modelBuilder.Entity<Make>());
+            new OwnerEntityTypeConfiguration().Configure(modelBuilder.Entity<Owner>());
+            new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
+        }
     }
 }
+

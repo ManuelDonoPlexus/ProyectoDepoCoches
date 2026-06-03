@@ -1,0 +1,48 @@
+using CarDepo.API.DTOs.Owner;
+using CarDepo.API.Models;
+using CarDepo.Infrastructure.Repositories;
+
+namespace CarDepo.Application.Services;
+// Capa de servicioo (para comunicar los controladores y los repositorios)
+
+// Clase del servicio, que implementa el repositorio por sus metodos.
+public class OwnerService : IOwnerRepository
+{
+    private readonly IOwnerRepository _ownerrepo;
+
+    public OwnerService(IOwnerRepository ownerrepo)
+    {
+        _ownerrepo = ownerrepo;
+    }
+
+    public async Task<IEnumerable<Owner>> GetOwners()
+    {
+        return await _ownerrepo.GetOwners();
+    }
+
+    public async Task<OwnerDTO?> GetOwner(int OwnerId)
+    {
+        return await _ownerrepo.GetOwner(OwnerId);
+    }
+
+    public async Task<OwnerDTO?> InsertOwner(Owner? newOwner)
+    {
+        return await _ownerrepo.InsertOwner(newOwner);
+    }
+
+    public async Task<OwnerDTO?> UpdateOwner(int OwnerId, Owner newOwner)
+    {
+        return await _ownerrepo.UpdateOwner(OwnerId, newOwner);
+    }
+
+    public async Task DeleteOwner(int OwnerId)
+    {
+        await _ownerrepo.DeleteOwner(OwnerId);
+    }
+    
+    public bool IfOwnerExists(int OwnerId)
+    {
+        return _ownerrepo.IfOwnerExists(OwnerId);
+    }
+
+}

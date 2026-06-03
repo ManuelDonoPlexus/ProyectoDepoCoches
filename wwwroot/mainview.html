@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Car Depo</title>
+    <link rel="stylesheet" href="css/mainview.css">
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.plot.ly/plotly-3.5.1.min.js"></script>
+</head>
+
+<body>
+
+    <div class="sidebar">
+        <div class="operations">
+            <button onclick="showView('carview')">Mostrar coches</button>
+            <button onclick="showView('makeview')">Mostrar modelos</button>
+            <button onclick="showView('ownerview')">Mostrar propietarios</button>
+            <button onclick="showView('driverview')">Mostrar conductores</button>
+            <button onclick="showView('fineview')">Mostrar multas</button>
+            <button onclick="showView('userAdd')">Registrar usuario</button>
+            <button onclick="showView('stadisticsview')">Estadisticas</button>
+        </div>
+        <div class="welcome-msg-container">
+            <p id="welcome-msg">Mensaje de bienvenida</p>
+        </div>
+        <button class="logout" onclick="logout()"><img src="img/exit.png" alt=""> Cerrar sesión</button>
+    </div>
+
+    <div class="mainview">
+
+        <div class="tableView" id="welcomeview">
+            <h1 class="title">Bienvenido al deposito</h1>
+            <p class="subtitle">Esta página es destinada para los administradores de nuestro sistema. Desde esta,
+                podras manejar los coches, modelos, propietarios, conductores y multas de nuestra base de datos.</p>
+        </div>
+
+        <div class="tableView" id="carview">
+            <h1 class="title">Coches</h1>
+            <div class="view-info">
+                <p class="counter-text" id="counterCar">0 items</p>
+                <input type="text" id="carSearchbar" class="searchBar"
+                    onkeyup="search('carSearchbar', 'carsTBody', 'carLicense')"
+                    placeholder="Buscar coche por matricula...">
+                <button class="addBton" onclick="showView('carCreate')">Crear coche</button>
+                <button class="exportBton" onclick="exportToExcel('cars')">Exportar a Excel</button>
+            </div>
+
+            <div id="carTable">
+                <table class="datatable" id="cardataTable">
+                    <div class="page-container" id="carTablepages"></div>
+                    <tr>
+                        <th>Matricula</th>
+                        <th>Kilometros</th>
+                        <th>Color</th>
+                        <th>Propietario</th>
+                        <th>Modelo</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="carsTBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="tableView" id="makeview">
+            <h1 class="title">Modelos</h1>
+            <div class="view-info">
+                <p class="counter-text" id="counterMake">0 items</p>
+                <input type="text" id="makeSearchBar" class="searchBar"
+                    onkeyup="search('makeSearchBar', 'makesTBody', 'makeName')"
+                    placeholder="Buscar modelo por nombre...">
+                <button class="addBton" onclick="showView('makeCreate')">Crear modelo</button>
+                <button class="exportBton" onclick="exportToExcel('makes')">Exportar a Excel</button>
+            </div>
+
+            <div id="makeTable">
+                <div class="page-container" id="makeTablepages"></div>
+                <table class="datatable" id="makedataTable">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Poder de caballo</th>
+                        <th>Precio</th>
+                        <th>Combustible</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="makesTBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="tableView" id="ownerview">
+            <h1 class="title">Propietarios</h1>
+            <div class="view-info">
+                <p class="counter-text" id="counterOwner">0 items</p>
+                <input type="text" id="ownerSearchbar" class="searchBar"
+                    onkeyup="search('ownerSearchbar', 'ownersTBody', 'ownerName')"
+                    placeholder="Buscar propietario por nombre...">
+                <button class="addBton" onclick="showView('ownerCreate')">Crear propietario</button>
+                <button class="exportBton" onclick="exportToExcel('owners')">Exportar a Excel</button>
+            </div>
+
+            <div id="ownerTable">
+                <table class="datatable" id="ownerdataTable">
+                    <div class="page-container" id="ownerTablepages"></div>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>NIF</th>
+                        <th>Fecha de entrada</th>
+                        <th>Telefono</th>
+                        <th>Dirección de correo</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="ownersTBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="tableView" id="driverview">
+            <h1 class="title">Conductores</h1>
+
+            <div class="button-shows">
+                <button class="regularBton" onclick="showDrivers('drivers')">Mostrar los conductores</button>
+                <button class="regularBton" onclick="showDrivers('cardrivers')">Mostrar los conductores asociados a vehiculos</button>
+            </div>
+
+            <div id="drivers">
+                <div class="view-info">
+                    <p class="counter-text" id="counterDriver">0 items</p>
+                    <input type="text" id="driverSearchbar" class="searchBar"
+                        onkeyup="search('driverSearchbar', 'driversTBody', 'driverName')"
+                        placeholder="Buscar conductor por nombre...">
+                    <button class="addBton" onclick="showView('driverCreate')">Crear conductor</button>
+                <button class="exportBton" onclick="exportToExcel('drivers')">Exportar a Excel</button>
+                </div>
+                <table class="datatable" id="driverdataTable">
+                    <div class="page-container" id="driverTablepages"></div>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>DNI</th>
+                        <th>Telefono</th>
+                        <th>Dirección de correo</th>
+                        <th>Propietario asociado</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="driversTBody"></tbody>
+                </table>
+            </div>
+
+            <div id="cardrivers">
+                <div class="view-info">
+                    <p class="counter-text" id="counterCarDriver">0 items</p>
+                    <input type="text" id="cardriverSearchbar" class="searchBar"
+                        onkeyup="search('cardriverSearchbar', 'cardriversTBody', 'cardriverName')"
+                        placeholder="Buscar conductor por nombre...">
+                    <button class="addBton" onclick="showView('cardriverCreate')">Crear conductor</button>
+                <button class="exportBton" onclick="exportToExcel('cardrivers')">Exportar a Excel</button>
+                </div>
+                <table class="datatable" id="cardriverdataTable">
+                    <div class="page-container" id="cardriverTablepages"></div>
+                    <tr>
+                        <th>Nombre del conductor</th>
+                        <th>Fecha de conducción</th>
+                        <th>Vehiculo asociado</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="cardriversTBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="tableView" id="fineview">
+            <h1 class="title">Multas</h1>
+
+            <div id="fineTable">
+                <div class="view-info">
+                    <p class="counter-text" id="counterFine">0 items</p>
+                    <input type="text" id="fineSearchbar" class="searchBar"
+                        onkeyup="search('fineSearchbar','fineTBody','fineDate')"
+                        placeholder="Buscar multa por fecha...">
+                    <button class="addBton" onclick="showView('fineCreate')">Crear multa</button>
+                    <button class="exportBton" onclick="exportToExcel('fines')">Exportar a Excel</button>
+                </div>
+                <table class="datatable" id="finedataTable">
+                    <div class="page-container" id="fineTablepages"></div>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Importe</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th>Propietario asociado</th>
+                        <th>Coche asociado</th>
+                        <th colspan="2">Botones</th>
+                    </tr>
+                    <tbody id="finesTBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="addView" id="carCreate">
+            <h1 class="title">Añadir coche a la base de datos</h1>
+            <div class="addform">
+                <input id="add-car-license" type="text" placeholder="Matricula">
+                <input id="add-car-kms" type="number" placeholder="Kilometros">
+                <input id="add-car-color" list="colorList" placeholder="Color asociado">
+                <input id="add-car-owner" list="ownerList" placeholder="Propietario asociado">
+                <input id="add-car-make" list="makeList" placeholder="Modelo asociado">
+            </div>
+            <div class="view-info">
+                <button class="saveBton" onclick="addCar()">Añadir coche</button>
+                <button class="cancelBton" onclick="showView('carview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="addView" id="makeCreate">
+            <h1 class="title">Añadir modelo a la base de datos</h1>
+            <div class="addform">
+                <input id="add-make-name" type="text" placeholder="Nombre">
+                <input id="add-make-horsepower" type="number" placeholder="Poder de caballo">
+                <input id="add-make-price" type="number" step="0.01" placeholder="Precio">
+                <input id="add-make-fuel" list="fuelList" placeholder="Combustible">
+            </div>
+            <div class="view-info">
+                <button class="saveBton" onclick="addMake()">Añadir modelo</button>
+                <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="addView" id="ownerCreate">
+            <h1 class="title">Añadir propietario a la base de datos</h1>
+            <div class="addform">
+                <input id="add-owner-name" type="text" placeholder="Nombre">
+                <input id="add-owner-nif" type="text" placeholder="Nif">
+                <input id="add-owner-tel" type="tel" placeholder="Numero de telefono">
+                <input id="add-owner-date" type="date" placeholder="Fecha de entrada">
+                <input id="add-owner-email" type="email" placeholder="Dirección de correo">
+            </div>
+            <div class="view-info">
+                <button class="saveBton" onclick="addOwner()">Añadir propietario</button>
+                <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="addView" id="driverCreate">
+            <h1 class="title">Añadir conductor a la base de datos</h1>
+            <div class="addform">
+                <input id="add-driver-name" type="text" placeholder="Nombre">
+                <input id="add-driver-dni" type="text" placeholder="DNI">
+                <input id="add-driver-email" type="email" placeholder="Dirección de correo">
+                <input id="add-driver-tel" type="tel" placeholder="Telefono">
+                <input id="add-driver-owner" list="ownerList" placeholder="Propietario asociado">
+            </div>
+            <div class="view-info">
+                <button class="saveBton" onclick="addDriver()">Añadir conductor</button>
+                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="addView" id="cardriverCreate">
+            <h1 class="title">Asociar conductor a vehiculo</h1>
+            <div class="addform">
+                <input id="add-cardriver-date" type="date">
+                <input id="add-cardriver-car" list="carList" placeholder="Vehiculo asociado">
+                <input id="add-cardriver-driver" list="driverList" placeholder="Conductor asociado">
+            </div>
+            <div class="view-info">
+                <button class="saveBton" onclick="addCarDriver()">Añadir conductor</button>
+                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="addView" id="fineCreate">
+            <h1 class="title">Añadir multa a la base de datos</h1>
+            <div class="addform">
+                <input id="add-fine-price" type="number" step="0.01" placeholder="Precio">
+                <input id="add-fine-description" type="text" placeholder="Descripción">
+                <input id="add-fine-date" type="date" placeholder="Fecha">
+                <input id="add-fine-car" list="carList" placeholder="Vehiculo asociado">
+                <input id="add-fine-owner" list="ownerList" placeholder="Propietario asociado">
+            </div>
+            <div class="view-info">
+                <button class="saveBton" onclick="addFine()">Añadir multa</button>
+                <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="addView" id="userAdd">
+            <h1 class="title">Registrar usuario en la base de datos</h1>
+            <div class="addform">
+                <input id="add-user-name" type="text" placeholder="Nombre de usuario">
+                <input id="add-user-email" type="email" placeholder="Dirección de correo">
+                <input id="add-user-password-init" type="text" placeholder="Contraseña">
+                <input id="add-user-password-conf" type="text" placeholder="Confirmar Contraseña">
+            </div>
+            <div class="registerBtoncontainer">
+                <button class="registerBton" onclick="registerUser()">Registrar usuario a la Base de Datos</button>
+            </div>
+        </div>
+
+        <div class="detailView" id="cardetailView">
+            <h1 class="title">Editar coche de la Base de datos</h1>
+            <div class="editform">
+                <input type="text" id="licenseCar" disabled="true">
+                <input type="number" id="kmsCar" disabled="true">
+                <input list="colorList" id="colorCar" disabled="true">
+                <input list="ownerList" id="ownerCar" disabled="true">
+                <input list="makeList" id="makeCar" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteEditCar">Borrar</button>
+                <button class="enableditBton" id="enableEditCar">Editar</button>
+                <button class="saveBton" id="saveEditCar" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('carview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="detailView" id="cardriverdetailView">
+            <h1 class="title">Editar conductor de la Base de datos</h1>
+            <div class="editform">
+                <input list="driverList" id="nameCarDriver" disabled="true">
+                <input list="carList" id="licenseCarDriver" disabled="true">
+                <input type="date" id="dateCarDriver" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteEditCarDriver">Borrar</button>
+                <button class="enableditBton" id="enableEditCarDriver">Editar</button>
+                <button class="saveBton" id="saveEditCarDriver" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="detailView" id="makedetailView">
+            <h1 class="title">Editar modelo de la Base de datos</h1>
+            <div class="editform">
+                <input type="text" id="nameMake" disabled="true">
+                <input type="number" id="horsepowerMake" disabled="true">
+                <input type="number" step="0.01" id="priceMake" disabled="true">
+                <input list="fuelList" id="fueltypeMake" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteEditMake">Borrar</button>
+                <button class="enableditBton" id="enableEditMake">Editar</button>
+                <button class="saveBton" id="saveEditMake" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('makeview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="detailView" id="ownerdetailView">
+            <h1 class="title">Editar propietario de la Base de datos</h1>
+            <div class="editform">
+                <input type="text" id="nameOwner" disabled="true">
+                <input type="text" id="nifOwner" disabled="true">
+                <input type="tel" id="phonenumberOwner" disabled="true">
+                <input type="date" id="datentryOwner" disabled="true">
+                <input type="email" id="emailaddrOwner" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteOwner">Borrar</button>
+                <button class="enableditBton" id="enableEditOwner">Editar</button>
+                <button class="saveBton" id="saveEditOwner" onclick="" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('ownerview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="detailView" id="driverdetailView">
+            <h1 class="title">Editar conductor de la Base de datos</h1>
+            <div class="editform">
+                <input type="text" id="nameDriver" disabled="true">
+                <input type="text" id="dniDriver" disabled="true">
+                <input type="email" id="emailaddrDriver" disabled="true">
+                <input type="tel" id="phonenumberDriver" disabled="true">
+                <input list="driverList" id="ownerDriver" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteDriver">Borrar</button>
+                <button class="enableditBton" id="enableEditDriver">Editar</button>
+                <button class="saveBton" id="saveEditDriver" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('driverview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="detailView" id="finedetailView">
+            <h1 class="title">Editar multa de la Base de datos</h1>
+            <div class="editform">
+                <input type="text" id="priceFine" disabled="true">
+                <input type="checkbox" id="payedFine" disabled="true">
+                <input type="text" id="descriptionFine" disabled="true">
+                <input type="date" id="dateFine" disabled="true">
+                <input list="ownerList" id="ownerFine" disabled="true">
+                <input list="carList" id="carFine" disabled="true">
+            </div>
+            <div class="view-info">
+                <button class="editDeleteBton" id="deleteFine">Borrar</button>
+                <button class="enableditBton" id="enableEditFine">Editar</button>
+                <button class="saveBton" id="saveEditFine" hidden>Guardar Cambios</button>
+                <button class="cancelBton" onclick="showView('fineview')">Cancelar</button>
+            </div>
+        </div>
+
+        <div class="stadisticsview" id="stadisticsview">
+            <h1 class="title">Estadisticas</h1>
+            <div class="stadistics-container">
+                <div class="stadistic-container" >
+                    <div id="color-count">
+                        <div class="stadistic-chart" id="color-chart"></div>
+                    </div>
+                </div>
+                <div class="stadistic-container">
+                    <div id="make-count">
+                        <div class="stadistic-chart" id="make-chart"></div>
+                    </div>
+                </div>
+                <div class="stadistic-container">
+                    <div id="owner-count">
+                        <div class="stadistic-chart" id="owner-chart"></div>
+                    </div>
+                </div>
+                <div class="stadistic-container">
+                    <div id="cardriver-count">
+                        <div class="stadistic-chart" id="cardriver-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="deleteconfirm" id="deleteconfirm">
+            <h1 class="title" id="delete-title">¿Borrar?</h1>
+            <div class="view-info" id="delete-btons"></div>
+        </div>
+
+    </div>
+
+    <datalist id="carList"></datalist>
+    <datalist id="colorList"></datalist>
+    <datalist id="driverList"></datalist>
+    <datalist id="fuelList"></datalist>
+    <datalist id="makeList"></datalist>
+    <datalist id="ownerList"></datalist>
+
+
+    <script src="js/mainview.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+        initialize()
+    </script>
+</body>
+
+</html>
+
+
+
+
+<!-- Fuentes de imagenes -->
+<!-- puerta: "https://www.flaticon.com/free-icons/door" -->

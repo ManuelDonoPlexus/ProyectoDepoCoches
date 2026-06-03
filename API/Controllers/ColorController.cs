@@ -1,108 +1,67 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CarDepo.Infrastructure.Data;
 using CarDepo.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
+using CarDepo.API.DTOs.Color;
+// Capa de controlador. La parte de la aplicación sobre la que se haran las peticiones
 
-namespace CarDepo.API.Controllers
+namespace CarDepo.API.Controllers;
+// Clase de Controlador, que implementa la clase base 'ControllerBase'
+
+[Route("api/[controller]")] // Indica la ruta del controlador
+[Authorize] // Para indicar que es un controlador que responde a las llamadas de la API
+[ApiController] // Para indicar que el controlador requiere de autenticación para usar sus metodos
+public class ColorController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ColorController : ControllerBase
+    private readonly ColorService _colorSevice;
+
+    public ColorController(ColorService colorService)
     {
-        private readonly CarDepoContext _context;
+        _colorSevice = colorService;
+    }
 
-        public ColorController(CarDepoContext context)
-        {
-            _context = context;
-        }
+    // GET: api/Color
+    [HttpGet] // Responde al metodo GET
+    public async Task<ActionResult<IEnumerable<Color>>> GetAllColors()
+    {
+        var colors = Ok(await _colorSevice.GetColors());
+        return Ok(colors);
+    }
 
-        // GET: api/Color
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Color>>> GetColor()
-        {
-            return await _context.Color.ToListAsync();
-        }
+    // GET: api/Color/5
+    [HttpGet("{ColorId}")] // Responde al metodo GET
+    public async Task<ActionResult<Color?>> GetSpecificColor(int ColorId)
+    {
+        var color = Ok(await _colorSevice.GetColor(ColorId));
+        if (color == null) { return NotFound(); }
+        return Ok(color);
+    }
 
-        // GET: api/Color/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Color>> GetColor(int id)
-        {
-            var color = await _context.Color.FindAsync(id);
+    // POST: api/Color
+    [HttpPost] // Responde al metodo POST
+    public async Task<ActionResult<Color?>> CreateColor(Color? color)
+    {
+        ColorDTO? newcolor = await _colorSevice.InsertColor(color);
+        if (newcolor != null) { return await GetSpecificColor(newcolor.Id); }
+        else { return BadRequest(); }
+    }
 
-            if (color == null)
-            {
-                return NotFound();
-            }
+    // PUT: api/Color/5
+    [HttpPut("{ColorId}")] // Responde al metodo PUT
+    public async Task<IActionResult> ModifyColor(int ColorId, Color newColor)
+    {
+        ColorDTO? result = await _colorSevice.UpdateColor(ColorId, newColor);
+        if (result != null) { return Ok(result); }
+        else { return BadRequest(); }
+    }
 
-            return color;
-        }
-
-        // PUT: api/Color/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutColor(int id, Color color)
-        {
-            if (id != color.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(color).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ColorExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Color
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Color>> PostColor(Color color)
-        {
-            _context.Color.Add(color);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetColor", new { id = color.Id }, color);
-        }
-
-        // DELETE: api/Color/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColor(int id)
-        {
-            var color = await _context.Color.FindAsync(id);
-            if (color == null)
-            {
-                return NotFound();
-            }
-
-            _context.Color.Remove(color);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ColorExists(int id)
-        {
-            return _context.Color.Any(e => e.Id == id);
-        }
+    // DELETE: api/Color/5
+    [HttpDelete("{ColorId}")] // Responde al metodo DELETE
+    public async Task<IActionResult> DeleteColor(int ColorId)
+    {
+        var color = await _colorSevice.GetColor(ColorId);
+        if (color == null) { return NotFound(); }
+        await _colorSevice.DeleteColor(ColorId);
+        return NoContent();
     }
 }

@@ -4,21 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Car Depo</title>
-    <link rel="stylesheet" href="css/site.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
 </head>
 
 <body>
-    <div id="welcome-msg">
-        <h1 id="title">Bienvenido al Depósito</h1>
-        <h2 id="subtitle">En este deposito podras ver los Coches, los modelos de los mismos y propietarios de
-            nuestro depósito</h2>
-        <div id="buttons">
-            <button onclick="location.href='cars.html'">Coches</button>
-            <button onclick="location.href='owners.html'">Propietarios</button>
-            <button onclick="location.href='make.html'">Modelos</button>
+    <div class="login">
+        <div class="info-container">
+            <h1>Bienvenido al Deposito</h1>
+            <p>Inicia sesión para acceder al programa de mantenimiento</p>
+            <p id="error-msg">El inicio de sesión ha fallado, por favor comprueba los datos que has introducido</p>
+            <form onsubmit="login('login-email','login-password')">
+                <input type="email" id="login-email" placeholder="Dirección de correo">
+                <input type="password" id="login-password" placeholder="Contraseña">
+                <input type="submit" id="login-submit">
+            </form>
+        </div>
+
+        <div class="img-container">
+            <img src="img/cardepo.jpg" alt="">
         </div>
     </div>
+
+    <script src="js/mainview.js" asp-append-version="true"></script>
 </body>
 
 </html>

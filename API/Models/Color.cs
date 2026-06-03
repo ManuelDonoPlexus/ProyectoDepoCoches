@@ -1,8 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CarDepo.API.Models;
 
 public class Color
-{
-    public int Id {get; set;}
-    public string? Name {get; set;}
-    public string? HexCode {get; set;}
+{    
+    [Key]
+    public int Id { get; set; }
+    public string? Name { get; set; }
 }

@@ -1,108 +1,69 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CarDepo.Infrastructure.Data;
 using CarDepo.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using CarDepo.Application.Services;
+using CarDepo.API.DTOs.Car;
+// Capa de controlador. La parte de la aplicación sobre la que se haran las peticiones
 
-namespace CarDepo.API.Controllers
+namespace CarDepo.API.Controllers;
+// Clase de Controlador, que implementa la clase base 'ControllerBase'
+
+
+[Route("api/[controller]")] // Indica la ruta del controlador
+[ApiController] // Para indicar que es un controlador que responde a las llamadas de la API
+[Authorize] // Para indicar que el controlador requiere de autenticación para usar sus metodos
+public class CarController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CarController : ControllerBase
+    private readonly CarService _carService;
+
+    public CarController(CarService carService)
     {
-        private readonly CarDepoContext _context;
+        _carService = carService;
+    }
 
-        public CarController(CarDepoContext context)
-        {
-            _context = context;
-        }
+    // GET: api/Car
+    [HttpGet] // Responde al metodo GET
+    public async Task<ActionResult<IEnumerable<Car>>> GetAllCars()
+    {
+        var cars = Ok(await _carService.GetCars());
+        return Ok(cars);
+    }
 
-        // GET: api/Car
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetCar()
-        {
-            return await _context.Car.ToListAsync();
-        }
+    // GET: api/Car/5
+    [HttpGet("{CarId}")] // Responde al metodo GET
+    public async Task<ActionResult<Car?>> GetSpecificCar(int CarId)
+    {
+        var car = Ok(await _carService.GetCar(CarId));
+        if (car == null) { return NotFound(); }
+        return Ok(car);
+    }
 
-        // GET: api/Car/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Car>> GetCar(int id)
-        {
-            var car = await _context.Car.FindAsync(id);
+    // POST: api/Car
+    [HttpPost] // Responde al metodo POST
+    public async Task<ActionResult<Car?>?> CreateCar(Car? car)
+    {
+        CarDTO? newcar = await _carService.InsertCar(car);
+        if (newcar != null) { return await GetSpecificCar(newcar.Id); }
+        else { return BadRequest(); }
+    }
 
-            if (car == null)
-            {
-                return NotFound();
-            }
+    // PUT: api/Car/5
+    [HttpPut("{CarId}")] // Responde al metodo PUT
+    public async Task<IActionResult> ModifyCar(int CarId, Car newCar)
+    {
+        CarDTO? result = await _carService.UpdateCar(CarId, newCar);
+        if (result != null) { return Ok(result); }
+        else { return BadRequest(); }
+    }
 
-            return car;
-        }
-
-        // PUT: api/Car/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, Car car)
-        {
-            if (id != car.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(car).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CarExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Car
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Car>> PostCar(Car car)
-        {
-            _context.Car.Add(car);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCar", new { id = car.Id }, car);
-        }
-
-        // DELETE: api/Car/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCar(int id)
-        {
-            var car = await _context.Car.FindAsync(id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-
-            _context.Car.Remove(car);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CarExists(int id)
-        {
-            return _context.Car.Any(e => e.Id == id);
-        }
+    // DELETE: api/Car/5
+    [HttpDelete("{CarId}")] // Responde al metodo DELETE
+    public async Task<IActionResult> DeleteCar(int CarId)
+    {
+        var car = await _carService.GetCar(CarId);
+        if (car == null) { return NotFound(); }
+        await _carService.DeleteCar(CarId);
+        return NoContent();
     }
 }
+
